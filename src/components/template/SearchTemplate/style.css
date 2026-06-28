@@ -1,0 +1,23 @@
+.filter-container {
+    height: 40vh;
+}
+.filter-lists .list-group-item {
+    border: 0px !important;
+    border-bottom: 1px solid #D9D9D9 !important;
+    transition: .3s ease-in;
+  
+}
+.filter-lists .list-group-item:hover {
+    background-color: #ECFDF5;
+    color: #0E7C7B;
+}
+.active-filter {
+    background-color: #ECFDF5;
+    color: #0E7C7B;
+}
+
+.filters-inputs .p-inputtext {
+    border: 0px !important;
+    border-bottom: 1px solid #D9D9D9 !important;
+    border-radius: 0px;
+}

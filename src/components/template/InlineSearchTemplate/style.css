@@ -1,0 +1,15 @@
+.options-active-filter {
+    color: var(--c-green-primary);
+    border-left: 1px solid var(--c-green-primary) !important;
+}
+
+.sdot{width:7px;height:7px;border-radius:50%;margin-top:7px;}
+.sdot.free{
+    background: #059669;
+    box-shadow:0 0 0 3px rgba(43, 154, 106, 0.233);
+}
+
+.sdot.occupied{
+    background:var(--amber);
+    box-shadow:0 0 0 3px rgba(217,119,6,.15);
+}

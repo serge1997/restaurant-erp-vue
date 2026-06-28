@@ -1,0 +1,124 @@
+.p-dropdown .p-dropdown-label {
+    padding-top: 0.2rem;
+    padding-bottom: 0.25rem;
+    outline: none !important;
+    font-size: .8em;
+}
+
+.p-dropdown-panel .p-dropdown-items-wrapper .p-dropdown-items {
+    padding: 0px !important;
+    font-size: 13px;
+}
+.p-dropdown {
+    outline: none !important;
+    border: 1px solid var(--border2) !important;
+}
+.p-dropdown.input-error {
+    border-color: var(--c-danger-primary) !important;
+    box-shadow: 0 0 0 3px rgba(255,0,0,0.12) !important;
+}
+.p-dropdown-panel .p-dropdown-header .p-dropdown-filter-container{
+    margin-bottom: 8px;
+    padding: 0px !important;
+    background: var(--surface2) !important;
+}
+
+.p-dropdown-panel .p-dropdown-items-wrapper .p-dropdown-items .p-highlight {
+    background: var(--surface2) !important;
+    color: var(--c-green-primary);
+    font-weight: 600;
+}
+
+.p-tieredmenu{
+    border: 0px !important;
+}
+.p-tieredmenu .p-tieredmenu-root-list{
+    padding-left: 0px !important;
+}
+.p-tieredmenu .p-tieredmenu-root-list .p-menuitem-content:hover{
+    background: var(--surface2);
+    color: var(--c-green-primary);
+}
+.p-tieredmenu .p-tieredmenu-root-list .p-menuitem-active.p-highlight>.p-menuitem-content{
+    background: var(--surface2);
+    color: var(--c-green-primary);
+}
+.p-tieredmenu .p-tieredmenu-root-list .p-submenu-list {
+    padding-left: 0px !important;
+}
+
+.p-overlaypanel .p-overlaypanel-content {
+    padding: 0px !important;
+}
+
+
+.p-multiselect{
+    height: 29px !important;
+  }
+  .p-multiselect .p-multiselect-label-container{
+    display: flex !important;
+    align-items: center !important;
+  }
+  .p-multiselect .p-multiselect-label-container .p-multiselect-label.p-placeholder {
+    font-size: 0.8rem !important;
+  }
+  .p-multiselect .p-multiselect-label-container .p-multiselect-label{
+    margin-bottom: 4px !important;
+  }
+  .p-multiselect .p-multiselect-label-container .p-multiselect-token{
+    background: var(--surface3);
+  }
+  .p-multiselect .p-multiselect-label-container .p-multiselect-label svg{
+    width: 12px !important;
+    height: 12px !important;
+  }
+  .p-multiselect {
+    outline: none !important;
+    background: var(--surface2) !important;
+  }
+  .p-multiselect-label-container .p-multiselect-label {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    outline: none !important;
+  }
+  .p-multiselect-panel .p-multiselect-items-wrapper .p-multiselect-item span {
+    padding-left: 5px;
+  }
+  .p-multiselect-panel .p-multiselect-items-wrapper .p-multiselect-item {
+    padding: 0px 0px 8px 0px;
+    margin-left: -15px;
+  }
+  .p-multiselect-panel .p-multiselect-header {
+    margin-bottom: 5px;
+  }
+  /* multiselect selected element*/
+  .p-multiselect-label-container .p-multiselect-token {
+    background-color: #fff !important;
+    color: var(--c-gray-primary);
+    margin-right: 2px;
+    padding: 2px 4px 2px 4px;
+  }
+  .p-multiselect-label-container .p-multiselect-token .p-multiselect-token-label {
+    padding-right: 6px;
+    font-size: .8em;
+  }
+
+.p-datepicker .p-timepicker {
+  font-family: 'IBM Plex Mono', monospace !important; 
+}
+
+.p-datepicker th {
+  background-color: var(--surface2);
+  font-size: 12px !important;
+  font-variant-numeric: tabular-nums;
+  border-bottom: 1px solid var(--border);
+  color: var(--text3);
+  text-align: left;
+}
+.p-datepicker tr {
+  font-size: 14px; 
+  color: var(--text1);
+  padding: 8px 8px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}

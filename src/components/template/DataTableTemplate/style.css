@@ -1,0 +1,28 @@
+body {
+    overflow-y: hidden;
+}
+img {
+    width: 48px !important;
+}
+
+.p-row-toggler{
+    width:26px;
+    height:26px;
+    border-radius:5px;
+    border:1px solid var(--b1);
+    background:var(--s2);
+    color:var(--t3);
+    font-size:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition:all .12s;
+}
+.p-row-toggler:hover{
+    background:var(--s3);
+    color:var(--t1);
+}
+.p-theader{
+    font-size: .7rem;
+}

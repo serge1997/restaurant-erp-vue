@@ -1,0 +1,55 @@
+
+.p-sidebar .p-sidebar-header {
+    padding: 8px !important;
+}
+.menu-item {
+    color: var(--c-green-primary);
+    font-size: .7em;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+.menu-item-icon {
+    color: var(--c-green-primary);
+    font-size: .8em;
+}
+.submenu-item, .submenu-item a {
+    color: var(--t2);
+    position: relative;
+    text-decoration: none;
+    padding-left: 3px;
+    transition: all .2s ease;
+}
+.submenu-item::before {
+    content: "";
+    width: 0px;
+    position: absolute;
+    background: transparent;
+}
+.submenu-item:hover {
+    background-color: var(--c-green-light) !important;
+}
+.submenu-item:hover a, a:hover {
+    color: var(--c-green-primary);
+    border-radius: 6px;
+}
+
+.active-view, .active-view a {
+    background-color: var(--c-green-light) !important;
+    color: var(--c-green-primary);
+    border-radius: 6px;
+}
+
+.p-sidebar .p-sidebar-content {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) var(--border);
+}
+.p-sidebar .p-sidebar-content::-webkit-scrollbar-track {
+    width: 3px;
+}
+.logo{
+    width: 42px; 
+    height: 42px; 
+    border-radius: 7px;
+    object-fit: cover;
+}

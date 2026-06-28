@@ -1,0 +1,17 @@
+
+.detail-ico{width:28px;height:28px;border-radius:6px;background:var(--al);border:1px solid var(--ab);display:flex;align-items:center;justify-content:center;}
+.detail-ico-svg svg{width:14px;height:14px;}
+.detail-ico-svg-success {
+    color:var(--ac);
+}
+.detail-ico-svg-danger {
+    color: var(--rl)
+}
+
+.p-button.save-btn span span {
+    max-width: 130px !important;
+    width: 60px;
+    overflow: hidden; 
+    white-space: nowrap; 
+    text-overflow: ellipsis;
+}
