@@ -93,6 +93,16 @@ const router = createRouter({
       ]
     },
     {
+      path: '/admin',
+      children: [
+        {
+          path: 'restaurant-chain',
+          name: 'restaurantChain',
+          component: defineAsyncComponent(() => import('@/views/admin/restaurantChain/RestaurantChainView.vue'))
+        }
+      ]
+    },
+    {
       path: '/',
       component: defineAsyncComponent(() => import('@/views/home/homeView.vue')),
       name: 'HomeView'

@@ -4,7 +4,7 @@
             <Button @click="openSideBar" class="btn-green-primary py-2" icon="pi pi-bars s-sm" />
             <div>
                 <img class="cursor-p" @click="openSideBar" style="height: 28px;" :src="restaurant.logo" alt="" srcset="">
-                <span class="title2 fw-bold cursor-p"> {{ restaurant.id.toString().padStart(3, '0') }} - {{ restaurant.name }}</span>
+                <span @click="openSwicthRestaurantMenu" class="title2 fw-bold cursor-p"> {{ restaurant.id.toString().padStart(3, '0') }} - {{ restaurant.name }}</span>
             </div>
         </div>
         <div class="d-flex align-items-center gap-2">
@@ -32,6 +32,11 @@
         :auth="auth"
     >
     </SidebarTemplate>
+    <Menu ref="swicthRestaurant" :style="{width: '28rem'}" :popup="true">
+        <template #end>
+            <h6>Hello world</h6>
+        </template>
+    </Menu>
     <Sidebar v-model:visible="visibleCartSidebar" position="right" class="cart-sidebar" :style="{width: '27em'}">
         <template #header>
             <div class="w-100 d-flex justify-content-between align-items-center border-bottom-1 py-1">

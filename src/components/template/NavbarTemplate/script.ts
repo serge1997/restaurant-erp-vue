@@ -19,6 +19,7 @@ import Stepper from 'primevue/stepper';
 import StepperPanel from 'primevue/stepperpanel';
 import InputOtp from 'primevue/inputotp';
 import { handleError } from "@/shared/utility/utils";
+import Menu from "primevue/menu";
 
 
 export default defineComponent({
@@ -33,6 +34,7 @@ export default defineComponent({
         Stepper,
         StepperPanel,
         InputOtp,
+        Menu
     },
     props: {
         cardQuantityItems: {
@@ -348,6 +350,9 @@ export default defineComponent({
             this.$emit('cart-cleared')
             
         },
+        openSwicthRestaurantMenu(event: any) {
+            (this.$refs.swicthRestaurant as any).toggle(event)
+        }
     },
     async mounted() {
         const carts = Cart.load()

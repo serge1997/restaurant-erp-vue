@@ -62,7 +62,7 @@
             </div>
         </template>
         <slot></slot>
-        <div v-if="showDefaultFooter" class="form-sidebar-footer d-flex align-items-center justify-content-center gap-3 btn-button">
+        <div v-if="showDefaultFooter" style="bottom: 0px; width: 100%;" class="form-sidebar-footer bg-white py-2 d-flex position-fixed align-items-center justify-content-center gap-3 btn-button">
             <Button 
                 @click="closeForm" 
                 class="btn-white-primary" 
