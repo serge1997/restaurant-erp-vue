@@ -5,6 +5,8 @@
         <DataTableTemplate
             :columns="columns"
             :data="data"
+            :service="service"
+            @processDataEdit="setDatEdit"
         >
 
         </DataTableTemplate>

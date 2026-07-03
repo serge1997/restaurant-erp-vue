@@ -3,6 +3,7 @@
         :title="getTitle()"
         :itemId="form.id"
         @on-clear-form="onClearForm"
+        @submitData="onSubmit"
     >
         <div class="row" style="padding-bottom: 4rem;">
             <Divider align="left">
@@ -40,7 +41,7 @@
                     :error="v.form.cpf_cnpj.$error ? v.form.cpf_cnpj.$errors[0]?.$message : ''"
                 >
                     <template #label>
-                        <span>Razao social<span class="text-danger">*</span></span>
+                        <span>CPF / CNPJ<span class="text-danger">*</span></span>
                     </template>
                 </Input>
             </div>
@@ -71,7 +72,7 @@
                     <div class="col-md-6">
                         <Input
                             placeholder="Digite o contato comcercial"
-                            v-model="form.comercial_phone"
+                            v-model="form.comercial_contact"
                             label="Contato comercial"
                         />
                     </div>
@@ -122,30 +123,46 @@
             <div class="col-md-12 mb-2">
                 <Input
                     placeholder="Digite o cep"
-                    v-model="form.email"
+                    v-model="form.address.cep"
                     label="CEP"
-                />
-            </div>
-            <div class="col-md-12 mb-2">
-                <Input
-                    placeholder="Digite a rua/evenida..."
-                    v-model="form.street"
-                    label="Rua"
+                    @blur="searchAddressByCep"
                 />
             </div>
             <div class="col-md-12 mb-2">
                 <div class="row">
                     <div class="col-md-6">
                         <Input
-                            placeholder="Digite o estado"
-                            v-model="form.street_number"
-                            label="UF"
+                            placeholder="Digite a rua/evenida..."
+                            v-model="form.address.street"
+                            label="Rua"
                         />
                     </div>
                     <div class="col-md-6">
                         <Input
-                            placeholder="Digite a cidade"
-                            v-model="form.email"
+                            placeholder="Digite o bairro..."
+                            v-model="form.address.neighborhood"
+                            label="Bairro"
+                        />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 mb-2">
+                <div class="row">
+                    <div class="col-md-6">
+                        <Select
+                            placeholder="Informe o estado"
+                            v-model="form.address.state"
+                            :options="options.states"
+                            option-value="uf"
+                            label="UF"
+                            @hide="onStateChange"
+                        />
+                    </div>
+                    <div class="col-md-6">
+                        <Select
+                            placeholder="Informe a cidade"
+                            v-model="form.address.city_id"
+                            :options="options.cities"
                             label="Cidade"
                         />
                     </div>
@@ -156,14 +173,14 @@
                     <div class="col-md-6">
                         <Input
                             placeholder="Digite o numero"
-                            v-model="form.street_number"
+                            v-model="form.address.number"
                             label="Numero"
                         />
                     </div>
                     <div class="col-md-6">
                         <Input
                             placeholder="Digite o complemento"
-                            v-model="form.email"
+                            v-model="form.address.complement"
                             label="Complemento"
                         />
                     </div>

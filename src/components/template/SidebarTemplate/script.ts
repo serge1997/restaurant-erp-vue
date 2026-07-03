@@ -153,6 +153,5 @@ export default defineComponent({
     },
     mounted() {
         this.loadedMenuElements = this.authStore.getMenu()
-        console.log(this.loadedMenuElements)
     },
 })

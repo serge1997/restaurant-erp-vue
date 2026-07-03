@@ -15,7 +15,7 @@
             @update:modelValue="$emit('update:modelValue', $event)"
             @filter="$emit('onFilter', $event)"
             @change="$emit('change', $event)"
-            @hides="$emit('hide')"
+            @hide="$emit('hide')"
             :disabled="isDisable"
         >
             <template #option="slotProps">

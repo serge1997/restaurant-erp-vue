@@ -7,6 +7,7 @@ import { useNotify } from "@/shared/utility/notify"
 export default {
     modulePath: '',
     serviceTitle: '',
+    client: client,
    
     async getOne<T>(id: number): Promise<HttpResponse<T>> {
         const req = await client.get<T>(`${this.modulePath}/${id}`)

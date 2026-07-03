@@ -39,10 +39,18 @@ export default defineComponent({
         return{
             columns: columns,
             formRef: {} as FormRef,
+            service: restaurantChainService,
         }
     },
+    methods:{
+        setDatEdit(data: any) {
+            this.formRef.populateForm(data)
+        },
+    },
 
-    mounted() {
+    async mounted() {
         this.formRef = this.$refs.formRef as FormRef
+        this.paginate.query.is_active = false
+        await this.search(this.paginate)
     },
 })

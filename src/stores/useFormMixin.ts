@@ -52,7 +52,7 @@ export function useFormMixin(service: Service, form: any, emit: any) {
                 throw new Error("Dados do formulario invalidos")
             }
             if (form.id) {
-                const response = await service.update(form)
+                const response = await service.update(JSON.parse(JSON.stringify(form)))
                 notify.success(response.message)
                 onClearForm()
                 emit('submitted')
@@ -60,7 +60,7 @@ export function useFormMixin(service: Service, form: any, emit: any) {
                 return
             }
 
-            const response = await service.create(form)
+            const response = await service.create(JSON.parse(JSON.stringify(form)))
             notify.success(response.message)
             onClearForm()
             emit('submitted')
