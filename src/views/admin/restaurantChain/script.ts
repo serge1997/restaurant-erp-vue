@@ -44,7 +44,7 @@ export default defineComponent({
     },
     methods:{
         setDatEdit(data: any) {
-            this.formRef.populateForm(data)
+            this.formRef.onPopulateForm(data)
         },
     },
 

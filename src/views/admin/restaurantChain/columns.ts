@@ -9,7 +9,7 @@ export default [
     },
     {
         label: 'CNP/CPF',
-        property: 'ccpf_cnpj'
+        property: 'cpf_cnpj'
     },
     {
         label: 'Contato',
@@ -19,4 +19,14 @@ export default [
         label: 'Email',
         property: 'email'
     },
+    {
+        label: 'Endereço',
+        property: 'address',
+        format: (address: any) => `${address.city}/${address.state}`
+    },
+    {
+        label: 'Status',
+        property: 'is_active',
+        format: (val: any) => val ? 'Ativo' : 'Inativo'
+    }
 ]

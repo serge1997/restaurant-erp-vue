@@ -9,7 +9,7 @@
     >
     <TabView v-model:active-index="formPanelIndex">
         <TabPanel header="Cadastro">
-            <div class="row">
+            <div class="row" style="padding-bottom: 4rem;">
                 <Divider align="left">
                     <small style="margin: 0;" class="c-gray-primary">Dados Gerais</small>
                 </Divider>
@@ -37,32 +37,7 @@
                         </template>
                     </Input>
                 </div>
-                <div class="row mb-2">
-                    <div class="col-md-6">
-                        <Input
-                            placeholder="Digite o endreço"
-                            v-model="form.address"
-                            @blur="v.form.address.$touch()"
-                            :error="v.form.address.$error ? v.form.address.$errors[0]?.$message : ''"
-                        >
-                            <template #label>
-                                <span>Endereço <span class="text-danger">*</span></span>
-                            </template>
-                        </Input>
-                    </div>
-                    <div class="col-md-6">
-                        <Input
-                            placeholder="Digite o numero"
-                            v-model="form.number"
-                            @blur="v.form.number.$touch()"
-                            :error="v.form.number.$error ? v.form.number.$errors[0]?.$message : ''"
-                        >
-                            <template #label>
-                                <span>Numero <span class="text-danger">*</span></span>
-                            </template>
-                        </Input>
-                    </div>
-                </div>
+               
                 <div class="col-md-12 mb-2">
                     <Input
                         placeholder="Digite o CPF / CNPJ"
@@ -82,38 +57,41 @@
                     >
                     </Switch>
                 </div>
-                <div class="row mb-2">
-                    <Divider align="left">
-                        <small class="c-gray-primary">Contatos</small>
-                    </Divider>
-                    <div class="col-md-6">
-                        <Input
-                            placeholder="Digite o email"
-                            v-model="form.email"
-                        >
-                            <template #label>
-                                <span>E-mail</span>
-                            </template>
-                        </Input>
-                    </div>
-                    <div class="col-md-6">
-                        <Input
-                            placeholder="Digite o numero de telephone"
-                            v-model="form.phone"
-                            @blur="v.form.phone.$touch()"
-                            :error="v.form.phone.$error ? v.form.phone.$errors[0]?.$message : ''"
-                        >
-                            <template #label>
-                                <span>Celular <span class="text-danger">*</span></span>
-                            </template>
-                        </Input>
+                <Divider align="left">
+                    <small class="c-gray-primary">Contatos</small>
+                </Divider>
+                <div class="col-md-12">
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <Input
+                                placeholder="Digite o email"
+                                v-model="form.email"
+                            >
+                                <template #label>
+                                    <span>E-mail</span>
+                                </template>
+                            </Input>
+                        </div>
+                        <div class="col-md-6">
+                            <Input
+                                placeholder="Digite o numero de telephone"
+                                v-model="form.phone"
+                                @blur="v.form.phone.$touch()"
+                                :error="v.form.phone.$error ? v.form.phone.$errors[0]?.$message : ''"
+                            >
+                                <template #label>
+                                    <span>Celular <span class="text-danger">*</span></span>
+                                </template>
+                            </Input>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-12 mb-2">
                     <Divider align="left">
                         <small style="margin: 0;" class="c-gray-primary">Controle de custos</small>
                     </Divider>
-                <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
                         <div class="col-md-6">
                             <InputMask
                                 placeholder="00.00%"
@@ -134,8 +112,10 @@
                                 </template>
                             </InputMask>
                         </div>
+                    </div>
                 </div>
-                <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
                         <div class="col-md-6">
                             <InputMask
                                 placeholder="00.00%"
@@ -148,13 +128,84 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12">
+                </div>
+                <div class="col-md-12 mb-3">
                     <Switch
                         v-model="form.enable_technical_sheet"
                         label="Habilitar ficha técnica"
                     >
                     </Switch>
                 </div>
+
+                <Divider align="left">
+                    <small style="margin: 0;" class="c-gray-primary">Endereço</small>
+                </Divider>
+            <div class="col-md-12 mb-2">
+                <Input
+                    placeholder="Digite o cep"
+                    v-model="form.address.cep"
+                    label="CEP"
+                    @blur="searchAddressByCep"
+                />
+            </div>
+            <div class="col-md-12 mb-2">
+                <div class="row">
+                    <div class="col-md-6">
+                        <Input
+                            placeholder="Digite a rua/evenida..."
+                            v-model="form.address.street"
+                            label="Rua"
+                        />
+                    </div>
+                    <div class="col-md-6">
+                        <Input
+                            placeholder="Digite o bairro..."
+                            v-model="form.address.neighborhood"
+                            label="Bairro"
+                        />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 mb-2">
+                <div class="row">
+                    <div class="col-md-6">
+                        <Select
+                            placeholder="Informe o estado"
+                            v-model="form.address.state"
+                            :options="options.states"
+                            option-value="uf"
+                            label="UF"
+                            @hide="onStateChange"
+                        />
+                    </div>
+                    <div class="col-md-6">
+                        <Select
+                            placeholder="Informe a cidade"
+                            v-model="form.address.city_id"
+                            :options="options.cities"
+                            label="Cidade"
+                        />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-6">
+                        <Input
+                            placeholder="Digite o numero"
+                            v-model="form.address.number"
+                            label="Numero"
+                        />
+                    </div>
+                    <div class="col-md-6">
+                        <Input
+                            placeholder="Digite o complemento"
+                            v-model="form.address.complement"
+                            label="Complemento"
+                        />
+                    </div>
+                </div>
+            </div>
             </div>
         </TabPanel>
         <TabPanel header="Arquivos">

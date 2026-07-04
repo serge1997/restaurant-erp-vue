@@ -98,6 +98,14 @@ export default defineComponent({
             }else{
                 this.options.cities = []
             }
+        },
+        onPopulateForm(dataEdit: any = null){
+            this.populateForm(dataEdit)
+            if(this.form.address.state){
+                cityService.getByState(this.form.address.state).then(({data}) => {
+                    this.options.cities = data as any[]
+                })
+            }
         }
     },
     async mounted() {

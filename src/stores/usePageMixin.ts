@@ -20,7 +20,7 @@ export function usePageMixin(service: Service){
                 delete paginate.query.is_active
                 delete params.query.is_active
             }
-            paginate.search = params?.search == null || params.search ? params.search : paginate.search
+            paginate.search = params && params?.search ? params.search : paginate.search
             data.value = [];
             paginate.offset = 0
             searchParams.value = params

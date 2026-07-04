@@ -12,7 +12,8 @@
         </DataTableTemplate>
 
         <Form
-            ref="formRef" 
+            ref="formRef"
+            @submitted="search"
         />
     </PageTemplate>
 </template>

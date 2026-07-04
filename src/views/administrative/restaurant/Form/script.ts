@@ -2,15 +2,15 @@ import { useFormStore } from "@/stores/formStore";
 import type { Restaurant } from "@/types/restaurant/restaurant";
 import { defineComponent, reactive, ref } from "vue";
 import Divider from "primevue/divider";
-import useVuelidate from "@vuelidate/core";
 import { required } from "@/validators";
-import { createRestaurant } from "@/types/restaurant/restaurant.factory";
-import formMixins from "@/mixins/formMixins";
 import TabView from "primevue/tabview";
 import TabPanel from "primevue/tabpanel";
 import InputFileUpload from "@/components/Inputs/InputFileUpload.vue";
 import restaurantService from "@/services/restaurantService";
 import { useFormMixin } from "@/stores/useFormMixin";
+import addressService from "@/services/addressService";
+import cityService from "@/services/cityService";
+import { useStateStore } from "@/stores/stateStore";
 
 export default defineComponent({
 
@@ -21,14 +21,15 @@ export default defineComponent({
         InputFileUpload
     },
     setup(props, ctx) {
+        const stateStore = useStateStore()
         const formStore = useFormStore()
-        const form = ref({
+        const form = reactive({
             id: null as any,
             name: '',
             corporate_name: '',
             corporate_registration: '',
             description: '',
-            address: '',
+            //address: '',
             number: '',
             phone: '',
             email: '',
@@ -38,30 +39,46 @@ export default defineComponent({
             variable_margim: null,
             enable_technical_sheet: false,
             is_active: false,
-            created_at: ''
+            created_at: '',
+            address:{
+                cep: null,
+                street: null,
+                number: null,
+                neighborhood: null,
+                state: null,
+                city_id: null,
+                complement: null
+            }
         })
         const {
-            notify
+            notify,
+            onSubmit,
+            v
         } = useFormMixin(restaurantService, form, ctx.emit)
         return {
             formStore,
-            v: useVuelidate(),
+            stateStore,
+            v,
             form,
-            notify
+            notify,
+            onSubmit
         }
     },
     data() {
         return {
             title: '',
-            formPanelIndex: 0
+            formPanelIndex: 0,
+            options: {
+                states: [] as any[],
+                cities: [] as any[]
+            },
+            emptyAddress: {} as any
         }
     },
     validations(){
         return {
             form: {
                 name: {required},
-                address: {required},
-                number: {required},
                 corporate_name: {required},
                 corporate_registration: {required},
                 phone: {required}
@@ -92,12 +109,22 @@ export default defineComponent({
         }
     },
     methods: {
+        async searchAddressByCep(){
+            console.log('searchAddressByCep', this.form.address.cep)
+            const { data } = await addressService.getByCep(this.form.address.cep || '') as any
+            this.form.address.neighborhood = data.bairro
+            this.form.address.street = data.logradouro
+            this.form.address.state = data.uf
+            const {data: cities } = await cityService.getByState(data.uf) as any
+            this.options.cities = cities
+            const findCity = this.options.cities.find(c => c.name == data.localidade)
+            this.form.address.city_id = findCity ? findCity.id : null
+        },
         populateForm(){
             const itemEdit = this.formStore.getDataEdit()
             this.form.id = itemEdit.id
             this.form.name = itemEdit.name
             this.form.corporate_name = itemEdit.corporate_name
-            this.form.address = itemEdit.address
             this.form.number = itemEdit.number
             this.form.corporate_registration = itemEdit.corporate_registration
             this.form.is_active = itemEdit.is_active
@@ -107,6 +134,11 @@ export default defineComponent({
             this.form.loss_margim = itemEdit.loss_margim
             this.form.variable_margim = itemEdit.variable_margim
             this.form.enable_technical_sheet = itemEdit.enable_technical_sheet
+            if(itemEdit.address) {
+                this.form.address = itemEdit.address
+            }else{
+                this.form.address = this.emptyAddress
+            }
         },
         async storeRestaurant() {
             if (this.formPanelIndex === 1) {
@@ -118,11 +150,15 @@ export default defineComponent({
                 return
                 
             }
-            await this.v.$validate()
-            await restaurantService.create(this.form)
+            await this.onSubmit()
         },
         loadImage(files: File[]) {
             this.form.logo = files[0]
         },
-    }
+    },
+    async mounted() {
+        this.emptyAddress = this.form.address
+        await this.stateStore.loadStates()
+        this.options.states = this.stateStore.states
+    },
 })
