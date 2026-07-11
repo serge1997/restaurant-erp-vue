@@ -23,6 +23,7 @@ export default defineComponent({
         const options = {
             states: [] as any[],
             cities: [] as any[],
+            accountCities: [] as any[],
             optionMultipleRestaurant: [
                 {name: "Possuo mais de um restaurante ?", id: true, description: "Gerencia e mmonitore varias restaurantes."},
                 {name: "Possuo somente um restaurante ?", id: false, description: "Crie e gerencia o seu restaurante."}
@@ -102,12 +103,21 @@ export default defineComponent({
             form: {
                 name: {required},
                 corporate_name: {required},
-                phone: {required},
+                comercial_contact: {required},
                 account_responsable_email: {required},
                 cpf_cnpj: {required},
                 account_responsable_name: {required},
                 account_responsable_phone: {required},
-                account_responsable_country_registration_number: {required}
+                account_responsable_country_registration_number: {required},
+                address:{
+                    cep: {required},
+                    street: {required},
+                    number: {required},
+                    neighborhood: {required},
+                    state: {required},
+                    city_id: {required},
+                    complement: {required}
+                },
             }
         }
     },
@@ -153,12 +163,24 @@ export default defineComponent({
             }
             if(message){
                 this.notify.error(message)
+                this.v.$touch()
                 return false
             }
             return true
         },
-        async searchAddressByCep() {
-            await this.searchAndPopulateAddressByCep()
+        async searchAddressByCep(cep: string | undefined = undefined) {
+            console.log(cep)
+            if(!cep){
+                this.v.form.address.cep.$touch()
+            }
+            const self = this
+            await this.searchAndPopulateAddressByCep(cep, function(data: any, city: any){
+                self.form.account_responsable_address.neighborhood = data.bairro
+                self.form.account_responsable_address.street = data.logradouro
+                self.form.account_responsable_address.state = data.uf
+                self.form.account_responsable_address.city_id = city ? city.id : null
+                self.options.accountCities = [{id: self.form.account_responsable_address.city_id, name: city?.name || '' }]
+            })
         },
         previousStep(){
             if(this.currentStep == 1) return

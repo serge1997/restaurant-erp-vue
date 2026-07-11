@@ -82,6 +82,7 @@
                         <div class="col-md-12">
                             <Input
                                 placeholder="Digite o seu CPF"
+                                mask="999.999.999-99"
                                 v-model="form.account_responsable_country_registration_number"
                                 @blur="v.form.account_responsable_country_registration_number.$touch()"
                                 :error="v.form.account_responsable_country_registration_number.$error ? v.form.account_responsable_country_registration_number.$errors[0]?.$message : ''"
@@ -99,6 +100,7 @@
                                         v-model="form.account_responsable_phone"
                                         @blur="v.form.account_responsable_phone.$touch()"
                                         :error="v.form.account_responsable_phone.$error ? v.form.account_responsable_phone.$errors[0]?.$message : ''"
+                                        mask="(99) 99999-9999"
                                     >
                                         <template #label>
                                             <span>Contato<span class="text-danger">*</span></span>
@@ -128,7 +130,8 @@
                                 placeholder="Digite o cep"
                                 v-model="form.account_responsable_address.cep"
                                 label="CEP"
-                                @blur="searchAddressByCep"
+                                @blur="searchAddressByCep(form.account_responsable_address.cep)"
+                                mask="99999-999"
                             />
                         </div>
                         <div class="col-md-12 mb-2">
@@ -165,7 +168,7 @@
                                     <Select
                                         placeholder="Informe a cidade"
                                         v-model="form.account_responsable_address.city_id"
-                                        :options="options.cities"
+                                        :options="options.accountCities"
                                         label="Cidade"
                                     />
                                 </div>
@@ -236,7 +239,8 @@
                         </div>
                         <div class="col-md-12 mb-2">
                             <Input
-                                placeholder="Digite o CPF / CNPJ"
+                                placeholder="Digite o CNPJ da empresa / restaurante"
+                                mask="99.999.999/9999-99"
                                 v-model="form.cpf_cnpj"
                                 @blur="v.form.cpf_cnpj.$touch()"
                                 :error="v.form.cpf_cnpj.$error ? v.form.cpf_cnpj.$errors[0]?.$message : ''"
@@ -260,21 +264,23 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <Input
-                                        placeholder="Digite o contato"
-                                        v-model="form.phone"
-                                        @blur="v.form.phone.$touch()"
-                                        :error="v.form.phone.$error ? v.form.phone.$errors[0]?.$message : ''"
+                                        placeholder="Digite o ontato comercial"
+                                        v-model="form.comercial_contact"
+                                        @blur="v.form.comercial_contact.$touch()"
+                                        :error="v.form.comercial_contact.$error ? v.form.comercial_contact.$errors[0]?.$message : ''"
+                                        mask="(99) 99999-9999"
                                     >
                                         <template #label>
-                                            <span>Contato<span class="text-danger">*</span></span>
+                                            <span>Contato comercial<span class="text-danger">*</span></span>
                                         </template>
                                     </Input>
                                 </div>
                                 <div class="col-md-6">
                                     <Input
-                                        placeholder="Digite o contato comcercial"
-                                        v-model="form.comercial_contact"
-                                        label="Contato comercial"
+                                        placeholder="Digite o contato"
+                                        v-model="form.phone"
+                                        label="Contato"
+                                        mask="(99) 99999-9999"
                                     />
                                 </div>
                             </div>
@@ -286,7 +292,9 @@
                             <Input
                                 placeholder="Digite o cep"
                                 v-model="form.address.cep"
+                                mask="99999-999"
                                 @blur="searchAddressByCep"
+                                :error="v.form.address.cep.$error ? v.form.address.cep.$errors[0]?.$message : ''"
                             >
                                 <template #label>
                                     <span>CEP<span class="text-danger">*</span></span>
@@ -299,6 +307,8 @@
                                     <Input
                                         placeholder="Digite a rua/evenida..."
                                         v-model="form.address.street"
+                                        @blur="v.form.address.street.$touch()"
+                                        :error="v.form.address.street.$error ? v.form.address.street.$errors[0]?.$message : ''"
                                     >
                                         <template #label>
                                             <span>Rua<span class="text-danger">*</span></span>
@@ -309,6 +319,8 @@
                                     <Input
                                         placeholder="Digite o bairro..."
                                         v-model="form.address.neighborhood"
+                                        @blur="v.form.address.neighborhood.$touch()"
+                                        :error="v.form.address.neighborhood.$error ? v.form.address.neighborhood.$errors[0]?.$message : ''"
                
                                     >
                                         <template #label>
@@ -325,8 +337,10 @@
                                         placeholder="Informe o estado"
                                         v-model="form.address.state"
                                         :options="options.states"
+                                        :isDisable="true"
                                         option-value="uf"
-                                        @hide="onStateChange"
+                                        @hide="v.form.address.state.$touch()"
+                                        :error="v.form.address.state.$error ? v.form.address.state.$errors[0]?.$message : ''"
                                     >
                                         <template #label>
                                             <span>Estado<span class="text-danger">*</span></span>
@@ -338,6 +352,8 @@
                                         placeholder="Informe a cidade"
                                         v-model="form.address.city_id"
                                         :options="options.cities"
+                                        @hide="v.form.address.city_id.$touch()"
+                                        :error="v.form.address.city_id.$error ? v.form.address.city_id.$errors[0]?.$message : ''"
                                     >
                                         <template #label>
                                             <span>Cidade<span class="text-danger">*</span></span>
@@ -352,6 +368,8 @@
                                     <Input
                                         placeholder="Digite o numero"
                                         v-model="form.address.number"
+                                        @blur="v.form.address.number.$touch()"
+                                        :error="v.form.address.number.$error ? v.form.address.number.$errors[0]?.$message : ''"
                                     >
                                         <template #label>
                                             <span>Numero<span class="text-danger">*</span></span>
@@ -449,6 +467,10 @@
                                     <div class="sc-row">
                                         <span class="sc-key">E-mail</span>
                                         <span class="sc-val" id="s-email">{{ form.account_responsable_email }}</span>
+                                    </div>
+                                    <div class="sc-row">
+                                        <span class="sc-key">CPF</span>
+                                        <span class="sc-val" id="s-email">{{ form.account_responsable_country_registration_number }}</span>
                                     </div>
                                     <div class="sc-row">
                                         <span class="sc-key">Usuário</span>

@@ -4,7 +4,8 @@
         <label :class="labelClass" v-else>
             <slot name="label"></slot>
         </label>
-        <InputText 
+        <InputText
+            v-if="!mask"
             class="py-1" 
             :class="`${error ? 'input-error' : ''} ${inputCustomClass}`"
             :model-value="modelValue"
@@ -14,6 +15,17 @@
             @input="$emit('input')"
             :disabled="isDisable"
         />
+        <InputMask
+            v-else
+            :mask="mask"
+            class="py-1" 
+            :class="`${error ? 'input-error' : ''} ${inputCustomClass}`"
+            :model-value="modelValue"
+            :placeholder="placeholder" 
+            @update:model-value="$emit('update:model-value', $event)"
+            @blur="$emit('blur')"
+            :disabled="isDisable"
+        />
         <small class="c-danger px-1 s-sm" v-if="error">{{ error }}</small>
     </div>
 </template>
@@ -21,9 +33,11 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import InputText from 'primevue/inputtext';
+import InputMask from 'primevue/InputMask';
 export default defineComponent({
     components: {
-        InputText
+        InputText,
+        InputMask
     },
     name: 'Input',
     props: {
@@ -36,7 +50,8 @@ export default defineComponent({
             default: false
         },
         labelClass: String,
-        inputCustomClass: String
+        inputCustomClass: String,
+        mask: String
     }
 })
 </script>

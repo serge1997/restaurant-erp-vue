@@ -45,15 +45,21 @@ export function useFormMixin(service: Service, form: any, emit: any, options: an
         const response = await service.getAll(pageMixin.paginate)
         return response.data
     }
-     const searchAndPopulateAddressByCep = async () => {
-            const { data } = await addressService.getByCep(form.address.cep || '') as any
-            form.address.neighborhood = data.bairro
-            form.address.street = data.logradouro
-            form.address.state = data.uf
-            const {data: cities } = await cityService.getByState(data.uf) as any
-            options.cities = cities
-            const findCity = (options.cities as any[]).find(c => c.name == data.localidade)
-            form.address.city_id = findCity ? findCity.id : null
+     const searchAndPopulateAddressByCep = async (cep: string | undefined = undefined, customPopulate: Function | undefined = undefined) => {
+        const cepValue = cep ? cep : form.address.cep
+        if(!cepValue) return
+        const { data } = await addressService.getByCep(cepValue) as any
+        const {data: cities } = await cityService.getByState(data.uf) as any
+        const findCity = (cities as any[]).find(c => c.name == data.localidade)
+        if (customPopulate && cep) {
+            customPopulate(data, findCity)
+            return
+        }
+        form.address.neighborhood = data.bairro
+        form.address.street = data.logradouro
+        form.address.state = data.uf
+        options.cities = cities
+        form.address.city_id = findCity ? findCity.id : null
     }
 
     const onSubmit = async () => {
