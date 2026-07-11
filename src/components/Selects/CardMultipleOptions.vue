@@ -22,13 +22,16 @@
                 <small class="px-1 options-item-list-desc">{{ option.description }}</small>
                </div>
             </div>
-            <div v-else class="d-flex align-items-center mb-3" v-for="option in opts">
+            <div v-else class="d-flex options-item-list align-items-center mb-3" v-for="option in opts">
                 <RadioButton
                     :model-value="modelValue"
                     :value="option.id"
                     @update:model-value="$emit('update:model-value', $event)"
                 />
-                <label>{{ option.name }}</label>
+                <div class="d-flex flex-column px-2">
+                    <label class="options-item-list-name">{{ option.name }}</label>
+                    <small class="px-1 options-item-list-desc">{{ option.description }}</small>
+               </div>
             </div>
         </ScrollPanel>
     </div>

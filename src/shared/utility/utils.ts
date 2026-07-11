@@ -36,6 +36,20 @@ export const handleError = (error: any, notify: any) => {
   
 }
 
+export const isEmpty = (value: any): boolean => {
+    if (value == undefined || value == null || value?.length == 0) {
+        return true
+    }
+    return false
+}
+
+export const validateAddress = (address: any): boolean => {
+    if(isEmpty(address.cep) || isEmpty(address.street) || isEmpty(address.number) || isEmpty(address.state) || isEmpty(address.city_id)){
+        return false
+    }
+    return true
+}
+
 export const defaultFilter = {value: 0, label: "Todos"}
 
 

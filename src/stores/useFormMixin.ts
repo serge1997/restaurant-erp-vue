@@ -5,8 +5,10 @@ import { useFormStore } from "@/stores/formStore";
 import useVuelidate from "@vuelidate/core";
 import { type Ref, ref } from "vue";
 import { usePageMixin } from "./usePageMixin";
+import addressService from "@/services/addressService";
+import cityService from "@/services/cityService";
 
-export function useFormMixin(service: Service, form: any, emit: any) {
+export function useFormMixin(service: Service, form: any, emit: any, options: any = {} as any) {
     const formStore = useFormStore()
     const pageMixin = usePageMixin(service)
     const notify = useNotify()
@@ -42,6 +44,16 @@ export function useFormMixin(service: Service, form: any, emit: any) {
     const updateDataTable = async (data: any): Promise<Array<any>> => {
         const response = await service.getAll(pageMixin.paginate)
         return response.data
+    }
+     const searchAndPopulateAddressByCep = async () => {
+            const { data } = await addressService.getByCep(form.address.cep || '') as any
+            form.address.neighborhood = data.bairro
+            form.address.street = data.logradouro
+            form.address.state = data.uf
+            const {data: cities } = await cityService.getByState(data.uf) as any
+            options.cities = cities
+            const findCity = (options.cities as any[]).find(c => c.name == data.localidade)
+            form.address.city_id = findCity ? findCity.id : null
     }
 
     const onSubmit = async () => {
@@ -83,6 +95,7 @@ export function useFormMixin(service: Service, form: any, emit: any) {
         getTitle,
         updateDataTable,
         isDisableSaveBtn,
-        formIsPopulted
+        formIsPopulted,
+        searchAndPopulateAddressByCep
     }
 }
