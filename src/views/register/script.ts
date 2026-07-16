@@ -7,6 +7,7 @@ import ScrollPanel from "primevue/scrollpanel";
 import CardMultipleOptions from "@/components/Selects/CardMultipleOptions.vue";
 import { isEmpty, validateAddress } from "@/shared/utility/utils";
 import { useStateStore } from "@/stores/stateStore";
+import preRegistrationService from "@/services/preRegistrationService";
 
 export default defineComponent({
     name: 'registerView',
@@ -40,7 +41,7 @@ export default defineComponent({
             account_responsable_phone: null,
             account_responsable_email: null,
             account_responsable_name: null,
-            account_responsable_country_registration_number: null,
+            account_responsable_cpf: null,
             is_chain: null,
             address:{
                 cep: null,
@@ -108,7 +109,7 @@ export default defineComponent({
                 cpf_cnpj: {required},
                 account_responsable_name: {required},
                 account_responsable_phone: {required},
-                account_responsable_country_registration_number: {required},
+                account_responsable_cpf: {required},
                 address:{
                     cep: {required},
                     street: {required},
@@ -147,7 +148,7 @@ export default defineComponent({
         },
         validateAccounStep() {
             const message = "Informe os dados do responsavel para continuar"
-            if (isEmpty(this.form.account_responsable_name) || isEmpty(this.form.account_responsable_country_registration_number) || isEmpty(this.form.account_responsable_email)) {
+            if (isEmpty(this.form.account_responsable_name) || isEmpty(this.form.account_responsable_cpf) || isEmpty(this.form.account_responsable_email)) {
                 this.notify.error(message)
                 this.v.$touch()
                 return false
@@ -198,7 +199,8 @@ export default defineComponent({
         stepIsCompleted(step: number) {
             return step < this.currentStep ? true : false
         },
-        submitResgiter() {
+        async submitData() {
+            await preRegistrationService.create(this.form)
             this.currentStep = this.maxSteps + 1
         }
     },

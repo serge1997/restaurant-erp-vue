@@ -83,9 +83,9 @@
                             <Input
                                 placeholder="Digite o seu CPF"
                                 mask="999.999.999-99"
-                                v-model="form.account_responsable_country_registration_number"
-                                @blur="v.form.account_responsable_country_registration_number.$touch()"
-                                :error="v.form.account_responsable_country_registration_number.$error ? v.form.account_responsable_country_registration_number.$errors[0]?.$message : ''"
+                                v-model="form.account_responsable_cpf"
+                                @blur="v.form.account_responsable_cpf.$touch()"
+                                :error="v.form.account_responsable_cpf.$error ? v.form.account_responsable_cpf.$errors[0]?.$message : ''"
                             >
                                 <template #label>
                                     <span>CPF<span class="text-danger">*</span></span>
@@ -470,7 +470,7 @@
                                     </div>
                                     <div class="sc-row">
                                         <span class="sc-key">CPF</span>
-                                        <span class="sc-val" id="s-email">{{ form.account_responsable_country_registration_number }}</span>
+                                        <span class="sc-val" id="s-email">{{ form.account_responsable_cpf }}</span>
                                     </div>
                                     <div class="sc-row">
                                         <span class="sc-key">Usuário</span>
@@ -559,7 +559,7 @@
                                 class="btn-green-primary d-flex justify-content-center" 
                                 label="Criar conta" 
                                 icon="pi pi-check s-sm"
-                                @click.prevent="submitResgiter"
+                                @click.prevent="submitData"
                             />
                         </div>
                     </div>
