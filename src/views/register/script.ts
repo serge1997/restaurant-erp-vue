@@ -34,7 +34,7 @@ export default defineComponent({
             id: null,
             name: null,
             corporate_name: null,
-            cpf_cnpj: null,
+            cnpj: null,
             phone: null,
             comercial_contact: null,
             email: null,
@@ -106,7 +106,7 @@ export default defineComponent({
                 corporate_name: {required},
                 comercial_contact: {required},
                 account_responsable_email: {required},
-                cpf_cnpj: {required},
+                cnpj: {required},
                 account_responsable_name: {required},
                 account_responsable_phone: {required},
                 account_responsable_cpf: {required},
@@ -159,7 +159,7 @@ export default defineComponent({
             let message = null
             if(!validateAddress(this.form.address)) {
                 message = "informa todos os dados do endereço da empresa"
-            }else if(isEmpty(this.form.corporate_name) || isEmpty(this.form.name) || isEmpty(this.form.cpf_cnpj) || isEmpty(this.form.comercial_contact)){
+            }else if(isEmpty(this.form.corporate_name) || isEmpty(this.form.name) || isEmpty(this.form.cnpj) || isEmpty(this.form.comercial_contact)){
                 message = "Nao foram informados todos os dados da empresa/restaurante."
             }
             if(message){
@@ -200,6 +200,7 @@ export default defineComponent({
             return step < this.currentStep ? true : false
         },
         async submitData() {
+            console.log(this.form)
             await preRegistrationService.create(this.form)
             this.currentStep = this.maxSteps + 1
         }

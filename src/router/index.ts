@@ -114,8 +114,18 @@ const router = createRouter({
     },
     {
       path: '/register',
-      component: defineAsyncComponent(() => import('@/views/register/registerView.vue')),
-      name: 'register'
+     children:[
+      {
+        path: "",
+        component: defineAsyncComponent(() => import('@/views/register/registerView.vue')),
+        name: 'register'
+      },
+      {
+        path: "confirmation/:token",
+        component: defineAsyncComponent(() => import('@/views/register/confirmation/registerConfirmationView.vue')),
+        name: 'register_confirmation'
+      }
+     ]
     }
   ],
 })

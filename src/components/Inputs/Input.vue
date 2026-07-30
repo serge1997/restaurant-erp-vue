@@ -14,6 +14,7 @@
             @blur="$emit('blur')"
             @input="$emit('input')"
             :disabled="isDisable"
+            :type="type"
         />
         <InputMask
             v-else
@@ -51,7 +52,11 @@ export default defineComponent({
         },
         labelClass: String,
         inputCustomClass: String,
-        mask: String
+        mask: String,
+        type:{
+            type: String,
+            default: "text"
+        }
     }
 })
 </script>

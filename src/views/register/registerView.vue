@@ -241,9 +241,9 @@
                             <Input
                                 placeholder="Digite o CNPJ da empresa / restaurante"
                                 mask="99.999.999/9999-99"
-                                v-model="form.cpf_cnpj"
-                                @blur="v.form.cpf_cnpj.$touch()"
-                                :error="v.form.cpf_cnpj.$error ? v.form.cpf_cnpj.$errors[0]?.$message : ''"
+                                v-model="form.cnpj"
+                                @blur="v.form.cnpj.$touch()"
+                                :error="v.form.cnpj.$error ? v.form.cnpj.$errors[0]?.$message : ''"
                             >
                                 <template #label>
                                     <span>CNPJ<span class="text-danger">*</span></span>
@@ -490,7 +490,7 @@
                                     </div>
                                     <div class="sc-row">
                                         <span class="sc-key">CNPJ</span>
-                                        <span class="sc-val" id="s-cnpj">{{ form.cpf_cnpj }}</span>
+                                        <span class="sc-val" id="s-cnpj">{{ form.cnpj }}</span>
                                     </div>
                                     <div class="sc-row">
                                         <span class="sc-key">E-mail</span>

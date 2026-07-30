@@ -1,5 +1,6 @@
 <template>
     <div :style="`height: ${height}`" class="d-flex flex-column w-100 mt-2 gap-2">
+        <slot name="label"></slot>
         <div v-if="hasSearch" class="w-100 mb-1">
             <IconField iconPosition="left">
                 <InputIcon class="pi pi-search"> </InputIcon>
@@ -14,22 +15,22 @@
             >
                 <Checkbox
                     :model-value="modelValue"
-                    :value="option.id"
+                    :value="option[optionValue]"
                     @update:model-value="$emit('update:model-value', $event)"
                 />
                <div class="d-flex flex-column px-2">
-                <label class="options-item-list-name">{{ option.name }}</label>
+                <label class="options-item-list-name">{{ option[optionLabel] }}</label>
                 <small class="px-1 options-item-list-desc">{{ option.description }}</small>
                </div>
             </div>
             <div v-else class="d-flex options-item-list align-items-center mb-3" v-for="option in opts">
                 <RadioButton
                     :model-value="modelValue"
-                    :value="option.id"
+                    :value="option[optionValue]"
                     @update:model-value="$emit('update:model-value', $event)"
                 />
                 <div class="d-flex flex-column px-2">
-                    <label class="options-item-list-name">{{ option.name }}</label>
+                    <label class="options-item-list-name">{{ option[optionLabel] }}</label>
                     <small class="px-1 options-item-list-desc">{{ option.description }}</small>
                </div>
             </div>
@@ -87,7 +88,15 @@ export default defineComponent({
         scrollHeight: {
             type: String,
             default: '300px'
-        }
+        },
+        optionValue: {
+            type: String,
+            default: "id"
+        },
+        optionLabel: {
+            type: String,
+            default: "name"
+        },
     },
     data(){
         return {

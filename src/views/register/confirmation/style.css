@@ -1,0 +1,50 @@
+.form-top{
+    background:#0D1A1F;padding:28px 32px;
+    display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+}
+.ct-brand{display:flex;align-items:center;gap:7px;margin-bottom:4px;}
+.ct-mark{width:26px;height:26px;border-radius:6px;background:#0E7C7B;display:flex;align-items:center;justify-content:center;}
+.ct-name{font-size:13px;font-weight:500;color:#fff;}
+.ct-name span{color:#5DCAA5;}
+.ct-ico{width:48px;height:48px;border-radius:50%;background:rgba(14,124,123,.2);border:1px solid rgba(14,124,123,.3);display:flex;align-items:center;justify-content:center;}
+.ct-title{font-size:15px;font-weight:500;color:#fff;margin:0;}
+.ct-sub{font-size:12px;color:rgba(255,255,255,.45);line-height:1.5;margin:0;max-width:280px;}
+.ct-user{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.06);border:0.5px solid rgba(255,255,255,.1);border-radius:6px;padding:7px 12px;}
+.ct-av{width:24px;height:24px;border-radius:50%;background:#0E7C7B;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;color:#fff;flex-shrink:0;}
+.ct-uname{font-size:12px;font-weight:500;color:rgba(255,255,255,.8);}
+.ct-uemail{font-size:11px;color:rgba(255,255,255,.35);}
+
+.header .h-icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background-color: var(--amber-alert);
+    color: var(--amber);
+    padding: 8px;
+    border: 1px solid var(--amber-secondary);
+}
+.header .h-icon i {
+    font-size: 1.7rem;
+    font-weight: bold;
+}
+.header .h-icon .h-icon-times {
+    width: 20px;
+    height: 20px;
+    top: 70%;
+    left: 60%;
+    background-color: var(--c-danger-primary);
+    border-radius: 50%;
+}
+.header .h-icon .h-icon-times i {
+    font-size: .7rem;
+}
+
+.resend-dialog .body .content {
+    font-size: .8rem;
+    line-height: 17px;
+}
+.resend-dialog .body .content i {
+    font-size: 14px;
+}

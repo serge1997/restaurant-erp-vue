@@ -61,7 +61,6 @@
                         <input v-model="form.username" type="text" id="f-email" placeholder="sergio49">
                         <div class="error-msg" id="err-email" style="display:none">
                         </div>
-                        <input type="checkbox" name="" id="" value="1" v-model="form.username">
                     </div>
 
                     <div class="fg w-100">
@@ -71,7 +70,7 @@
                         </div>
                     </div>
 
-                    <div class="w-100 btn-buttons d-flex justify-content-center p-2">
+                    <div class="w-100 btn-buttons d-flex gap-1 flex-column align-items-center justify-content-center p-2">
                         <Button 
                             label="Entrar no sistema"
                             class="login-button w-75 rounded-3 py-1"
@@ -79,6 +78,7 @@
                             :isDisable="isDisable"
                             @click="login"
                         />
+                        <a class="title3 cursor-p" @click="$router.push({name: 'register'})">Criar conta</a>
                     </div>
                 </div>
             </div>
