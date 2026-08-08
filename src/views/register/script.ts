@@ -170,7 +170,6 @@ export default defineComponent({
             return true
         },
         async searchAddressByCep(cep: string | undefined = undefined) {
-            console.log(cep)
             if(!cep){
                 this.v.form.address.cep.$touch()
             }
@@ -200,7 +199,6 @@ export default defineComponent({
             return step < this.currentStep ? true : false
         },
         async submitData() {
-            console.log(this.form)
             await preRegistrationService.create(this.form)
             this.currentStep = this.maxSteps + 1
         }

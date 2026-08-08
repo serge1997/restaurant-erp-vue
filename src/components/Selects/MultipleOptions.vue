@@ -120,7 +120,6 @@ export default defineComponent({
             this.searchresults = this.options.filter(op => op[this.optionLabel].toLocaleLowerCase().includes(value.toLocaleLowerCase()))
         },
         handle(event: any){
-            console.log(event)
         }
     }
 })

@@ -62,6 +62,11 @@ const getPreRegistration = async (token: string) => {
 const submitPreRegistrationConfirmation = async () => {
     try{
         await preRegistrationService.confirmation(form)
+        resultTitle.value = "Registro confirmado com successo !"
+        resultContent.value = ""
+        apiCallIsSuccess.value = true
+        visibleResultTemplate.value = true
+        visibleGenericResultDialog.value = true
     }catch(err) {
         handleError(err, notify)
     }

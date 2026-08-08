@@ -30,7 +30,6 @@ export default defineComponent({
     },
     methods: {
         openForm(){
-            console.log("hello world")
         },
         populateForm(){
             const keys = Object.keys(this.form)

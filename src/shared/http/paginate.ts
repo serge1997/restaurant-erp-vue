@@ -6,7 +6,7 @@ export interface Paginate {
 }
 
 export default function paginateToQueryUrl(paginate: Paginate): string {
-    const customQuery = paginate.query ?? {is_active: true}
+    const customQuery = paginate.query ? paginate.query : {is_active: true}
     const all = {limit: paginate.limit ?? 1000, offset: paginate.offset ?? 0, search: paginate.search ?? '', ...customQuery}
     let urlString = ""
     Object.keys(all).forEach(k => {

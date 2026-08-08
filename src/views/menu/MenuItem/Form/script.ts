@@ -226,7 +226,6 @@ export default defineComponent({
                 this.onClearForm()
                 this.$emit('submitted')
             }catch(err: any){
-                console.log(err.message)
                 this.notify.error(err.response?.data?.message || "erro interno")
             }
         },

@@ -15,7 +15,6 @@ export function useSearchMixin(filters: FilterOption[], search: any, emit: any, 
             (acc, current) => acc + current.selectionLenght,
             0
         )
-        console.log(sum)
         return hasActiveFilter == true ? sum += 1 : sum
     }
 

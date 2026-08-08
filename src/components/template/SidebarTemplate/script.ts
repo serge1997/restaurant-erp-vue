@@ -137,7 +137,6 @@ export default defineComponent({
                     permissions.forEach((permission) => {
                         if(permission.label.toLocaleLowerCase().includes(value) && permission.show_in_menu == true){
                             if(hasModule?.id){
-                                console.log(value)
                                 this.menusFindedElements[index]?.permissions.push(permission)
                             }else{
                                 this.menusFindedElements.push(menu)

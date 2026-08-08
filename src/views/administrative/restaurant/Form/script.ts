@@ -110,7 +110,6 @@ export default defineComponent({
     },
     methods: {
         async searchAddressByCep(){
-            console.log('searchAddressByCep', this.form.address.cep)
             const { data } = await addressService.getByCep(this.form.address.cep || '') as any
             this.form.address.neighborhood = data.bairro
             this.form.address.street = data.logradouro

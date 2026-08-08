@@ -17,7 +17,7 @@ export default defineComponent({
     },
     methods: {
         async search(params: any) {
-            this.paginate.query = params ?? this.paginate.query
+            this.paginate.query = params.query ? params.query : this.paginate.query
             this.paginate.search = params.search ?? this.paginate.search
             this.data = [];
             const response = await this.service.getAll<Array<any>>(this.paginate)

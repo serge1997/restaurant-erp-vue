@@ -20,6 +20,9 @@ import StepperPanel from 'primevue/stepperpanel';
 import InputOtp from 'primevue/inputotp';
 import { handleError } from "@/shared/utility/utils";
 import Menu from "primevue/menu";
+import type { Restaurant } from "@/types/restaurant/restaurant.ts";
+import restaurantService from "@/services/restaurantService.ts";
+import userService from "@/services/userService.ts";
 
 
 export default defineComponent({
@@ -55,6 +58,7 @@ export default defineComponent({
        const menuItemStore = useMenuitemStore()
        const confirm = useConfirm()
        const notify = useNotify()
+       const chain = restaurant?.chain || null
 
        return {
         auth,
@@ -62,7 +66,9 @@ export default defineComponent({
         confirm,
         notify,
         menuItemStore,
-        restaurant
+        restaurant,
+        chain,
+        authStore
        }
     },
     watch: {
@@ -101,7 +107,6 @@ export default defineComponent({
             }
         },
         transfertStepIndex(newValue){
-            console.log("transfert step index: ", newValue)
         },
         transfertPayload: {
             handler(newValue) {
@@ -161,7 +166,7 @@ export default defineComponent({
        },
        transfertStepSelectTableDoneClass(){
             return  !this.isActiveTransfertStepperPanelClass(1) && this.transfertPayload.table.id ? 'done' : ''
-       }
+       },
     },
     data(){
         return {
@@ -198,10 +203,14 @@ export default defineComponent({
             },
             selectedTransfertItems: [],
             transfertSuccessMessage: '',
-            time: null as any
+            time: null as any,
+            swicthedRestaurant: [] as Restaurant[]
         }
     },
     methods: {
+        isCurrentRestaurant(restaurant: Restaurant){
+            return this.restaurant?.id  == restaurant.id
+        },
         isActiveTransfertStepperPanelClass(index: number){
             return this.transfertStepIndex === index ? 'active' : ''
         },
@@ -350,8 +359,19 @@ export default defineComponent({
             this.$emit('cart-cleared')
             
         },
-        openSwicthRestaurantMenu(event: any) {
+        async openSwicthRestaurantMenu(event: any) {
             (this.$refs.swicthRestaurant as any).toggle(event)
+            if(!this.swicthedRestaurant.length){
+                const { data } = await restaurantService.getAll<Restaurant>({})
+                this.swicthedRestaurant = data
+            }
+        },
+        async switchRestaurant(restaurantId: number){
+            (this.$refs.swicthRestaurant as any).hide()
+            if(this.restaurant?.id == restaurantId) return
+            const { data } = await userService.switchRestaurant(restaurantId)
+            this.authStore.storeSwicthedRestaurant(data)
+            window.location.href = "/"
         }
     },
     async mounted() {

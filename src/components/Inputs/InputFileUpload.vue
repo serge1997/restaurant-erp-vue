@@ -72,7 +72,6 @@ export default defineComponent({
         },
         isImage(file: File): boolean {
             const extension = file.type.split('/')[1] as string
-            console.log(extension)
             return this.imageExtions.includes(extension.trim())
         },
         onFileSeletected(uploaded: FileUploadSelectEvent){

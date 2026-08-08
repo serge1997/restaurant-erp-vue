@@ -3,8 +3,8 @@
         <div class="d-flex align-items-center gap-1">
             <Button @click="openSideBar" class="btn-green-primary py-2" icon="pi pi-bars s-sm" />
             <div>
-                <img class="cursor-p" @click="openSideBar" style="height: 28px;" :src="restaurant.logo" alt="" srcset="">
-                <span @click="openSwicthRestaurantMenu" class="title2 fw-bold cursor-p"> {{ restaurant.id.toString().padStart(3, '0') }} - {{ restaurant.name }}</span>
+                <img v-if="restaurant.logo" class="cursor-p" @click="openSideBar" style="height: 28px;" :src="restaurant.logo" alt="" srcset="">
+                <span @click="openSwicthRestaurantMenu" class="title2 fw-bold cursor-p px-2"> {{ restaurant.id.toString().padStart(3, '0') }} - {{ restaurant.name }}</span>
             </div>
         </div>
         <div class="d-flex align-items-center gap-2">
@@ -32,9 +32,47 @@
         :auth="auth"
     >
     </SidebarTemplate>
-    <Menu ref="swicthRestaurant" :style="{width: '28rem'}" :popup="true">
+    <Menu ref="swicthRestaurant" id="swicthRestaurant" :style="{width: '15rem', backgroundColor: '#1A2C33'}" :popup="true">
         <template #end>
-            <h6>Hello world</h6>
+            <div class="d-none">
+                {{ chain?.name }}
+            </div>
+            <div>
+                <ul class="list-group">
+                    <li 
+                        class="list-group-item cursor-p border-0 ellipssed-text"
+                        v-for="restaurant in swicthedRestaurant"
+                        :class="isCurrentRestaurant(restaurant) ? 'current' : ''"
+                    >
+                        <div 
+                            class="d-flex align-items-center"
+                            @click="switchRestaurant(restaurant.id)"
+                        >
+                            <div class="d-flex align-items-center justify-content-center rounded-3" style="width: 24px; height: 24px;">
+                                <svg style="background-color: #0E7c7b;" class="rounded-3" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="24" cy="14" r="3" stroke="#F6F7F8" stroke-width="2"/>
+                                    <path d="M24 17C14 17 8 24 8 32h32c0-8-6-15-16-15z" stroke="#F6F7F8" stroke-width="2" stroke-linejoin="round"/>
+                                    <path d="M6 32h36" stroke="#F6F7F8" stroke-width="2" stroke-linecap="round"/>
+                                    <path d="M10 36h28" stroke="#F6F7F8" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <div class="d-flex flex-column px-2">
+                                <span class="switched-rest-name d-flex justify-content-between">
+                                    {{ restaurant.name }}
+                                    <i v-if="isCurrentRestaurant(restaurant)" class="pi pi-check s-md c-green-secondary fw-bold"></i>
+                                </span>
+                                <small v-if="restaurant.address" class="switched-rest-address">unidade {{ `${restaurant.address?.city}/${restaurant.address?.neighborhood}` }}</small>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="d-flex justify-content-center border-top py-1">
+                <router-link class="s-md title3 d-flex align-items-center gap-2 text-decoration-none" to="'restaurants'">
+                    <i class="s-md pi pi-cog"></i>
+                    <span>Gerencia restaurantes</span>
+                </router-link>
+            </div>
         </template>
     </Menu>
     <Sidebar v-model:visible="visibleCartSidebar" position="right" class="cart-sidebar" :style="{width: '27em'}">

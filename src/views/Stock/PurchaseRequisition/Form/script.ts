@@ -319,7 +319,7 @@ export default defineComponent({
             this.form.items = []
         },
         populateItem(){
-            console.log("Hello world")
+
         },
         async attacheStatus(status: number) {
             const response = await purchaseRequisitionService.attacheStatus(this.form.id, status)

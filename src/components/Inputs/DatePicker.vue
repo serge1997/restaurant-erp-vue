@@ -58,7 +58,7 @@ export default defineComponent({
             return this.modelValue
         },
         onDateSelected(event: any) {
-            console.log(event)
+          
         }
     }
 })

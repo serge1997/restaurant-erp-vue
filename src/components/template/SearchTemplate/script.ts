@@ -115,7 +115,6 @@ export default defineComponent({
         }
     },
     mounted() {
-        console.log(this.$slots.delivery_date)
     },
 
 })

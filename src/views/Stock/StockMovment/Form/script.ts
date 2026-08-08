@@ -177,7 +177,6 @@ export default defineComponent({
             this.options.products = productRequest.data
         },
         async getPurchaseRequisition(event: any) {
-            console.log(this.findProduct(event.value))
             if (this.isManualMovement){
                 const request = await stockMovmentService.getLastByProduct(event.value)
                 this.lastProductMovment = await request.data

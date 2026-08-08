@@ -51,7 +51,6 @@ export class TechnicalSheet {
         return costs.reduce((acc, curr) => acc + curr)
     }
     static computeSellMarge(totalCost: number, menuItem: MenuItemProps): number {
-        console.log(totalCost, menuItem.price.value)
         const marge = Math.round((1 - totalCost / menuItem.price.value) * 100)
         return marge
     }

@@ -16,7 +16,13 @@ export interface Restaurant {
     variable_margim: number | null
     enable_technical_sheet: boolean
     is_active: boolean
-    created_at: string
+    created_at: string,
+    chain?: RestaurantChainProps | null
+}
+
+export interface RestaurantChainProps {
+    id: number
+    name: string
 }
 
 export default function validationRules(): any {

@@ -19,7 +19,6 @@ export default defineComponent({
         }
     },
     mounted(){
-        console.log(this.service.serviceTitle)
     }
 
 })

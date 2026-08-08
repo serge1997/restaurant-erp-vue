@@ -105,7 +105,7 @@ const router = createRouter({
     {
       path: '/',
       component: defineAsyncComponent(() => import('@/views/home/homeView.vue')),
-      name: 'HomeView'
+      name: 'home'
     },
     {
       path: '/login',

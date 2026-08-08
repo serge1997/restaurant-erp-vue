@@ -28,7 +28,6 @@ export const phoneDDMask = (phone: string): string => {
 
 export const handleError = (error: any, notify: any) => {
     if (!error?.response) {
-        console.log(error)
         notify.error("erro interno")
         return
     }

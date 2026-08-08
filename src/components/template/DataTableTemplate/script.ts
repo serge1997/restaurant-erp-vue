@@ -113,7 +113,6 @@ export default defineComponent({
         clearFilters(){
             this.filters.search = null
             this.$emit('on-search', {search: null})
-            console.log("cleared ")
         },
         calcTableHeight() {
               const dt = this.$refs.dataTable as any
