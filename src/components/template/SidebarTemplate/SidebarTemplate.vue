@@ -4,6 +4,7 @@
         ref="menuSidebar" 
         v-model:visible="visibleMenuSidebar"
         :show-close-icon="false"
+        :style="{width: '18rem'}"
     >
         <template #header>
             <div class="w-100 d-flex flex-column align-items-start">

@@ -32,7 +32,7 @@
         :auth="auth"
     >
     </SidebarTemplate>
-    <Menu ref="swicthRestaurant" id="swicthRestaurant" :style="{width: '15rem', backgroundColor: '#1A2C33'}" :popup="true">
+    <Menu ref="swicthRestaurant" class="border-0 shadow" id="swicthRestaurant" :style="{width: '15rem', backgroundColor: '#1A2C33'}" :popup="true">
         <template #end>
             <div class="d-none">
                 {{ chain?.name }}
@@ -67,7 +67,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="d-flex justify-content-center border-top py-1">
+            <div class="d-flex justify-content-center border-top-1 py-1 mt-2">
                 <router-link class="s-md title3 d-flex align-items-center gap-2 text-decoration-none" to="'restaurants'">
                     <i class="s-md pi pi-cog"></i>
                     <span>Gerencia restaurantes</span>

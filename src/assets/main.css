@@ -225,6 +225,9 @@ button, div, small, p, label, li {
 .border-bottom-1 {
   border-bottom: 1px solid var(--border);
 }
+.border-top-1 {
+  border-top: .5px solid var(--border);
+}
 /* borders end */
 .c-dark-green {
   color: var(--c-dark-green-primary) !important;
