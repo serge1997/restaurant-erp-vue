@@ -35,7 +35,12 @@ export interface OrderResponse {
         label?: string
     },
     cancelItems?: any[],
-    total?: number
+    total?: number,
+    waiter: {
+        id?: number,
+        name?: string,
+        inicial?: string
+    }
 }
 
 export enum CancelItemReasonEnum {
@@ -63,3 +68,7 @@ export const orderStatusOptions = [
     {value: OrderStatus.CLOSED, label: "Fechado", meta_data_prop: 'closed_count'},
     {value: OrderStatus.CANCELLED, label: "Cancelado", meta_data_prop: 'canceled_count'},
 ]
+
+export const orderTotal = (items: OrderItemResponse[]): number => {
+    return items.reduce((acc, curr) => acc + curr.unit_price * curr.quantity, 0)
+}

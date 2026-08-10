@@ -26,5 +26,8 @@ export default {
         const toQueryUrl = paginateToQueryUrl(params)
         const completeUrl = `${this.modulePath}/history?${toQueryUrl}`
         return client.get(completeUrl)
+    },
+    homeKpis() {
+        return this.client.get(`${this.modulePath}/homeKpis`)
     }
 }

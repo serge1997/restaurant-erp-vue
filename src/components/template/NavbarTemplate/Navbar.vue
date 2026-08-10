@@ -1,5 +1,5 @@
 <template>
-    <div class="w-100 d-flex justify-content-between p-2 bg-white position-fixed" style="top: 0; left: 0; z-index: 999;">
+    <div class="w-100 d-flex justify-content-between p-2 bg-white position-fixed navbar" style="top: 0; left: 0; z-index: 999;">
         <div class="d-flex align-items-center gap-1">
             <Button @click="openSideBar" class="btn-green-primary py-2" icon="pi pi-bars s-sm" />
             <div>

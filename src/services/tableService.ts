@@ -12,5 +12,8 @@ export default {
     },
     async getAvailables<T>(): Promise<HttpResponse<T[]>> {
         return client.get<T[]>(`${this.modulePath}/availables`)
+    },
+    async getAllWithOrderStatus(){
+        return this.client.get(`${this.modulePath}/listAllWithOrderStatus`)
     }
 }

@@ -32,7 +32,7 @@ export const handleError = (error: any, notify: any) => {
         return
     }
     notify.error(error.response?.data?.message || "Erro interno")
-  
+
 }
 
 export const isEmpty = (value: any): boolean => {
@@ -50,5 +50,22 @@ export const validateAddress = (address: any): boolean => {
 }
 
 export const defaultFilter = {value: 0, label: "Todos"}
+
+export const dateToLiteral = (date?: Date): string => {
+    if(!date) {
+        return new Date().toLocaleDateString('pt-BR', {
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric'
+        })
+    }
+    return date.toLocaleDateString('pt-BR', {
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric'
+    })
+}
 
 
