@@ -107,7 +107,7 @@
             <div class="card">
             <div class="card-head">
                 <span class="card-title">Status das mesas</span>
-                <span class="card-action">Ver salão completo</span>
+                <span class="card-action" @click="$router.push({name: 'table-orders'})">Ver salão completo</span>
             </div>
             <div class="card-body">
                 <div class="mesas-grid" id="mesas-grid">
@@ -151,26 +151,23 @@
             <div class="card">
                 <div class="card-head">
                     <span class="card-title">Alertas do dia</span>
-                    <span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;background:var(--rl);color:var(--red);">3</span>
+                    <span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;background:var(--rl);color:var(--red);">{{ alerts.length }}</span>
                 </div>
                 <div class="card-body">
                     <div class="alerts-list">
-                    <div class="alert-item alert-red">
-                        <div class="ai-ico"><svg viewBox="0 0 12 12" fill="none"><path d="M6 1l5 9H1l5-9z" stroke="var(--red)" stroke-width="1.2" stroke-linejoin="round"/><path d="M6 5v2M6 8.5v.5" stroke="var(--red)" stroke-width="1.2" stroke-linecap="round"/></svg></div>
-                        <div class="ai-info"><div class="ai-title">Estoque crítico</div><div class="ai-sub">Coca-Cola Lata — apenas 3 un.</div></div>
-                    </div>
-                    <div class="alert-item alert-red">
-                        <div class="ai-ico"><svg viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="var(--red)" stroke-width="1.2"/><path d="M6 3.5V6l1.5 1.5" stroke="var(--red)" stroke-width="1.2" stroke-linecap="round"/></svg></div>
-                        <div class="ai-info"><div class="ai-title">Mesa 7 — conta pendente</div><div class="ai-sub">Aguardando fechamento há 1h20</div></div>
-                    </div>
-                    <div class="alert-item alert-warn">
-                        <div class="ai-ico"><svg viewBox="0 0 12 12" fill="none"><path d="M6 1l5 9H1l5-9z" stroke="var(--amber)" stroke-width="1.2" stroke-linejoin="round"/><path d="M6 5v2M6 8.5v.5" stroke="var(--amber)" stroke-width="1.2" stroke-linecap="round"/></svg></div>
-                        <div class="ai-info"><div class="ai-title">Estoque baixo</div><div class="ai-sub">Salmão Fresco — 400g restantes</div></div>
-                    </div>
-                    <div class="alert-item alert-teal">
-                        <div class="ai-ico"><svg viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="var(--ac)" stroke-width="1.2"/><path d="M6 5v3M6 3.5v.5" stroke="var(--ac)" stroke-width="1.2" stroke-linecap="round"/></svg></div>
-                        <div class="ai-info"><div class="ai-title">Reserva às 19:30</div><div class="ai-sub">Mesa 4 · 4 pessoas · Carlos M.</div></div>
-                    </div>
+                        <div 
+                            v-for="alert in alerts"
+                            class="alert-item"
+                            :class="alertSeverity(alert.severity)"
+                        >
+                            <div class="ai-ico">
+                                <svg viewBox="0 0 12 12" fill="none"><path d="M6 1l5 9H1l5-9z" :stroke="`var(--${alertSVGSeverity(alert.severity)})`" stroke-width="1.2" stroke-linejoin="round"/><path d="M6 5v2M6 8.5v.5" stroke="var(--red)" stroke-width="1.2" stroke-linecap="round"/></svg>
+                            </div>
+                            <div class="ai-info">
+                                <div class="ai-title">{{ alert.title }}</div>
+                                <div class="ai-sub">{{ alert.description }}</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

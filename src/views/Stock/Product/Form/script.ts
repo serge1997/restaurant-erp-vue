@@ -16,7 +16,6 @@ export default defineComponent({
             name: null,
             description: null,
             category_id: null,
-            cost: null,
             unit_contain: null as any,
             min_quantity: null,
             restaurant_id: null,

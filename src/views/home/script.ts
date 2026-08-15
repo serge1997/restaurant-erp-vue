@@ -5,6 +5,8 @@ import orderService from "@/services/orderService";
 import { type OrderResponse, orderTotal } from "@/types/order/Order";
 import ScrollPanel from "primevue/scrollpanel";
 import tableService from "@/services/tableService";
+import alertServices from "@/services/alertServices";
+import { getSeverity, getSvgSeverity, type AlertProps } from "@/types/alert/alert";
 
 export default defineComponent({
     components: {
@@ -15,7 +17,9 @@ export default defineComponent({
         return {
             dateToLiteral,
             orderTotal,
-            user: auth.getAuth()
+            user: auth.getAuth(),
+            alertSeverity: getSeverity,
+            alertSVGSeverity: getSvgSeverity
         }
     },
 
@@ -25,6 +29,7 @@ export default defineComponent({
             orders: [] as OrderResponse[],
             tables: [] as any[],
             scrollHeight: '',
+            alerts: [] as AlertProps[]
         }
     },
 
@@ -49,11 +54,16 @@ export default defineComponent({
                 return 'm-occ'
             }
             return 'm-free'
+        },
+        async getAlerts() {
+            const { data } = await alertServices.getAll<AlertProps>({limit: 10, query: {is_resolved: false}})
+            this.alerts = data
         }
     },
     mounted() {
         this.getHomeKpis()
         this.getOpenedOrders()
-        this.getAllWithOrderStatus()
+        this.getAllWithOrderStatus();
+        this.getAlerts();
     },
 })
