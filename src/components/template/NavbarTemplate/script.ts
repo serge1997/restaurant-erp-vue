@@ -155,7 +155,8 @@ export default defineComponent({
             const items: TransfertItem[] = []
             this.carts.map(cart => {
                 if (this.transfertPayload.items.includes(cart.item.id)){
-                    const itemQuantity = this.transfertPayload.itemsQuantities.find(item => item.menu_item_id == cart.item.id)
+                    const itemsQuantities = Object.values(this.transfertPayload.itemsQuantities)
+                    const itemQuantity = itemsQuantities.find(item => item.menu_item_id == cart.item.id)
                     items.push({quantity: itemQuantity!.quantity, ...cart.item})
                 }
             })
@@ -167,6 +168,13 @@ export default defineComponent({
        transfertStepSelectTableDoneClass(){
             return  !this.isActiveTransfertStepperPanelClass(1) && this.transfertPayload.table.id ? 'done' : ''
        },
+       transfertItemsTotalAmount(){
+        let sum = 0
+        this.transfertItems.forEach(el => {
+            sum += el.price * Number(el.quantity)
+        })
+        return sum.toFixed(2)
+       }
     },
     data(){
         return {
@@ -191,7 +199,7 @@ export default defineComponent({
                 items: [] as number[],
                 quantities: [] as number[],
                 table: {} as TableProps,
-                itemsQuantities: [] as {menu_item_id: number, quantity: string}[],
+                itemsQuantities: {} as Record<string, {menu_item_id: number, quantity: string}>,
                 table_id: 0,
                 customer_name: null,
                 transfert_reason: null
@@ -208,6 +216,17 @@ export default defineComponent({
         }
     },
     methods: {
+        onLimitransfertQuantity(key: number){
+            const item = this.transfertItemOptions.find((item: any) => item.id == key)
+            const transfert = this.transfertPayload.itemsQuantities[key]
+            if(Number(item.quantity) < Number(transfert?.quantity)){
+                transfert!.quantity = item.quantity
+                return
+            }
+            if(!Number(transfert?.quantity)){
+                transfert!.quantity = item.quantity
+            }
+        },
         isCurrentRestaurant(restaurant: Restaurant){
             return this.restaurant?.id  == restaurant.id
         },
@@ -244,20 +263,21 @@ export default defineComponent({
             })
         },
         onChangeTransertItem(itemId: number){
+            const key = itemId.toString()
             if (!this.transfertPayload.items.includes(itemId)){
-                const toRemoveIndex = this.transfertPayload.itemsQuantities.findIndex(iq => iq.menu_item_id == itemId)
-                this.transfertPayload.itemsQuantities.splice(toRemoveIndex, 1)
+                //const toRemoveIndex = this.transfertPayload.itemsQuantities[key]
+                delete this.transfertPayload.itemsQuantities[key]
                 return
             }
             const index = this.transfertPayload.items.indexOf(itemId)
             if (index < 0) return
-            this.transfertPayload.itemsQuantities.push({menu_item_id: itemId, quantity: '1'})
+            this.transfertPayload.itemsQuantities[key] = {menu_item_id: itemId, quantity: '1'}
         },
         async transfertOrder(){
             try{
                 const paylod = {
                     id: this.activeOrder.id,
-                    items: this.transfertPayload.itemsQuantities,
+                    items: Object.values(this.transfertPayload.itemsQuantities),
                     table_id: this.transfertPayload.table.id,
                     customer_name: this.transfertPayload.customer_name,
                     transfert_reason: this.transfertPayload.transfert_reason

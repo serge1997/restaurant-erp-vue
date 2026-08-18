@@ -319,10 +319,11 @@
                                             <small class="px-1 options-item-list-desc">{{ option.description }}</small>
                                         </div>
                                     </div>
-                                    <div v-if="transfertPayload.items.includes(option.id) && transfertPayload.itemsQuantities[index]" class="w-15">
-                                        <InputOtp 
-                                            length="1"
-                                            v-model="transfertPayload.itemsQuantities[index].quantity"
+                                    <div v-if="transfertPayload.itemsQuantities[option.id.toString()]" class="w-15">
+                                        <Input 
+                                            v-model="transfertPayload.itemsQuantities[option.id.toString()].quantity"
+                                            @blur="onLimitransfertQuantity(index)"
+                                            @input="onLimitransfertQuantity(index)"
                                         />
                                     </div>
                                 </div>
@@ -432,7 +433,7 @@
                                             <div class="border-green-light"></div>
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <span class="c-dark-green s-sm fw-bold">Total transferido</span>
-                                                <span class="c-dark-green fw-bold title1">R$ 504</span>
+                                                <span class="c-dark-green fw-bold title1">R$ {{ transfertItemsTotalAmount }}</span>
                                             </div>
                                         </div>
                                     </div>
