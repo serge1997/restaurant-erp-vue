@@ -322,8 +322,7 @@
                                     <div v-if="transfertPayload.itemsQuantities[option.id.toString()]" class="w-15">
                                         <Input 
                                             v-model="transfertPayload.itemsQuantities[option.id.toString()].quantity"
-                                            @blur="onLimitransfertQuantity(index)"
-                                            @input="onLimitransfertQuantity(index)"
+                                            @blur="onLimitransfertQuantity(option.id.toString())"
                                         />
                                     </div>
                                 </div>
