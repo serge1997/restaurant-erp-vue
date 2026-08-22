@@ -9,14 +9,14 @@
     >
         <template #form-menu>
             <ul class="list-group">
-                <li 
+                <li
                     class="list-group-item border-0 cursor-p" v-if="form.enable_technical_sheet"
                     @click="openTechnicalSheetModal"
                     >
                         {{ hasTechnicalsheet ? 'Alterar ficha técnica' : 'Gerar ficha técnica' }}
                 </li>
-                <li 
-                    class="list-group-item border-0 cursor-p" 
+                <li
+                    class="list-group-item border-0 cursor-p"
                     @click="openShowTechnicalsheetModal"
                     v-if="hasTechnicalsheet"
                 >
@@ -72,7 +72,7 @@
                     </Textarea>
                 </div>
                 <div class="col-md-12 d-flex flex-column mt-3 mb-3">
-                    <Switch 
+                    <Switch
                         label="Ficha técnica"
                         v-model="form.enable_technical_sheet"
                     />
@@ -84,7 +84,7 @@
                 <div class="row">
                     <div class="col-4 d-flex flex-column">
                         <label>Preço <span class="text-danger">*</span></label>
-                        <InputNumber 
+                        <InputNumber
                             placeholder="Digite o preço"
                             v-model="form.price"
                             locale="pt-BR"
@@ -102,8 +102,8 @@
                             v-model="form.cooking_time"
                             class="d-none"
                         />
-                        <DatePicker 
-                            :timeOnly="true" 
+                        <DatePicker
+                            :timeOnly="true"
                             v-model="form.cooking_time"
                             :showIcon="false"
                         />
@@ -122,7 +122,7 @@
                                 <i :class="isActiveIconClass" class="pi pi-circle-fill s-xs"></i>
                                 {{ isActiveLabel }}
                             </div>
-                            <Switch 
+                            <Switch
                                 class="d-flex justify-content-end align-items-center"
                                 label=""
                                 v-model="form.is_active"
@@ -159,8 +159,8 @@
                     title="Foto"
                     icon="pi-image s-sm"
                 />
-                <div class="col-md-12 mb-3">
-                    <InputFileUpload 
+                <div class="col-md-12 mb-5">
+                    <InputFileUpload
                         v-model="form.image"
                         @fileSelected="loadImage"
                     />
@@ -174,7 +174,7 @@
                         />
 
                         <div v-for="(item, index) of sheetDetails.items" class="row mb-2">
-                            <AutoComplete 
+                            <AutoComplete
                                 v-model="sheetData[index].product"
                                 option-label="name"
                                 :suggestions="products"
@@ -187,7 +187,7 @@
                             title="qtd/und"
                         />
                         <div v-for="(item, index) of sheetDetails.items" class="row mb-2">
-                            <Input 
+                            <Input
                                 v-model="sheetData[index].quantity"
                                 @input="onInputSheetProductQuantity(index)"
                             />
@@ -202,7 +202,7 @@
                                 v-model="item.cost"
                                 :isDisable="true"
                             />
-                            <Button 
+                            <Button
                                 icon="pi pi-times"
                                 class="btn-white-primary"
                                 @click="removeProductFromSheet(index)"
@@ -210,7 +210,7 @@
                         </div>
                     </div>
                     <div class="col-12 d-flex justify-content-center mt-2 btn-button">
-                        <Button 
+                        <Button
                             label="Adicionar ingredientes"
                             class="w-100 d-flex justify-content-center btn-dotted-white"
                             icon="pi pi-plus"
@@ -233,7 +233,7 @@
             <template #header>
                 <h6>Ficha técnica {{ title }} {{ form.id }}</h6>
             </template>
-            <TechnicalSheetForm 
+            <TechnicalSheetForm
                 :options="sheetOptions"
                 :currentmenuItem="form.id"
                 @close-modal="visibleTechnicalSheetModal = false"
@@ -243,20 +243,20 @@
         <Dialog :closable="false" class="show-sheet-modal border-0" v-model:visible="visibleShowTechnicalsheetModal" position="top" modal :style="{ width: '55rem' }">
             <template #header>
                 <h6 class="d-none">Ficha técnica {{ title }} {{ form.id }}</h6>
-                <div 
-                    class="header-container w-100" 
+                <div
+                    class="header-container w-100"
                     :style="`background: linear-gradient(to bottom, rgba(13,26,31,0.1) 0%, rgba(13,26,31,0.72) 100%), url(${form.image}) center/cover no-repeat;`"
                 >
                     <div class="px-2 d-flex gap-3">
-                        <Tag 
+                        <Tag
                             :value="form.category?.name"
                             class="px-2 rounded-1 sheet-item-category sheet-item-tag"
                         />
-                        <Tag 
+                        <Tag
                             :value="form.is_active ? 'Ativo' : 'Inativo'"
                             class="px-2 rounded-1 sheet-item-status sheet-item-tag"
                         />
-                        <Tag 
+                        <Tag
                             :value="form.code"
                             class="px-2 rounded-1 sheet-item-code sheet-item-tag"
                         />
@@ -313,7 +313,7 @@
                     </Divider>
                     <div>
                         <ul class="list-group">
-                            <li 
+                            <li
                                 v-for="label in getItemFeatureLabels"
                                 class="list-group-item p-0 border-0 bg-transparent title3 d-flex align-items-center gap-3"
                             >
@@ -326,14 +326,14 @@
            </div>
            <template #footer>
                 <div class="btn-button d-flex align-items-center gap-2">
-                    <Button  
-                        class="btn-white-primary" 
-                        label="Imprimir" 
+                    <Button
+                        class="btn-white-primary"
+                        label="Imprimir"
                         icon="pi pi-print s-sm"
                     />
-                    <Button  
-                        class="btn-white-primary" 
-                        label="Cancelar" 
+                    <Button
+                        class="btn-white-primary"
+                        label="Cancelar"
                         icon="pi pi-times s-xs"
                         @click="visibleShowTechnicalsheetModal = false"
                     />

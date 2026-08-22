@@ -33,7 +33,7 @@
                 </Select>
             </div>
             <div class="row mb-2">
-                <div class="col-6">
+                <div class="col-12">
                     <Input
                         v-model="form.min_quantity"
                         placeholder="Digite a quantidade minima"
@@ -43,7 +43,7 @@
                         </template>
                     </Input>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 d-none">
                     <Select
                         v-if="form.category_id && category && category?.isMl()"
                         :options="unitMlMeasureOptions"
@@ -60,8 +60,6 @@
                     <Input
                         v-else
                         v-model="form.unit_contain"
-                        @blur="v.form.unit_contain.$touch()"
-                        :error="v.form.unit_contain.$error ? v.form.unit_contain.$errors[0]?.$message : ''"
                         :isDisable="true"
                     >
                         <template #label>

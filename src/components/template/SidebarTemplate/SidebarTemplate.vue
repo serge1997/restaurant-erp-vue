@@ -1,7 +1,7 @@
 <template>
-    <Sidebar 
-        class="b-bg-surface border-0 menuSidebar" 
-        ref="menuSidebar" 
+    <Sidebar
+        class="b-bg-surface border-0 menuSidebar"
+        ref="menuSidebar"
         v-model:visible="visibleMenuSidebar"
         :show-close-icon="false"
         :style="{width: '18rem'}"
@@ -15,16 +15,16 @@
                     <div v-else>
                         <img class="logo" :src="auth.restaurant.logo" alt="" srcset="">
                     </div>
-                    <Button 
-                        @click="visibleMenuSidebar = !visibleMenuSidebar" 
-                        class="btn-circle-close" 
+                    <Button
+                        @click="visibleMenuSidebar = !visibleMenuSidebar"
+                        class="btn-circle-close"
                         icon="pi pi-times s-sm"
                     />
                 </div>
                 <div class="p-3 px-4 w-100">
                     <IconField iconPosition="left">
                         <InputIcon class="pi pi-search"> </InputIcon>
-                        <InputText 
+                        <InputText
                             @input="searchMenuItem"
                             v-model="menuElmentSearchInput"
                             placeholder="pesquisar paginas"
@@ -41,7 +41,7 @@
             </div>
             <ul class="list-group">
                 <li
-                v-for="mn in menus" 
+                    v-for="mn in menus"
                     class="list-group-item bg-transparent border-0 cursor-p"
                     @click.prevent.stop="openSubmenu(`.${mn.name.replace(/\s/g, '')}`, $event)"
                 >
@@ -54,7 +54,7 @@
                     </div>
                     <ul v-if="mn.permissions?.length" :class="`list-group ${mn.name.replace(/\s/g, '')} p-1`">
                         <div v-for="item in mn.permissions" >
-                            <li 
+                            <li
                                 class="list-group-item border-0 submenu-item cursor-p"
                                 :class="activeViewClass(`/${mn.module.base_view_path}/${item.view_path}`)"
                                 v-if="item.show_in_menu"

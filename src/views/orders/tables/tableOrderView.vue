@@ -49,8 +49,8 @@
                     <small class="c-gray-primary s-sm title3">Mesas ocupadas</small>
                 </Divider>
                 <div class="w-100 tables-grid mb-3">
-                    <div 
-                        v-for="table in tables_with_orders" 
+                    <div
+                        v-for="table in tables_with_orders"
                         class="card overflow-hidden tcard occupied cursor-p"
                         @click="$router.push(`/orders/tables/${table.order_id}`)"
                     >
@@ -100,13 +100,21 @@
                             <span class="title3">Disponível</span>
                         </div>
                         <div class="card-footer px-2 bg-transparent d-flex justify-content-between align-items-center py-1">
-                            <span class="title3 px-2 b-active">Livre</span>
-                            <Button 
-                                label="Abrir"
-                                icon="pi pi-plus s-xs"
-                                class="p-0 c-green-primary s-sm"
-                                @click="$router.push(`/menu/${table.id}`)"
-                            />
+                            <div>
+                                <span class="title3 px-2 b-active">Livre</span>
+                            </div>
+                            <div class="d-flex gap-2 align-items-center">
+                                <Button
+                                    icon="pi pi-plus s-md"
+                                    class="p-0 c-green-primary"
+                                    @click="$router.push(`/menu/${table.id}`)"
+                                />
+                                <Button
+                                    icon="pi pi-calendar-clock s-normal"
+                                    class="p-0 c-green-primary"
+                                    @click="$router.push(`/menu/${table.id}`)"
+                                />
+                            </div>
                         </div>
                     </div>
                     <div @click="$router.push('/administrative/tables')" class="tcard-new">

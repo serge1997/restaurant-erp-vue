@@ -1,5 +1,5 @@
 <template>
-    <Sidebar 
+    <Sidebar
         ref="formTemplate"
         position="right"
         :class="`${formWidth} b-bg-surface border-0`"
@@ -14,7 +14,7 @@
                         <span class="s-md c-gray-primary">ID: {{ itemId }}</span>
                     </div>
                     <TagTemplate
-                        v-if="hasFlag && itemId" 
+                        v-if="hasFlag && itemId"
                         :flag="flag"
                         :flags="flags"
                         @updateEntityTag="updateEntityTag"
@@ -33,24 +33,24 @@
                         </div>
                     </div>
                     <span class="w-50 d-flex align-items-center justify-content-end gap-1 btn-button">
-                        <Button 
+                        <Button
                             v-if="showSaveButton"
-                            class="btn-green-primary save-btn" 
-                            :label="saveBtnLabel" 
+                            class="btn-green-primary save-btn"
+                            :label="saveBtnLabel"
                             icon="pi pi-check s-sm"
                             :isDisable="isDisableSaveBtn"
                             @click.prevent="$emit('submitData')"
                             :title="saveBtnLabel"
                         />
-                        <Button 
-                            @click="closeForm" 
-                            class="btn-circle-close" 
+                        <Button
+                            @click="closeForm"
+                            class="btn-circle-close"
                             icon="pi pi-times s-sm"
                         />
                         <Button
                             v-if="itemId && hasMenu"
                             style="padding: 0px 3px 0px 3px !important;"
-                            icon-color="c-gray-primary fs-6" 
+                            icon-color="c-gray-primary fs-6"
                             icon="pi pi-ellipsis-v"
                             @click="openFormMenuOverlay"
                         />
@@ -62,16 +62,16 @@
             </div>
         </template>
         <slot></slot>
-        <div v-if="showDefaultFooter" style="bottom: 0px; width: 100%;" class="form-sidebar-footer bg-white py-2 d-flex position-fixed align-items-center justify-content-center gap-3 btn-button">
-            <Button 
-                @click="closeForm" 
-                class="btn-white-primary" 
-                label="Cancelar" 
+        <div v-if="showDefaultFooter" style="bottom: 0px; width: 100%; z-index: 1000;" class="form-sidebar-footer bg-white py-2 d-flex position-fixed align-items-center justify-content-center gap-3 btn-button">
+            <Button
+                @click="closeForm"
+                class="btn-white-primary"
+                label="Cancelar"
                 icon="pi pi-times s-sm"
             />
-            <Button 
-                class="btn-green-primary w-60 d-flex justify-content-center" 
-                :label="saveBtnLabel" 
+            <Button
+                class="btn-green-primary w-60 d-flex justify-content-center"
+                :label="saveBtnLabel"
                 icon="pi pi-check s-sm"
                 :isDisable="isDisableSaveBtn"
                 @click.prevent="$emit('submitData')"

@@ -1,12 +1,12 @@
 <template>
-    <FileUpload 
+    <FileUpload
         ref="fileUpload"
         :file-limit="filesLimit"
         @select="onFileSeletected"
     >
         <template #header="{chooseCallback, clearCallback, uploadCallback, files}">
-            <Button class="rounded-circle py-2 px-2 border-blue-primary bg-primary-secondary" @click="onSelectFile(files)" icon="pi pi-file c-blue-primary"></Button>
-            <Button @click="clearCallback()" class="rounded-circle py-2 px-2" icon="pi pi-times" rounded outlined severity="danger" :disabled="!files || files.length === 0"></Button>
+            <Button class="rounded-circle border py-2 px-2" @click="onSelectFile(files)" icon="pi pi-file c-t3 s-md"></Button>
+            <Button @click="clearCallback()" class="rounded-circle py-2 px-2" icon="pi pi-times s-md" rounded outlined severity="danger" :disabled="!files || files.length === 0"></Button>
         </template>
         <template #content="{files, removeFileCallback}">
             <div v-for="(file, index) in files" class="card p-0 mb-1 border-0">
@@ -15,7 +15,7 @@
                 </div>
                 <div class="card-body rounded-3 d-flex align-items-center gap-2 px-2 bg-primary-secondary c-blue-primary p-0 py-1">
                     <div class="d-flex align-items-center">
-                        <i :class="`pi ${!isImage(file) ? 'pi-file' : 'pi-image'} fs-5`"></i>
+                        <i :class="`pi ${!isImage(file) ? 'pi-file' : 'pi-image'}`"></i>
                     </div>
                    <div class="d-flex flex-column ">
                         <span class="s-md">Arquivo: <span class="cfw-sm">{{ file.name }}</span></span>

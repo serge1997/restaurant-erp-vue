@@ -120,37 +120,34 @@ export default defineComponent({
         activeViewClass(view: string) {
             return view == this.$route.path ? 'active-view' : ''
         },
-        searchMenuItem(event: any) {
-            const value = event.target.value?.toLocaleLowerCase()
-            this.menusFindedElements = []
-            if(!value){
-                return
+      searchMenuItem(event: any) {
+        this.loadedMenuElements = this.authStore.getMenu()
+        this.menusFindedElements = []
+        const value = event.target.value?.toLocaleLowerCase()
+        this.menusFindedElements = []
+        if(!value){
+          return
+        }
+        this.loadedMenuElements.forEach((menu, index) => {
+          const permissions = menu.permissions;
+          menu.permissions = []
+          this.menusFindedElements.push(menu)
+          permissions.forEach((permission) => {
+            const hasModule = this.menusFindedElements.find(m => m.module.id == menu.module.id);
+            if (permission.label.toLocaleLowerCase().includes(value) && permission.show_in_menu == true) {
+              if(hasModule?.id){
+                this.menusFindedElements[index]?.permissions.push(permission)
+              } else {
+                this.menusFindedElements.push(menu)
+                const lastIndex = this.menusFindedElements.length - 1
+                this.menusFindedElements[lastIndex]!.permissions = [permission]
+              }
             }
-            this.loadedMenuElements.forEach((menu, index) => {
-                const hasModule = this.menusFindedElements.find(m => m.module.id == menu.module.id)
-                if(menu.module.name.toLocaleLowerCase().includes(value)) {
-                    if(!hasModule?.id){
-                        this.menusFindedElements.push(menu)
-                    }
-                }else{
-                    const permissions = menu.permissions
-                    permissions.forEach((permission) => {
-                        if(permission.label.toLocaleLowerCase().includes(value) && permission.show_in_menu == true){
-                            if(hasModule?.id){
-                                this.menusFindedElements[index]?.permissions.push(permission)
-                            }else{
-                                this.menusFindedElements.push(menu)
-                                const lastIndex = this.menusFindedElements.length - 1
-                                this.menusFindedElements[lastIndex]!.permissions = [permission]
-                            }
-                        }
-                    })
-                }
-            })
-            
-        },
+          })
+        })
+      },
     },
     mounted() {
-        this.loadedMenuElements = this.authStore.getMenu()
+      this.loadedMenuElements = this.authStore.getMenu()
     },
 })

@@ -39,7 +39,7 @@ const router = createRouter({
         {
           path: "purchase-requisitions",
           component: defineAsyncComponent(() => import('@/views/Stock/PurchaseRequisition/PurchaseRequisitionView.vue'))
-        }, 
+        },
         {
           path: "stock-movements",
           component: defineAsyncComponent(() => import('@/views/Stock/StockMovment/StockMovmentView.vue'))
@@ -89,6 +89,11 @@ const router = createRouter({
           path: 'tables/:orderId?',
           component: defineAsyncComponent(() => import('@/views/orders/tables/tableOrderView.vue')),
           name: 'table-orders'
+        },
+        {
+          path: "reservations",
+          component: defineAsyncComponent(() => import("@/views/orders/reservation/reservationView.vue")),
+          name: "reservation"
         }
       ]
     },

@@ -62,7 +62,7 @@ export default defineComponent({
             form: {
                 name: {required},
                 category_id: {required},
-                unit_contain: {required}
+                //unit_contain: {required}
             }
         }
     },
@@ -77,7 +77,7 @@ export default defineComponent({
             this.category = category
             this.currentCategory = find.unit_measure
             if (!this.category.isMl()){
-                this.form.unit_contain = this.category.isGram() ? "1 KG" : "1 unidade"
+                //this.form.unit_contain = this.category.isGram() ? "1 KG" : "1 unidade"
             }
         }
     },
