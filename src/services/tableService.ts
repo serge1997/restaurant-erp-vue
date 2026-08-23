@@ -15,5 +15,10 @@ export default {
     },
     async getAllWithOrderStatus(){
         return this.client.get(`${this.modulePath}/listAllWithOrderStatus`)
+    },
+    getForReservation(date: string){
+      return this.client.get(`${this.modulePath}/listForReservation?date=${date}`)
     }
+
+
 }

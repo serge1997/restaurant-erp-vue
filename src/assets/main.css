@@ -806,6 +806,7 @@ label.search {
   justify-content:center;
   flex-shrink:0;
 }
+.stat-ico,.stat-card-icon svg{width:16px;height:16px;}
 
 .option-icon-card{
   background: var(--surface2);

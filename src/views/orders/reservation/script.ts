@@ -24,5 +24,8 @@ export default defineComponent({
     return {
 
     }
+  },
+  mounted() {
+      this.onSearch(this.paginate)
   }
 })

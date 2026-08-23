@@ -5,8 +5,8 @@
         :itemId="form.id"
         @on-clear-form="onClearForm"
     >
-        <form class="w-100">
-            <div class="row mb-3">
+        <form @submit="onSubmit" class="w-100">
+            <div class="row mb-2">
                 <div class="col-md-12">
                     <Input
                         v-model="form.customer"
@@ -20,11 +20,38 @@
                     </Input>
                 </div>
             </div>
-            <div class="row mb-3">
+            <div class="row mb-2">
+                <div class="col-md-6">
+                    <Input
+                        label="CPF do cliente"
+                        v-model="form.state_registration"
+                        placeholder="Digite o CPF do cliente"
+                    />
+                </div>
+                <div class="col-md-6">
+                    <Input
+                        label="Contato do cliente"
+                        v-model="form.phone"
+                        placeholder="Digite o contato do cliente"
+                    />
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-md-12">
+                    <Input
+                        v-model="form.email"
+                        placeholder="Digite o email do cliente"
+                        label="E-mail do cliente"
+                    />
+                </div>
+            </div>
+            <div class="row mb-2">
                 <div class="col-md-6">
                     <DatePicker
+                        v-model="form.date"
                         @blur="v.form.date.$touch()"
                         :error="v.form.date.$error ? v.form.date.$errors[0]?.$message : ''"
+                        @date-selected="selectedDate"
                     >
                         <template #label>
                             Data <span class="text-danger">*</span>
@@ -33,6 +60,7 @@
                 </div>
                 <div class="col-md-6">
                     <DatePicker
+                        v-model="form.hour"
                         @blur="v.form.hour.$touch()"
                         :error="v.form.hour.$error ? v.form.hour.$errors[0]?.$message : ''"
                         :timeOnly="true"
@@ -43,7 +71,7 @@
                     </DatePicker>
                 </div>
             </div>
-            <div class="row mb-3">
+            <div class="row mb-2">
                 <div class="col-md-12">
                     <Input
                         v-model="form.quantity_of_person"
@@ -57,10 +85,11 @@
                     </Input>
                 </div>
             </div>
-            <div class="row mb-3">
+            <div class="row mb-2">
                 <div class="col-md-12">
                     <Select
                         v-model="form.table_id"
+                        :options="tables"
                         placeholder="Selecione a(s) mesa(s)"
                         @hide="v.form.table_id.$touch()"
                         :error="v.form.table_id.$error ? v.form.table_id.$errors[0]?.$message : ''"
@@ -71,7 +100,7 @@
                     </Select>
                 </div>
             </div>
-            <div class="row">
+            <div class="row mb-2">
                 <div class="col-md-12">
                     <Textarea
                         v-model="form.observation"
@@ -80,6 +109,25 @@
                     />
                 </div>
             </div>
+            <div class="row mb-2">
+                <div class="col-md-12">
+                    <Select
+                        v-model="form.waiter_id"
+                        :options="users"
+                        label="Garçom"
+                        placeholder="Attribuir essa reserva a um garçom"
+                    />
+                </div>
+            </div>
+              <div class="row">
+                <div class="col-md-12">
+                    <DatePicker
+                        v-model="form.duration"
+                        :timeOnly="true"
+                        label="Duraçao da reserva"
+                    />
+                </div>
+              </div>
         </form>
     </FormTemplate>
 </template>

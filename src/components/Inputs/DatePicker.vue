@@ -19,6 +19,7 @@
             appendTo="self"
             key="from"
             :placeholder="placeholder"
+            @date-select="$emit('date-selected', $event)"
         />
     </div>
 </template>
@@ -58,7 +59,7 @@ export default defineComponent({
             return this.modelValue
         },
         onDateSelected(event: any) {
-          
+
         }
     }
 })
