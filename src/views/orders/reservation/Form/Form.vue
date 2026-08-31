@@ -1,6 +1,6 @@
 <template>
     <FormTemplate
-        :title="getTitle()"
+        :title="getTitle"
         @submitData="onSubmit"
         :itemId="form.id"
         @on-clear-form="onClearForm"

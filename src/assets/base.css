@@ -20,7 +20,7 @@
   --c-blue-primary: #2563EB;
   --c-blue-primary-alert: #EFF6FF;
   --c-blue-secondary: #BFDBFE;
-  
+
   --c-danger-primary: #DC2626;
   --c-danger-secondary: #FCA5A5;
   --c-danger-alert: #FEF2F2;
@@ -81,7 +81,7 @@
 body {
   min-height: 100vh;
   color: var(--color-text);
-  background: var(--color-background);
+  background: var(--surface3);
   transition:
     color 0.5s,
     background-color 0.5s;
@@ -103,7 +103,7 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-y: hidden;
+  /*overflow-y: hidden; */
 }
 
 .brand-mark{

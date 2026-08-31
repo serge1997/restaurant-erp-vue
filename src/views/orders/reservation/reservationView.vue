@@ -45,37 +45,56 @@
         <div class="row">
             <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-shrink:0;">
                 <div class="date-tabs">
-                    <div class="dt" onclick="setDay('ontem',this)">Ontem</div>
-                    <div class="dt on" onclick="setDay('hoje',this)">Hoje</div>
-                    <div class="dt" onclick="setDay('amanha',this)">Amanhã</div>
-                    <div class="dt" onclick="setDay('semana',this)">Esta semana</div>
+                    <div @click="applyFilter('yesterday')" :class="activeDayFilterOn('yesterday')" class="dt">Ontem</div>
+                    <div @click="applyFilter('today')" :class="activeDayFilterOn('today')" class="dt">Hoje</div>
+                    <div @click="applyFilter('tomorrow')" :class="activeDayFilterOn('tomorrow')" class="dt">Amanhã</div>
+                    <div class="dt d-none" @click="applyFilter('week')" :class="activeDayFilterOn('week')">Esta semana</div>
+                    <div class="d-flex align-items-center gap-2">
+                        <label>De</label>
+                        <DatePicker
+                            v-model="filters.date_from"
+                            style="width: 140px;"
+                            @date-selected="applyFilter('')"
+                        />
+                        <label>Até</label>
+                        <DatePicker
+                            v-model="filters.date_to"
+                            style="width: 140px;"
+                            @date-selected="applyFilter('')"
+                        />
+                    </div>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="timeline" id="timeline">
-                <div class="tl-section">
-                    <div class="tl-hour">20:00</div>
-                    <div class="res-card">
+                <div v-for="(reservations, timeGroup) in data" class="tl-section">
+                    <div class="tl-hour">{{timeGroup}}:00</div>
+                    <div
+                        class="res-card"
+                        v-for="reservation in reservations"
+                        @click="getReservation(reservation)"
+                        :class="reservation.status.severity"
+                    >
                         <div class="rc-time">
-                            <div class="rc-time-val">20:39</div>
-                            <div class="rc-time-dur">1h</div>
+                            <div class="rc-time-val">{{ reservation.hour }}</div>
+                            <div class="rc-time-dur">{{ reservation.duration ?? '-' }}</div>
                         </div>
                          <div class="rc-sep"></div>
                          <div class="rc-table">
-                            <div class="rc-table-n">8</div>
+                            <div class="rc-table-n">{{ reservation.table.number }}</div>
                             <div class="rc-table-l">Mesa</div>
                          </div>
                           <div class="rc-info">
-                              <div class="rc-client">Patrick</div>
+                              <div class="rc-client">{{ reservation.customer }}</div>
                                <div class="rc-meta">
                                    <div class="rc-meta-item">
                                         <svg viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="4" r="2" stroke="currentColor" stroke-width="1.1"/><path d="M1.5 10c0-2.2 1.8-4 4-4s4 1.8 4 4" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
-                                        3 pessoas
+                                        {{ reservation.quantity_of_person }} pessoas
                                     </div>
                                      <div class="rc-meta-item">
                                         <svg viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="3.5" r="1.5" stroke="currentColor" stroke-width="1.1"/><path d="M2 9.5c0-1.9 1.6-3.5 3.5-3.5S9 7.6 9 9.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
-                                        Waiter name
+                                        {{ reservation?.waiter?.name ?? '-'}}
                                      </div>
                                      <div class="rc-meta-item" style="color:#D97706">
                                         <svg viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="5.5" r="4.5" stroke="currentColor" stroke-width="1.1"/><path d="M5.5 4v2M5.5 7.5v.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
@@ -83,7 +102,7 @@
                                      </div>
                                </div>
                           </div>
-                           <span class="rc-badge ${statusClass[r.status]}">Pendente</span>
+                           <span class="rc-badge" :class="reservation.status.label_severity">{{ reservation.status.label }}</span>
                            <div class="rc-actions" onclick="event.stopPropagation()">
                                <button class="ia confirm" title="Confirmar"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
                                <button class="ia cancel" title="Cancelar"><svg viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>

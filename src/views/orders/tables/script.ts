@@ -5,7 +5,8 @@ import { defineComponent } from "vue";
 
 interface TableOrderViewProps {
     available_tables: any[]
-    tables_with_orders: any[]
+    tables_with_orders: any[],
+    tables_reserved: any[]
 }
 export default defineComponent({
     name: 'TableOrderView',
@@ -46,7 +47,8 @@ export default defineComponent({
         return {
             available_tables: [] as any[],
             tables_with_orders: [] as any[],
-            tableFilterActive: 'all'
+            tableFilterActive: 'all',
+            tables_reserved: [] as any[]
         }
     },
     methods: {
@@ -58,8 +60,9 @@ export default defineComponent({
         }
     },
     async mounted() {
-       const response = await tableService.getAllForOrders<TableOrderViewProps>()
-       this.tables_with_orders = response.data.tables_with_orders
-       this.available_tables = response.data.available_tables
+      const response = await tableService.getAllForOrders<TableOrderViewProps>()
+      this.tables_with_orders = response.data.tables_with_orders
+      this.available_tables = response.data.available_tables
+      this.tables_reserved = response.data.tables_reserved
     },
 })

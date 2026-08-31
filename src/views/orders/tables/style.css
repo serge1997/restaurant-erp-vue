@@ -1,3 +1,7 @@
+body {
+    overflow-y: scroll !important;
+}
+
 .stab{
     font-size:12px;
     font-weight:500;

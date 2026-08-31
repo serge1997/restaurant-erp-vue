@@ -112,7 +112,7 @@
                                 <Button
                                     icon="pi pi-calendar-clock s-normal"
                                     class="p-0 c-green-primary"
-                                    @click="$router.push(`/menu/${table.id}`)"
+                                    @click="$router.push({name: 'reservation'})"
                                 />
                             </div>
                         </div>
@@ -126,19 +126,19 @@
                 <Divider align="left">
                     <small class="c-gray-primary s-sm title3">Mesas reservadas</small>
                 </Divider>
-                <div class="w-100 tables-grid mb-3">
-                    <div class="card overflow-hidden tcard reserved cursor-p" style="height: 160px;">
+                <div class="w-100 tables-grid mb-5 py-4">
+                    <div v-for="table in tables_reserved" class="card overflow-hidden tcard reserved cursor-p" style="height: 160px;">
                         <div :style="`border-top: 4px solid #2563EB;`"></div>
                         <div class="card-header border-0 bg-transparent py-1 d-flex justify-content-between align-items-center">
                             <div style="line-height: 17px;" class="d-flex flex-column py-1">
-                                <span class="title1 fs-5">67</span>
+                                <span class="title1 fs-5">{{ table.number }}</span>
                                 <span>Mesa</span>
                             </div>
                             <div class="sdot reserved">
                             </div>
                         </div>
                         <div class="card-body d-flex flex-column py-1 ">
-                            <span class="title3">Reserva 19:45</span>
+                            <span class="title3">Reserva {{ table.hour }}</span>
                         </div>
                         <div class="card-footer px-1 bg-transparent d-flex justify-content-between align-items-center py-1">
                             <span class="title3 px-2 b-blue">Reservada</span>

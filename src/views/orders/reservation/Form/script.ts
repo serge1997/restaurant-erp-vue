@@ -36,8 +36,8 @@ export default defineComponent({
       form,
       onClearForm,
       onSubmit,
-      populateForm,
-      getTitle,
+      populateReservation: populateForm,
+      title: getTitle,
       notify,
       userStore,
       v
@@ -48,6 +48,14 @@ export default defineComponent({
     return {
       tables: [] as any[],
       users: [] as any[]
+    }
+  },
+  computed: {
+    getTitle() {
+      if (!this.form.id) {
+        return this.title()
+      }
+      return `Reserva - ${this.form.customer}`
     }
   },
   validations() {
@@ -64,6 +72,7 @@ export default defineComponent({
 
   methods: {
     async getTables(date: any) {
+      this.tables = []
       const engFormat = dateEngFormat(date) || ''
       const { data } = await tableService.getForReservation(engFormat)
       this.tables = data as any[]
@@ -74,6 +83,12 @@ export default defineComponent({
         return
       }
       await this.getTables(event)
+    },
+    populateForm(data: any) {
+      this.populateReservation()
+      this.tables.push({id: data.table.id, name: `Mesa ${data.table.number}`})
+      this.form.table_id = data.table.id
+      this.form.waiter_id = data?.waiter?.id
     }
   },
 
