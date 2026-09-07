@@ -4,6 +4,8 @@ import { usePageMixin } from "@/stores/usePageMixin";
 import reservationService from "@/services/reservationService";
 import { useFormStore } from "@/stores/formStore";
 import { dateEngFormat, type FormRef } from "@/shared/utility";
+import { useConfirm } from "primevue/useconfirm";
+import { ReservationStatus } from "@/types/reservation/reservation";
 
 export default defineComponent({
   components: {
@@ -11,16 +13,22 @@ export default defineComponent({
   },
   setup(prop, ctx) {
     const formStore = useFormStore()
+    const confirm = useConfirm()
     const {
       data,
       paginate,
-      onSearch
+      onSearch,
+      metaData,
+      notify
     } = usePageMixin(reservationService)
     return {
       data,
       paginate,
       onSearch,
-      formStore
+      formStore,
+      metaData,
+      confirm,
+      notify
     }
   },
 
@@ -31,12 +39,43 @@ export default defineComponent({
       filters: {
         date_from: '',
         date_to: ''
+      },
+      confirm_severity: '',
+      updateStatusParams: {
+        id: 0,
+        status: 0
       }
     }
   },
   computed: {
   },
   methods: {
+    async handleReservationStatus() {
+      const { message } = await reservationService.status(this.updateStatusParams.id, this.updateStatusParams.status)
+      this.notify.success(message)
+      this.updateStatusParams.id = 0
+      this.updateStatusParams.status = 0
+      this.confirm.close()
+      await this.onSearch(this.paginate)
+    },
+    confirmReservation(id: number) {
+      this.confirm_severity = 'bg-green-alert-secondary';
+      this.updateStatusParams.id = id
+      this.updateStatusParams.status = ReservationStatus.CONFIRMED
+      this.confirm.require({
+        message: "Deseja realmente confirmar a reserva ?",
+        group: 'reservation_status',
+      })
+    },
+    cancelReservation(id: number) {
+      this.confirm_severity = 'bg-danger-alert'
+      this.updateStatusParams.id = id
+      this.updateStatusParams.status = ReservationStatus.CANCELLED
+      this.confirm.require({
+        message: "Deseja realmente cancelar a reserva ?",
+        group: 'reservation_status',
+      })
+    },
     async getReservation(selected: any) {
       const { data } = await reservationService.getOne(selected.id)
       this.formStore.setDataEdit(data)
@@ -46,6 +85,10 @@ export default defineComponent({
       this.activeDayFilter = day
       const query = { [day]: true }
       this.paginate.query = query
+      if (day.length) {
+        this.filters.date_to = ''
+        this.filters.date_from = ''
+      }
       if (this.filters.date_to || this.filters.date_from) {
         this.activeDayFilter = ''
         this.paginate.query = {

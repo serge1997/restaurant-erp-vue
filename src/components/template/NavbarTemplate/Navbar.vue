@@ -27,7 +27,7 @@
             </Button>
         </div>
     </div>
-    <SidebarTemplate 
+    <SidebarTemplate
         ref="menuSidebar"
         :auth="auth"
     >
@@ -39,12 +39,12 @@
             </div>
             <div>
                 <ul class="list-group">
-                    <li 
+                    <li
                         class="list-group-item cursor-p border-0 ellipssed-text"
                         v-for="restaurant in swicthedRestaurant"
                         :class="isCurrentRestaurant(restaurant) ? 'current' : ''"
                     >
-                        <div 
+                        <div
                             class="d-flex align-items-center"
                             @click="switchRestaurant(restaurant.id)"
                         >
@@ -91,64 +91,78 @@
                     </span>
                 </span>
                 <span>
-                    <Badge 
+                    <Badge
                         :value="carts.length"
                     />
                 </span>
             </div>
         </template>
         <div v-if="!order.id">
-            <div class="d-flex align-items-center gap-3 mb-2">
-                <div class="icon">
+            <div class="d-flex align-items-center gap-2 mb-1">
+                <div class="icon mt-3">
                     <Button
                         icon="pi pi-clipboard"
                         class="b-bg-surface3 p-1 border-t3 rounded-2"
                     />
                 </div>
                 <div class="d-flex flex-column w-50">
-                    <span class="title2">Mesa</span>
                     <Select
                         class="w-100"
                         :options="tables"
                         optionLabel="label"
                         v-model="order.table_id"
+                        label="Mesa"
                     />
                 </div>
             </div>
-            <div class="d-flex align-items-center gap-3 py-1">
-                <div class="icon">
+            <div class="d-flex align-items-center gap-2 py-1">
+                <div class="icon mt-3">
                     <Button
                         icon="pi pi-user"
                         class="b-bg-surface3 p-1 border-t3 rounded-2"
                     />
                 </div>
                 <div class="d-flex flex-column">
-                    <span class="title2">Garçom</span>
-                    <Input 
+                    <Input
                         :isDisable="true"
                         v-model="getWaiterName"
+                        label="Garçom"
                     />
                 </div>
             </div>
-            <div class="d-flex align-items-center gap-3 border-bottom-1 py-1">
-                <div class="icon">
+            <div class="d-flex align-items-center gap-2 py-1">
+                <div class="icon mt-3">
                     <Button
                         icon="pi pi-user"
                         class="b-bg-surface3 p-1 border-t3 rounded-2"
                     />
                 </div>
                 <div class="d-flex flex-column">
-                    <span class="title2">Nome do cliente</span>
-                    <Input 
+                    <Input
                         v-model="order.customer_name"
+                        label="Nome do Cliente"
+                    />
+                </div>
+            </div>
+            <div class="d-flex align-items-center gap-2 border-bottom-1 py-1">
+                <div class="icon mt-3">
+                    <Button
+                        icon="pi pi-users"
+                        class="b-bg-surface3 p-1 border-t3 rounded-2"
+                    />
+                </div>
+                <div class="d-flex flex-column">
+                    <Input
+                        v-model="order.customers_quantity"
+                        label="Quantidade de pesssoas"
                     />
                 </div>
             </div>
 
             <div class="row d-flex flex-column mt-2">
-                <div 
+                <div
                     v-for="(cart, index) of carts"
-                    class="d-flex justify-content-between cart-item-card align-items-center mb-3 border py-2 px-2" 
+                    class="d-flex justify-content-between cart-item-card align-items-center mb-3 border py-2 px-2"
                 >
                 <div class="d-flex gap-2">
                         <div class="image d-flex align-items-center">
@@ -205,7 +219,7 @@
                 </Divider>
                 <div class="col-md-12">
                     <ul class="list-group gap-3">
-                        <li 
+                        <li
                             v-for="cart in carts"
                             class="list-group-item d-flex justify-content-between border-top b-bg-surface2 rounded-3"
                         >
@@ -255,8 +269,8 @@
 
                 <div class="psec">
                     <div class="dish-grid">
-                        <div 
-                            class="dcard" 
+                        <div
+                            class="dcard"
                             v-for="item in menuItems"
                         >
                             <img class="dcard-img" :src="item.image" :alt="item.name">
@@ -264,7 +278,7 @@
                                 <div class="dcard-name">{{ item.name }}</div>
                                 <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;">
                                     <div class="dcard-price">R$ {{ item.price.label }}</div>
-                                    <button 
+                                    <button
                                         style="width:20px;height:20px;border-radius:4px;background:var(--ac);color:#fff;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;"
                                         @click="addToOrder(item)"
                                     >
@@ -279,7 +293,7 @@
             <TabPanel header="Transferir">
                 <SuccessTemplate
                     v-if="transfertPayload.table?.id && transfertSuccessMessage"
-                    :message="transfertSuccessMessage" 
+                    :message="transfertSuccessMessage"
                 >
                     <template #sup-content>
                         <div class="title3 p-2 text-center">
@@ -298,14 +312,14 @@
                         </template>
                         <template #content="{ nextCallback }">
                             <div class="">
-                                <CardMultipleOptions 
+                                <CardMultipleOptions
                                     :options="transfertItemOptions"
                                     scrollHeight="400px"
                                     v-model="transfertPayload.items"
                                     class="d-none"
                                 />
-                                <div 
-                                    class="d-flex justify-content-between options-item-list mb-3 py-2 px-2" 
+                                <div
+                                    class="d-flex justify-content-between options-item-list mb-3 py-2 px-2"
                                     v-for="(option, index) of transfertItemOptions"
                                 >
                                     <div class="d-flex align-items-center">
@@ -320,7 +334,7 @@
                                         </div>
                                     </div>
                                     <div v-if="transfertPayload.itemsQuantities[option.id.toString()]" class="w-15">
-                                        <Input 
+                                        <Input
                                             v-model="transfertPayload.itemsQuantities[option.id.toString()].quantity"
                                             @blur="onLimitransfertQuantity(option.id.toString())"
                                         />
@@ -328,7 +342,7 @@
                                 </div>
                             </div>
                             <div class="col-md-12 d-flex justify-content-end gap-2 btn-button">
-                                <Button 
+                                <Button
                                     label="Escolher mesa"
                                     class="btn-green-primary d-flex justify-content-center px-3 w-75"
                                     icon="pi pi-arrow-right s-sm"
@@ -353,12 +367,12 @@
                                 <div class="table-select-grid mb-2">
                                     <div
                                         v-for="table in tables"
-                                        class="ts-btn" 
+                                        class="ts-btn"
                                         :title="`${table.active_order ? 'Ocupada':'Livre'}`"
                                         :class="`${table.active_order ? 'occ-t' : 'free-t'} ${transfertPayload.table.id == table.id ? 'tp-selected' : ''}`"
                                         @click="setTransfertTable(table)"
                                     >
-                                        <span 
+                                        <span
                                             :class="`${transfertPayload.table.id == table.id ? 'tn-white' : 'tn'}`"
                                         >
                                             {{ table.number }}
@@ -368,14 +382,14 @@
                                 </div>
                             </div>
                             <div class="col-md-12 d-flex justify-content-between gap-2 btn-button">
-                                <Button 
+                                <Button
                                     label="Voltar"
                                     class="btn-white-primary d-flex justify-content-center px-3"
                                     iconPosition="left"
                                     icon="pi pi-arrow-left s-sm"
                                     @click="prevCallback"
                                 />
-                                <Button 
+                                <Button
                                     label="Confirmar seleçao"
                                     class="btn-green-primary d-flex justify-content-center px-3 w-75"
                                     icon="pi pi-arrow-right s-sm"
@@ -415,7 +429,7 @@
                                             </div>
                                             <div>
                                                 <ul v-if="transfertItems.length" class="list-group mb-2">
-                                                    <li 
+                                                    <li
                                                         class="list-group-item d-flex py-1 justify-content-between rounded-3 border-green-light mb-1"
                                                         v-for="item in transfertItems"
                                                     >
@@ -445,7 +459,7 @@
                                             />
                                         </div>
                                         <div class="col-md-12">
-                                            <Textarea 
+                                            <Textarea
                                                 label="Razao de transferencia"
                                                 v-model="transfertPayload.transfert_reason"
                                             />
@@ -454,12 +468,12 @@
                                     <div class="bg-green-alert p-2 rounded-3 c-dark-green s-sm">
                                         <i class="pi pi-info-circle s-sm px-1"></i>
                                         Um novo pedido será criado automaticamente na Mesa <span class="fw-bold">{{ transfertPayload.table.number }}</span>
-                                        com os itens selecionados. 
+                                        com os itens selecionados.
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-12 d-flex justify-content-between gap-2 btn-button">
-                                <Button 
+                                <Button
                                     label="Voltar"
                                     class="btn-white-primary d-flex justify-content-center px-3"
                                     icon="pi pi-arrow-left s-sm"
@@ -480,7 +494,7 @@
         <div v-if="!carts.length" class="h-100 d-flex justify-content-center align-items-center">
             <div class="d-flex flex-column">
                 <span class="d-flex justify-content-center">
-                    <Button 
+                    <Button
                     icon="pi pi-cart-minus"
                     class="border rounded-2 py-3 px-4 b-bg-surface2 text2"
                     />
@@ -502,12 +516,12 @@
                 </div>
             </div>
             <div class="col-md-12">
-                <Button 
+                <Button
                     label="Enviar pedido"
                     class="btn-green-primary w-100 d-flex justify-content-center mb-2"
                     @click="openConfirmOrder"
                 />
-                <Button 
+                <Button
                     label="Limpar o carrinho"
                     class="btn-white-primary w-100 d-flex justify-content-center"
                     @click="clearCart"
@@ -516,12 +530,12 @@
         </div>
         <div v-if="order.id && !orderTabIsTransfertIndex">
             <div class="col-md-12 d-flex gap-2">
-                <Button 
+                <Button
                     label="Pedir conta"
                     class="btn-danger-alert d-flex justify-content-center"
                     icon="pi pi-trash s-sm"
                 />
-                <Button 
+                <Button
                     label="Adicionar item"
                     class="btn-green-primary d-flex justify-content-center w-50"
                     icon="pi pi-plus s-sm"

@@ -3,6 +3,8 @@ import MenuElementCard from "./MenuElementCard/MenuElementCard.vue"
 import menuItemService from "@/services/menuItemService";
 import { usePageMixin } from "@/stores/usePageMixin";
 import { Cart } from "@/types/cart/Cart";
+import { dateEngFormat } from "@/shared/utility";
+import reservationService from "@/services/reservationService";
 
 
 export default defineComponent({
@@ -15,21 +17,22 @@ export default defineComponent({
     setup(){
         const {
             data,
-            paginate, 
+            paginate,
             search
         } = usePageMixin(menuItemService)
-                
+
         return {
             data,
-            paginate, 
+            paginate,
             search
         }
     },
 
     data() {
         return {
-            menuItems: null,
-            cartQuantities: 0,
+          menuItems: null,
+          cartQuantities: 0,
+          reservation: null
         }
     },
     methods: {
@@ -46,11 +49,10 @@ export default defineComponent({
             this.newElementAdded()
         },
     },
-    async mounted() {
-        await this.search(this.paginate)
-        const carts = Cart.load()
-        this.cartQuantities = carts?.length || 0
-       
-    },
+  async mounted() {
+    await this.search(this.paginate)
+    const carts = Cart.load()
+    this.cartQuantities = carts?.length || 0
+  },
 
 })

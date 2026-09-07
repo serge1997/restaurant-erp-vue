@@ -4,7 +4,6 @@ import SidebarTemplate from "@/components/template/SidebarTemplate/SidebarTempla
 import { Cart, type CartProps } from "@/types/cart/Cart";
 import { useAuthStore } from "@/stores/authStore";
 import { useTableStore } from "@/stores/useTableStore";
-import ConfirmTemplate from "../ConfirmTemplate/ConfirmTemplate.vue";
 import { useConfirm } from "primevue/useconfirm";
 import orderService from "@/services/orderService";
 import type { OrderResponse } from "@/types/order/Order";
@@ -23,6 +22,8 @@ import Menu from "primevue/menu";
 import type { Restaurant } from "@/types/restaurant/restaurant.ts";
 import restaurantService from "@/services/restaurantService.ts";
 import userService from "@/services/userService.ts";
+import reservationService from "@/services/reservationService";
+import { dateEngFormat } from "@/shared/utility";
 
 
 export default defineComponent({
@@ -30,7 +31,6 @@ export default defineComponent({
     components: {
         Menubar,
         SidebarTemplate,
-        ConfirmTemplate,
         TabPanel,
         TabView,
         Divider,
@@ -104,6 +104,8 @@ export default defineComponent({
                 this.order.table_id = null
                 this.order.id = 0
                 this.transfertSuccessMessage = ''
+                this.order.customers_quantity = null
+                this.order.reservation_id = null
             }
         },
         transfertStepIndex(newValue){
@@ -189,7 +191,9 @@ export default defineComponent({
                 customer_name: '' as any,
                 observation: '',
                 waiterName: null,
-                items: [] as any
+                items: [] as any,
+                customers_quantity: null,
+                reservation_id: null,
             },
             activeOrder: {} as OrderResponse,
             menuItems: [] as MenuItemProps[],
@@ -212,7 +216,8 @@ export default defineComponent({
             selectedTransfertItems: [],
             transfertSuccessMessage: '',
             time: null as any,
-            swicthedRestaurant: [] as Restaurant[]
+            swicthedRestaurant: [] as Restaurant[],
+            disbaleCartCustomerInput: false
         }
     },
     methods: {
@@ -362,7 +367,7 @@ export default defineComponent({
                 cart.increment(index)
                 this.carts[index] = cart.getCart()
                 this.$emit('load-cart')
-                
+
             }
         },
         openCartSidebar(){
@@ -377,7 +382,7 @@ export default defineComponent({
             Cart.clear()
             this.carts = []
             this.$emit('cart-cleared')
-            
+
         },
         async openSwicthRestaurantMenu(event: any) {
             (this.$refs.swicthRestaurant as any).toggle(event)
@@ -403,11 +408,19 @@ export default defineComponent({
         }
         this.menuItems = this.menuItemStore.items
         this.tables = this.tableStore.availabes
-        const tableId = this.$route.params.tableId
+        const { tableId } = this.$route.params
+        const { reservation } = this.$route.query
         if (tableId){
             this.order.table_id = Number(tableId)
             this.visibleCartSidebar = true
         }
+      if (reservation) {
+        const today = dateEngFormat(new Date) || ''
+        const reservationData = await reservationService.listByTableAndDate(Number(tableId), today) as any
+        this.order.reservation_id = reservationData?.data?.id
+        this.order.customer_name = reservationData?.data?.customer
+        this.order.customers_quantity = reservationData?.data?.quantity_of_person
+      }
         setInterval(() => {
             this.time = new Date().toLocaleTimeString()
         }, 1000)

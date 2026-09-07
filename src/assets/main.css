@@ -187,6 +187,7 @@ button, div, small, p, label, li {
 .bg-green-alert-secondary {
   background-color: var(--c-green-light);
   color: var(--c-green-secondary);
+  border: 1px solid var(--c-green-secondary);
 }
 .bg-green-alert {
   background-color: var(--c-dark-green-light);
@@ -198,6 +199,7 @@ button, div, small, p, label, li {
 .bg-danger-alert {
   background-color: var(--c-danger-alert);
   color: var(--c-danger-primary);
+  border: 1px solid var(--c-danger-secondary);
 }
 .bg-amber-alert {
   background-color: var(--amber-alert);

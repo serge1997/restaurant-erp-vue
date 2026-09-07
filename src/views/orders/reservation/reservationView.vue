@@ -9,7 +9,7 @@
                         <svg viewBox="0 0 16 16" fill="none"><rect x="1" y="2" width="14" height="13" rx="2" stroke="#0E7C7B" stroke-width="1.3"/><path d="M1 6h14M5 1v3M11 1v3" stroke="#0E7C7B" stroke-width="1.3" stroke-linecap="round"/></svg>
                     </div>
                     <div>
-                        <div class="stat-v">8</div>
+                        <div class="stat-v">{{ metaData?.total }}</div>
                         <div class="stat-l">Hoje</div>
                     </div>
                 </div>
@@ -18,7 +18,7 @@
                         <svg viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#059669" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </div>
                     <div>
-                        <div class="stat-v">5</div>
+                        <div class="stat-v"> {{ metaData?.confirmed }}</div>
                         <div class="stat-l">Confirmadas</div>
                     </div>
                 </div>
@@ -27,7 +27,7 @@
                         <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#D97706" stroke-width="1.3"/><path d="M8 5v3.5l2 1.5" stroke="#D97706" stroke-width="1.3" stroke-linecap="round"/></svg>
                     </div>
                     <div>
-                        <div class="stat-v">2</div>
+                        <div class="stat-v">{{ metaData?.pending }}</div>
                         <div class="stat-l">Pendentes</div>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
                         <svg viewBox="0 0 16 16" fill="none"><rect x="2" y="5" width="12" height="8" rx="1.5" stroke="#2563EB" stroke-width="1.3"/><path d="M5 5V4a3 3 0 016 0v1" stroke="#2563EB" stroke-width="1.3" stroke-linecap="round"/></svg>
                     </div>
                     <div>
-                        <div class="stat-v">1</div>
+                        <div class="stat-v">{{ metaData?.seated }}</div>
                         <div class="stat-l">Sentados agora</div>
                     </div>
                 </div>
@@ -74,7 +74,7 @@
                         class="res-card"
                         v-for="reservation in reservations"
                         @click="getReservation(reservation)"
-                        :class="reservation.status.severity"
+                        :class="reservation?.status?.severity"
                     >
                         <div class="rc-time">
                             <div class="rc-time-val">{{ reservation.hour }}</div>
@@ -82,7 +82,7 @@
                         </div>
                          <div class="rc-sep"></div>
                          <div class="rc-table">
-                            <div class="rc-table-n">{{ reservation.table.number }}</div>
+                            <div class="rc-table-n">{{ reservation?.table?.number }}</div>
                             <div class="rc-table-l">Mesa</div>
                          </div>
                           <div class="rc-info">
@@ -102,10 +102,10 @@
                                      </div>
                                </div>
                           </div>
-                           <span class="rc-badge" :class="reservation.status.label_severity">{{ reservation.status.label }}</span>
+                           <span class="rc-badge" :class="reservation?.status?.label_severity">{{ reservation?.status?.label }}</span>
                            <div class="rc-actions" onclick="event.stopPropagation()">
-                               <button class="ia confirm" title="Confirmar"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-                               <button class="ia cancel" title="Cancelar"><svg viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
+                               <button @click="confirmReservation(reservation.id)" class="ia confirm" title="Confirmar"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                               <button @click="cancelReservation(reservation.id)" class="ia cancel" title="Cancelar"><svg viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
                            </div>
                     </div>
                 </div>
@@ -115,6 +115,11 @@
             ref="formRef"
             :dataGrid="data"
             @submitted="onSearch"
+        />
+         <ConfirmTemplate
+            @acceptCallback="handleReservationStatus"
+            group="reservation_status"
+            :severity="confirm_severity"
         />
     </PageTemplate>
 </template>

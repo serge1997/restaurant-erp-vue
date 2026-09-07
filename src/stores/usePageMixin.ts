@@ -12,7 +12,7 @@ export function usePageMixin(service: Service){
     const paginate: Paginate = {limit: 20, offset: 0, search: '', query: {is_active: true}}
     const notify = useNotify()
     const searchParams = ref<any>(null)
-    
+
     const search = async (params: any = null, withoutActiveFilter: boolean = false) => {
         try{
             paginate.query = params?.query ? params.query : paginate.query
@@ -48,7 +48,7 @@ export function usePageMixin(service: Service){
             notify.error(err?.response?.data?.message || "erro interno")
         }
     }
-   
+
     return {
         data,
         paginate,
@@ -57,6 +57,7 @@ export function usePageMixin(service: Service){
         metaData,
         cachedData,
         deleteResource,
-        searchParams
+        searchParams,
+        notify
     }
 }

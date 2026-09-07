@@ -56,7 +56,7 @@ export default defineComponent({
         return this.title()
       }
       return `Reserva - ${this.form.customer}`
-    }
+    },
   },
   validations() {
     return {
@@ -86,7 +86,10 @@ export default defineComponent({
     },
     populateForm(data: any) {
       this.populateReservation()
-      this.tables.push({id: data.table.id, name: `Mesa ${data.table.number}`})
+      const tableExists = this.tables.find(t => t.id == data.table.id)
+      if (!tableExists) {
+        this.tables.push({id: data.table.id, name: `Mesa ${data.table.number}`})
+      }
       this.form.table_id = data.table.id
       this.form.waiter_id = data?.waiter?.id
     }

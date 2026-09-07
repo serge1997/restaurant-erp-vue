@@ -2,7 +2,7 @@
     <ConfirmDialog :group="group"  :style="{ width:'20em'}">
         <template #container="{ message, rejectCallback }">
             <div class="d-flex flex-column align-items-center py-5 surface-overlay border-round">
-                <div class="confirm-icon-circle bg-green-primary d-flex justify-content-center align-items-center rounded-circle">
+                <div :class="severity" class="confirm-icon-circle d-flex justify-content-center align-items-center rounded-circle">
                     <i class="pi pi-question fs-2"></i>
                 </div>
                 <span class="font-bold text-2xl block mb-2 mt-1">{{ message.header }}</span>
@@ -26,10 +26,14 @@ export default defineComponent({
     },
 
     props: {
-        group: {
-            type: String,
-            default: 'global'
-        }
+      group: {
+          type: String,
+          default: 'global'
+      },
+      severity: {
+        type: String,
+        default: "bg-green-alert-secondary"
+      }
     },
     data(){
         return {
@@ -38,3 +42,9 @@ export default defineComponent({
     }
 })
 </script>
+
+<style scoped>
+.success-alert {
+    background-color: var();
+}
+</style>

@@ -142,6 +142,13 @@
                         </div>
                         <div class="card-footer px-1 bg-transparent d-flex justify-content-between align-items-center py-1">
                             <span class="title3 px-2 b-blue">Reservada</span>
+                            <div class="px-1 d-flex align-items-center">
+                                 <Button
+                                    icon="pi pi-plus s-md"
+                                    class="p-0 c-blue-primary"
+                                    @click="$router.push(`/menu/${table.id}?reservation=true`)"
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
