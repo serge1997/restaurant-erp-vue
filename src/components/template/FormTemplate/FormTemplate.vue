@@ -10,8 +10,9 @@
         <template #header>
             <div class="w-100 d-flex flex-column">
                 <div class="w-100 d-flex gap-3 align-items-center">
-                    <div v-if="itemId">
+                    <div v-if="itemId" class="d-flex align-items-center gap-2">
                         <span class="s-md c-gray-primary">ID: {{ itemId }}</span>
+                        <slot name="item-status"></slot>
                     </div>
                     <TagTemplate
                         v-if="hasFlag && itemId"

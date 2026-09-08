@@ -1,8 +1,10 @@
 import reservationService from "@/services/reservationService";
 import tableService from "@/services/tableService";
 import { dateEngFormat } from "@/shared/utility";
+import { useFormStore } from "@/stores/formStore";
 import { useFormMixin } from "@/stores/useFormMixin";
 import { useUserStore } from "@/stores/userStore";
+import { ReservationStatus } from "@/types/reservation/reservation";
 import { required } from "@/validators";
 import { defineComponent, reactive } from "vue";
 
@@ -10,6 +12,7 @@ export default defineComponent({
   name: "Form",
   setup(prop, ctx) {
     const userStore = useUserStore()
+    const formStore = useFormStore()
     const form = reactive({
       id: null,
       customer: null,
@@ -23,6 +26,7 @@ export default defineComponent({
       table_id: null,
       waiter_id: null,
       duration: null,
+      buffer_time: null
     })
     const {
       onClearForm,
@@ -40,14 +44,16 @@ export default defineComponent({
       title: getTitle,
       notify,
       userStore,
-      v
+      v,
+      formStore
     }
   },
 
   data() {
     return {
       tables: [] as any[],
-      users: [] as any[]
+      users: [] as any[],
+      itemEdit: null as any
     }
   },
   computed: {
@@ -57,6 +63,10 @@ export default defineComponent({
       }
       return `Reserva - ${this.form.customer}`
     },
+    cannotUpdate(){
+      if (!this.itemEdit) return false
+      return this.itemEdit.status.value == ReservationStatus.FINISHED
+    }
   },
   validations() {
     return {
@@ -85,6 +95,7 @@ export default defineComponent({
       await this.getTables(event)
     },
     populateForm(data: any) {
+      this.itemEdit = this.formStore.getDataEdit()
       this.populateReservation()
       const tableExists = this.tables.find(t => t.id == data.table.id)
       if (!tableExists) {

@@ -208,6 +208,16 @@
             </div>
             </div>
         </TabPanel>
+        <TabPanel header="Configurações">
+            <div class="col-md-12">
+                <DatePicker
+                    v-model="form.reservation_buffer_time"
+                    label="Bloqueio da mesa antes da hora da reserva"
+                    placeholder="Selecione o tempo de bloqueio"
+                    :time-only="true"
+                />
+            </div>
+        </TabPanel>
         <TabPanel header="Arquivos">
             <div class="col-md-12 mb-2">
                 <label class="p-1">Logo</label>

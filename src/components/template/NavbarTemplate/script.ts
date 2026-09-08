@@ -420,6 +420,8 @@ export default defineComponent({
         this.order.reservation_id = reservationData?.data?.id
         this.order.customer_name = reservationData?.data?.customer
         this.order.customers_quantity = reservationData?.data?.quantity_of_person
+        this.order.table_id = reservationData?.data?.table?.id
+        this.tables.push({id: Number(tableId), label: `Mesa ${reservationData?.data?.table?.number}`} as TableProps)
       }
         setInterval(() => {
             this.time = new Date().toLocaleTimeString()

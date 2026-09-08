@@ -30,6 +30,7 @@ export default defineComponent({
             corporate_registration: '',
             description: '',
             //address: '',
+            reservation_buffer_time: null as any,
             number: '',
             phone: '',
             email: '',
@@ -97,10 +98,10 @@ export default defineComponent({
             return null
         },
         submitButtonLabel() {
-            if (this.formPanelIndex === 0) {
+            if (this.formPanelIndex === 0 || this.formPanelIndex === 1) {
                 return "Salvar"
             }
-            if (this.formPanelIndex === 1) {
+            if (this.formPanelIndex === 2) {
                 return "Salvar arquivos"
             }
             if (this.formPanelIndex === 2) {
@@ -133,6 +134,7 @@ export default defineComponent({
             this.form.loss_margim = itemEdit.loss_margim
             this.form.variable_margim = itemEdit.variable_margim
             this.form.enable_technical_sheet = itemEdit.enable_technical_sheet
+            this.form.reservation_buffer_time = itemEdit.reservation_buffer_time
             if(itemEdit.address) {
                 this.form.address = itemEdit.address
             }else{
@@ -140,7 +142,7 @@ export default defineComponent({
             }
         },
         async storeRestaurant() {
-            if (this.formPanelIndex === 1) {
+            if (this.formPanelIndex === 2) {
                 const formData = new FormData
                 formData.append('logo', this.form.logo)
                 formData.append('id', this.form.id)

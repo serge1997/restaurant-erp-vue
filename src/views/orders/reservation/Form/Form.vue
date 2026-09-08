@@ -4,7 +4,11 @@
         @submitData="onSubmit"
         :itemId="form.id"
         @on-clear-form="onClearForm"
+        :isDisableSaveBtn="cannotUpdate"
     >
+        <template #item-status>
+            <span class="rc-badge" :class="itemEdit?.status?.label_severity">{{ itemEdit?.status?.label }}</span>
+        </template>
         <form @submit="onSubmit" class="w-100">
             <div class="row mb-2">
                 <div class="col-md-12">
@@ -120,11 +124,19 @@
                 </div>
             </div>
               <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12 mb-2">
                     <DatePicker
                         v-model="form.duration"
                         :timeOnly="true"
                         label="Duraçao da reserva"
+                    />
+                </div>
+                <div class="col-md-12">
+                    <DatePicker
+                        v-model="form.buffer_time"
+                        label="Bloqueio da mesa antes da hora da reserva"
+                        placeholder="Selecione o tempo de bloqueio"
+                        :time-only="true"
                     />
                 </div>
               </div>
