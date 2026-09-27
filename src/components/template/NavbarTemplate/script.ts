@@ -1,7 +1,7 @@
 import { defineComponent } from "vue";
 import Menubar from "primevue/menubar";
 import SidebarTemplate from "@/components/template/SidebarTemplate/SidebarTemplate.vue"
-import { Cart, type CartProps } from "@/types/cart/Cart";
+import { Cart, type CartProps, type SideDish } from "@/types/cart/Cart";
 import { useAuthStore } from "@/stores/authStore";
 import { useTableStore } from "@/stores/useTableStore";
 import { useConfirm } from "primevue/useconfirm";
@@ -24,6 +24,13 @@ import restaurantService from "@/services/restaurantService.ts";
 import userService from "@/services/userService.ts";
 import reservationService from "@/services/reservationService";
 import { dateEngFormat } from "@/shared/utility";
+import Accordion from "primevue/accordion";
+import AccordionTab from "primevue/accordiontab";
+import InputText from "primevue/inputtext";
+import IconField from "primevue/iconfield";
+import InputIcon from "primevue/inputicon";
+import menuItemService from "@/services/menuItemService";
+import type { Paginate } from "@/shared/http/paginate";
 
 
 export default defineComponent({
@@ -37,7 +44,12 @@ export default defineComponent({
         Stepper,
         StepperPanel,
         InputOtp,
-        Menu
+        Menu,
+        Accordion,
+        AccordionTab,
+        InputText,
+        IconField,
+        InputIcon
     },
     props: {
         cardQuantityItems: {
@@ -47,6 +59,10 @@ export default defineComponent({
         cartTotal: {
             type: Number,
             default: 0
+        },
+        sideDishes: {
+            type: Array,
+            default: () => []
         }
     },
 
@@ -68,7 +84,8 @@ export default defineComponent({
         menuItemStore,
         restaurant,
         chain,
-        authStore
+        authStore,
+        getItemSideDish: Cart.getItemSideDishByItem
        }
     },
     watch: {
@@ -217,10 +234,23 @@ export default defineComponent({
             transfertSuccessMessage: '',
             time: null as any,
             swicthedRestaurant: [] as Restaurant[],
-            disbaleCartCustomerInput: false
+            disbaleCartCustomerInput: false,
+            sideDishesQ: [] as any as Record<string, Number>
         }
     },
     methods: {
+        async serachSideDish(event: any, index: number) {
+            const paginate: Paginate = {limit: 40, offset: 0, search: event.target.value, query: {category_id: 28}} 
+            const response = await menuItemService.getAll(paginate)
+            console.log(response.data)
+        },
+        deleteCartItem(index: number){
+            if (this.carts[index]){
+                Cart.delete(this.carts[index].item.id)
+                this.carts.splice(index, 1)
+                this.$emit('load-cart')
+            }
+        },
         onLimitransfertQuantity(key: number){
             const item = this.transfertItemOptions.find((item: any) => item.id == key)
             const transfert = this.transfertPayload.itemsQuantities[key]
@@ -397,7 +427,18 @@ export default defineComponent({
             const { data } = await userService.switchRestaurant(restaurantId)
             this.authStore.storeSwicthedRestaurant(data)
             window.location.href = "/"
-        }
+        },
+        addOrIncrementDish(index: number, item: MenuItemProps, sideDish: any) {
+            sideDish.menu_item_id = item.id
+            Cart.createOrIncrementSideDish(index, sideDish as SideDish)
+            this.sideDishesQ[`${index}_${sideDish.id}`] = this.getItemSideDish(item.id, sideDish.id)?.quantity ?? 0
+            this.$emit('load-cart')
+        },
+        reduceSideDishQuantity(index: number, item: MenuItemProps, sideDish: any){
+            sideDish.menu_item_id = item.id
+            Cart.reduceSideDishQuantity(index, sideDish as SideDish)
+            this.sideDishesQ[`${index}_${sideDish.id}`] = this.getItemSideDish(item.id, sideDish.id)?.quantity ?? 0
+        },
     },
     async mounted() {
         const carts = Cart.load()

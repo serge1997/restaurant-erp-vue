@@ -3,8 +3,6 @@ import MenuElementCard from "./MenuElementCard/MenuElementCard.vue"
 import menuItemService from "@/services/menuItemService";
 import { usePageMixin } from "@/stores/usePageMixin";
 import { Cart } from "@/types/cart/Cart";
-import { dateEngFormat } from "@/shared/utility";
-import reservationService from "@/services/reservationService";
 
 
 export default defineComponent({
@@ -32,7 +30,8 @@ export default defineComponent({
         return {
           menuItems: null,
           cartQuantities: 0,
-          reservation: null
+          reservation: null,
+          sideDishes: [] as any[]
         }
     },
     methods: {
@@ -48,11 +47,21 @@ export default defineComponent({
             }
             this.newElementAdded()
         },
+        async getSideDishes(){
+            const paginate = JSON.parse(JSON.stringify(this.paginate))
+            paginate.query = {
+                categories: [28],
+                is_active: true,
+            }
+            const { data } = await menuItemService.getAll(paginate)
+            this.sideDishes = data
+        }
     },
   async mounted() {
     await this.search(this.paginate)
     const carts = Cart.load()
     this.cartQuantities = carts?.length || 0
+    await this.getSideDishes()
   },
 
 })

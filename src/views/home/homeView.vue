@@ -20,7 +20,8 @@
                     </div>
                 </div>
                 <div class="kpi-val sm">R$<span id="kv-rev">{{ kpis?.today?.amount }}</span></div>
-                <div class="kpi-delta delta-up">↑ +{{ kpis?.today?.diff }}% vs ontem</div>
+                <div v-if="Number(kpis?.today?.diff) < 0" class="kpi-delta delta-down">↓ {{ kpis?.today?.diff }}% vs ontem</div>
+                <div v-else class="kpi-delta delta-up">↑ +{{ kpis?.today?.diff }}% vs ontem</div>
             </div>
             <div class="kpi kpi-2">
                 <div class="kpi-header">
@@ -40,7 +41,8 @@
                     </div>
                 </div>
                 <div class="kpi-val" id="kv-closed">{{ kpis?.closed?.quantity }}</div>
-                <div class="kpi-delta delta-up">↑ +{{ kpis.closed?.diff }}% vs ontem</div>
+                <div v-if="Number(kpis.closed?.diff) < 0" class="kpi-delta delta-down">↓ {{ kpis.closed?.diff }}% vs ontem</div>
+                <div v-else class="kpi-delta delta-up">↑ +{{ kpis.closed?.diff }}% vs ontem</div>
             </div>
             <div class="kpi kpi-4">
                 <div class="kpi-header">
@@ -50,7 +52,8 @@
                     </div>
                 </div>
                 <div class="kpi-val sm">R$<span id="kv-avg">{{ kpis?.medium_ticket?.amount }}</span></div>
-                <div class="kpi-delta delta-up">↑ +{{ kpis?.medium_ticket?.diff }}% vs ontem</div>
+                <div v-if="Number(kpis?.medium_ticket?.diff) < 0" class="kpi-delta delta-down">↓ {{ kpis?.medium_ticket?.diff }}% vs ontem</div>
+                <div v-else class="kpi-delta delta-up">↑ +{{ kpis?.medium_ticket?.diff }}% vs ontem</div>
             </div>
         </div>
         

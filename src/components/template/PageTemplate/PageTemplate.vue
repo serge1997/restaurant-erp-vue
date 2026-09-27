@@ -8,6 +8,7 @@
                 :cartTotal="cartTotal"
                 :tables="tables"
                 :activeOrder="activeOrder"
+                :sideDishes="sideDishes"
             />
             <div class="w-100">
                 <slot name="sub-navbar"></slot>

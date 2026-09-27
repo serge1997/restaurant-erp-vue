@@ -292,6 +292,9 @@ button, div, small, p, label, li {
 .cfw-sm {
   font-weight: 500 !important;
 }
+.cfw-xs {
+  font-weight: 400 !important;
+}
 .w-15 {
   width: 15%;
 }
@@ -477,6 +480,9 @@ label.search {
 }
 .l-height-md {
   line-height: 21px;
+}
+.l-height-sm {
+  line-height: 13px;
 }
 .p-inputtext{
   padding-top: 0.25rem;
@@ -665,7 +671,19 @@ label.search {
   cursor: no-drop !important;
 }
 
-.options-item-list, .cart-item-card {
+.cart-item-card {
+  display: flex;
+  flex-direction: column;
+  align-items:stretch;
+  gap: 8px;
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  cursor: pointer;
+  background: var(--surface2);
+  transition: background 0.1s, border-color 0.1s;
+}
+.options-item-list{
   display: flex;
   align-items: center;
   gap: 8px;

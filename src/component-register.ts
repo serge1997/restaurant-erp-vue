@@ -50,6 +50,6 @@ export default function register(app: any) {
     app.component('Divider', Divider)
     app.directive('tooltip', Tooltip);
     app.component('InlineSearch', InlineSearch)
-  app.component('ResultTemplate', ResultTemplate)
-  app.component('ConfirmTemplate', ConfirmTemplate)
+    app.component('ResultTemplate', ResultTemplate)
+    app.component('ConfirmTemplate', ConfirmTemplate)
 }

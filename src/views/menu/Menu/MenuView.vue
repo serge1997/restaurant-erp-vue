@@ -2,6 +2,7 @@
     <PageTemplate
         :hasNewButton="false"
         :cardQuantityItems="cartQuantities"
+        :sideDishes="sideDishes"
         title="Menu"
         @cart-cleared="clearCard"
     >

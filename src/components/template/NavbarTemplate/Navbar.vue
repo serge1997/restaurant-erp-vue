@@ -162,29 +162,75 @@
             <div class="row d-flex flex-column mt-2">
                 <div
                     v-for="(cart, index) of carts"
-                    class="d-flex justify-content-between cart-item-card align-items-center mb-3 border py-2 px-2"
+                    class="cart-item-card gap-2 mb-2"
                 >
-                <div class="d-flex gap-2">
-                        <div class="image d-flex align-items-center">
-                            <img :src="cart.item.image" alt="" srcset="">
+                    <div class="d-flex justify-content-between cart-item-car align-items-center px-2">
+                        <div class="d-flex gap-2">
+                            <div class="image d-flex align-items-center">
+                                <img :src="cart.item.image" alt="" srcset="">
+                            </div>
+                            <div class="d-flex flex-column">
+                                <span class="ellipssed-text w-90">{{ cart.item.name }}</span>
+                                <span class="title3 ff-fantasy">R$ {{ cart.subtotal.toFixed(2) }}</span>
+                            </div>
                         </div>
-                        <div class="d-flex flex-column">
-                            <span class="ellipssed-text w-90">{{ cart.item.name }}</span>
-                            <span class="title3">R$ {{ cart.subtotal.toFixed(2) }}</span>
+                        <div class="d-flex gap-2">
+                            <Button
+                                icon="pi pi-minus s-sm"
+                                class="btn-white-primary"
+                                @click="decrementCartItemQuantity(index)"
+                            />
+                            <span class="ff-fantasy">{{ cart.quantity }}</span>
+                            <Button
+                                icon="pi pi-plus s-sm"
+                                class="btn-white-primary"
+                                @click="incrementCartItemQuantity(index)"
+                            />
+                            <Button
+                                icon="pi pi-times s-md text-danger"
+                                class="btn-white-primary border-0 p-0 px-1"
+                                @click="deleteCartItem(index)"
+                            />
                         </div>
-                </div>
-                    <div class="d-flex gap-3">
-                        <Button
-                            icon="pi pi-minus s-sm"
-                            class="btn-white-primary amber-el-hov"
-                            @click="decrementCartItemQuantity(index)"
-                        />
-                        <span>{{ cart.quantity }}</span>
-                        <Button
-                            icon="pi pi-plus s-sm"
-                            class="btn-white-primary amber-el-hov"
-                            @click="incrementCartItemQuantity(index)"
-                        />
+                    </div>
+                    <div class="border-top">
+                        <Accordion :multiple="true">
+                            <AccordionTab header="Accompanhamentos">
+                                <div class="serach p-2 py-3">
+                                    <IconField iconPosition="left">
+                                        <InputIcon class="pi pi-search"> </InputIcon>
+                                        <InputText
+                                            @input="serachSideDish($event, index)"
+                                            placeholder="Pesquisar accompanhamentos..."
+                                        />
+                                    </IconField>
+                                </div>
+                                <ul class="list-group">
+                                    <li v-for="sideDishe in sideDishes" class="list-group-item bg-transparent border-0 border-bottom rounded-0 cursor-p">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div class="d-flex flex-column gap-1 l-height-sm">
+                                                <span class="title2 cfw-sm s-md">{{ sideDishe.name }}</span>
+                                                <span class="title3 cfw-xs ff-fantasy s-md">{{ sideDishe.price.label }}</span>
+                                            </div>
+                                            <div class="d-flex gap-2">
+                                                <Button
+                                                    icon="pi pi-minus s-xxs"
+                                                    class="btn-white-primary px-2"
+                                                    @click="reduceSideDishQuantity(index, cart.item, sideDishe)"
+                                                />
+                                                <span class="ff-fantasy">{{ getItemSideDish(cart.item.id, sideDishe.id)?.quantity ?? 0 }}</span>
+                                                <span class="d-none">{{ sideDishesQ[`${index}_${sideDishe.id}`] ?? 0 }}</span>
+                                                <Button
+                                                    icon="pi pi-plus s-xxs"
+                                                    class="btn-white-primary px-2"
+                                                    @click="addOrIncrementDish(index, cart.item, sideDishe)"
+                                                />
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </AccordionTab>
+                        </Accordion>
                     </div>
                 </div>
             </div>

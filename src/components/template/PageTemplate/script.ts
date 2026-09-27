@@ -34,6 +34,10 @@ export default defineComponent({
         },
         activeOrder:{
             type: Object,
+        },
+        sideDishes: {
+            type: Array,
+            default: () => []
         }
     },
     setup(){
