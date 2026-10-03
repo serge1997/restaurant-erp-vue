@@ -1,9 +1,10 @@
 import type { CardProps } from "primevue/card";
-import type { MenuItemProps } from "../menuItem/MenuItem";
+import { MenuItem, type MenuItemProps } from "../menuItem/MenuItem";
 
 export type SideDish = MenuItemProps & {
     quantity: number
     menu_item_id: number
+    subtotal: number
 }
 export interface CartProps {
     item: MenuItemProps;
@@ -14,6 +15,27 @@ export interface CartProps {
     sideDisheItems?: MenuItemProps[] 
 }
 
+interface CartPayload {
+    order_item_id?: number;
+    menu_item_id: number;
+    quantity: number;
+    unit_price?: number;
+    side_dishes?: Array<{
+        menu_item_id: number;
+        quantity: number;
+        unit_price?: number;
+    }>
+}
+
+export const getSideDishTotalOfItem = (cart: CartProps): number => {
+    let total = 0
+    if(cart.side_dishes?.length){
+        cart.side_dishes.map(s => {
+            total += s.quantity * s.price.value
+        })
+    }
+    return total || 0
+}
 
 export class Cart {
     private items: CartProps[] = []
@@ -36,11 +58,13 @@ export class Cart {
         const has = this.get(this.cart.item.id)
         if (has) {
             const index = all!.findIndex(a => a.item.id == this.cart.item.id)
+            const price = this.getItemPriceToUse(this.cart.item)
             has.quantity += 1
-            has.subtotal = has.quantity * has.item.price.value
+            has.subtotal = has.quantity * price
             all[index] = has
         }else{
-            this.cart.subtotal = this.cart.item.price.value
+            const price = this.getItemPriceToUse(this.cart.item)
+            this.cart.subtotal = price
             this.cart.sideDisheItems = []
             all!.push(this.cart)
         }
@@ -89,13 +113,22 @@ export class Cart {
         if (carts && carts[index]){
             if (carts[index].quantity >= 2) {
                 carts[index]!.quantity -= 1
-                const subtotal = carts[index]!.quantity * carts[index].item.price.value
+                const price = this.getItemPriceToUse(carts[index].item)
+                const subtotal = carts[index]!.quantity * price
                 carts[index].subtotal = subtotal
                 this.cart = carts[index]
                 this.items = carts
                 this.save()
             }
         }
+    }
+    getItemPriceToUse(item: MenuItemProps): number {
+        const menuItem = MenuItem.create(item)
+        let price = item.price.value
+        if (menuItem.usePromotionalPrice() && menuItem.promotionalPrice) {
+            price = menuItem.promotionalPrice.value
+        }
+        return price
     }
     canDecrement(){
         return this.cart.quantity >= 2
@@ -104,7 +137,8 @@ export class Cart {
         const carts = Cart.load()
         if (carts && carts[index]){
             carts[index]!.quantity += 1
-            const subtotal = carts[index]!.quantity * carts[index].item.price.value
+            const price = this.getItemPriceToUse(carts[index].item)
+            const subtotal = carts[index]!.quantity * price
             carts[index].subtotal = subtotal
             this.cart = carts[index]
             this.items = carts
@@ -138,14 +172,21 @@ export class Cart {
         localStorage.setItem("cart", JSON.stringify(this.items))
     }
 
-    static toPayload(crts: CartProps[] | undefined = undefined): Array<{order_item_id?: number, menu_item_id: number, quantity: number, unit_price?: number}> {
+    static toPayload(crts: CartProps[] | undefined = undefined): CartPayload[] {
         if (crts){
             const payload = crts.map(c => {
                 return {
                     order_item_id: c.order_item_id,
                     menu_item_id: c.item.id,
                     quantity: c.quantity,
-                    unit_price: c.item.price.value
+                    unit_price: c.item.price.value,
+                    side_dishes: c.side_dishes?.map(s => {
+                        return {
+                            menu_item_id: s.menu_item_id,
+                            quantity: s.quantity,
+                            unit_price: s.price
+                        }
+                    })
                 }
             })
             return payload
@@ -154,7 +195,13 @@ export class Cart {
         const payload = carts?.map(c => {
             return {
                 menu_item_id: c.item.id,
-                quantity: c.quantity
+                quantity: c.quantity,
+                side_dishes: c.side_dishes?.map(s => {
+                    return {
+                        menu_item_id: s.menu_item_id,
+                        quantity: s.quantity
+                    }
+                })
             }
         }) || []
         return payload
@@ -179,12 +226,16 @@ export class Cart {
             cart.sideDishe = sideDish
             const sideDishExists = cart.getItemSideDish()
             if(sideDishExists && item.side_dishes?.length){
+                const price = cart.getItemPriceToUse(sideDishExists)
                 const sideDishIndex = item.side_dishes!.findIndex(s => s.id == sideDish.id)
                 sideDishExists.quantity += 1
+                sideDishExists.subtotal = sideDishExists.quantity * price
                 item.side_dishes[sideDishIndex] = sideDishExists
             }else{
                 item.side_dishes = item.side_dishes ?? []
+                const price = cart.getItemPriceToUse(sideDish)
                 sideDish.quantity = 1
+                sideDish.subtotal = sideDish.quantity * price
                 item.side_dishes.push(sideDish)
             }
             cartItems[index] = item
@@ -197,15 +248,21 @@ export class Cart {
         const cartItems = Cart.load()
         if(item && cartItems?.length){
             const cart = new Cart(item)
+            const price = cart.getItemPriceToUse(item.item)
             cart.sideDishe = sideDish
             const sideDishExists = cart.getItemSideDish()
             if(sideDishExists && item.side_dishes?.length){
                 const sideDishIndex = item.side_dishes!.findIndex(s => s.id == sideDish.id)
                 if (sideDishExists.quantity == 0) {
+                    item.side_dishes?.splice(sideDishIndex, 1)
                     return
                 }
                 sideDishExists.quantity -= 1
+                sideDishExists.subtotal = sideDishExists.quantity * price
                 item.side_dishes[sideDishIndex] = sideDishExists
+                if (sideDishExists.quantity == 0) {
+                    item.side_dishes?.splice(sideDishIndex, 1)
+                }
             }
             cartItems[index] = item
             cart.items = cartItems
@@ -223,5 +280,21 @@ export class Cart {
             return null
         }
         return sideElement
+    }
+
+    static deleteSideDish(index: number, id: number, ): void {
+        const carts = Cart.load()
+        if (carts){
+            const item = carts[index]
+            if(!item?.side_dishes){
+                return
+            }
+            const sideDishIndex = item.side_dishes.findIndex(s => s.id == id)
+            if (index >= 0){
+                item.side_dishes.splice(sideDishIndex, 1)
+                carts[index] = item
+                localStorage.setItem("cart", JSON.stringify(carts))
+            }
+        }
     }
 }

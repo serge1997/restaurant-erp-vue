@@ -1,7 +1,7 @@
 import { defineComponent } from "vue";
 import Menubar from "primevue/menubar";
 import SidebarTemplate from "@/components/template/SidebarTemplate/SidebarTemplate.vue"
-import { Cart, type CartProps, type SideDish } from "@/types/cart/Cart";
+import { Cart, type CartProps, type SideDish, getSideDishTotalOfItem } from "@/types/cart/Cart";
 import { useAuthStore } from "@/stores/authStore";
 import { useTableStore } from "@/stores/useTableStore";
 import { useConfirm } from "primevue/useconfirm";
@@ -11,7 +11,7 @@ import { useNotify } from "@/shared/utility/notify";
 import TabView from "primevue/tabview";
 import TabPanel from "primevue/tabpanel";
 import Divider from "primevue/divider";
-import type { MenuItemProps } from "@/types/menuItem/MenuItem";
+import { SIDE_DISHE_CATEGORY_ID, type MenuItemProps } from "@/types/menuItem/MenuItem";
 import { useMenuitemStore } from "@/stores/menuItemStore";
 import type { TableProps } from "@/types/table/Table";
 import Stepper from 'primevue/stepper';
@@ -85,7 +85,8 @@ export default defineComponent({
         restaurant,
         chain,
         authStore,
-        getItemSideDish: Cart.getItemSideDishByItem
+        getItemSideDish: Cart.getItemSideDishByItem,
+        getSideDishTotalOfItem: getSideDishTotalOfItem,
        }
     },
     watch: {
@@ -140,7 +141,14 @@ export default defineComponent({
             if (this.cartTotal && !this.activeOrder?.id){
                 return this.cartTotal.toFixed(2)
             }
-            return this.carts.reduce((acc, curr) => acc + curr.subtotal, 0).toFixed(2)
+            const sideDishesTotal = this.carts.reduce((acc, curr) => {
+                if (curr.side_dishes?.length){
+                    const sideDishesSum = curr.side_dishes.reduce((acc, curr) => acc + curr.subtotal, 0)
+                    return acc + sideDishesSum
+                }
+                return acc
+            }, 0)
+            return (this.carts.reduce((acc, curr) => acc + curr.subtotal, 0) + sideDishesTotal)?.toFixed(2) || '0.00'
        },
        getWaiterName(){
             return this.order.waiterName || this.auth.name
@@ -193,7 +201,13 @@ export default defineComponent({
             sum += el.price * Number(el.quantity)
         })
         return sum.toFixed(2)
-       }
+       },
+       getIndexedSideDishes(){
+            this.carts.forEach((_, index) => {
+                this.indexedSideDishes[index] = this.sideDishes
+            })
+            return this.indexedSideDishes
+        }
     },
     data(){
         return {
@@ -235,14 +249,22 @@ export default defineComponent({
             time: null as any,
             swicthedRestaurant: [] as Restaurant[],
             disbaleCartCustomerInput: false,
-            sideDishesQ: [] as any as Record<string, Number>
+            sideDishesQ: [] as any as Record<string, Number>,
+            indexedSideDishes: [] as any as Record<string, unknown>,
+            searchSideDishQuery: [] as any as Record<string, string>,
+            cartItemSidedishes: [] as any as Record<number, unknown[]>,
+            visibleItemSideDishModal: false,
+            currentCartElement: {
+                index: 0 as number,
+                item: {} as CartProps
+            }
         }
     },
     methods: {
         async serachSideDish(event: any, index: number) {
-            const paginate: Paginate = {limit: 40, offset: 0, search: event.target.value, query: {category_id: 28}} 
+            const paginate: Paginate = {limit: 40, offset: 0, search: event.target.value, query: {category_id: SIDE_DISHE_CATEGORY_ID}} 
             const response = await menuItemService.getAll(paginate)
-            console.log(response.data)
+            this.getIndexedSideDishes[index] = response.data
         },
         deleteCartItem(index: number){
             if (this.carts[index]){
@@ -404,6 +426,9 @@ export default defineComponent({
             const carts = Cart.load()
             if (carts){
                 this.carts = carts
+                carts.map((cart, index) => {
+                    this.cartItemSidedishes[index] = cart.side_dishes ?? []
+                })
             }
             this.visibleCartSidebar = true
             this.$emit('load-cart')
@@ -432,13 +457,42 @@ export default defineComponent({
             sideDish.menu_item_id = item.id
             Cart.createOrIncrementSideDish(index, sideDish as SideDish)
             this.sideDishesQ[`${index}_${sideDish.id}`] = this.getItemSideDish(item.id, sideDish.id)?.quantity ?? 0
+            const carts = Cart.load() ?? []
+            this.cartItemSidedishes[index] = carts[index]?.side_dishes ?? []
+            this.currentCartElement.item = carts[index] ?? {} as CartProps
+            this.currentCartElement.index = index
+            this.carts = carts
             this.$emit('load-cart')
         },
         reduceSideDishQuantity(index: number, item: MenuItemProps, sideDish: any){
             sideDish.menu_item_id = item.id
             Cart.reduceSideDishQuantity(index, sideDish as SideDish)
             this.sideDishesQ[`${index}_${sideDish.id}`] = this.getItemSideDish(item.id, sideDish.id)?.quantity ?? 0
+            const carts = Cart.load() ?? []
+            this.cartItemSidedishes[index] = carts[index]?.side_dishes ?? []
+            this.currentCartElement.item = carts[index] ?? {} as CartProps
+            this.currentCartElement.index = index
+            this.carts = carts
+            this.$emit('load-cart')
         },
+        showItemSideDish(index: number){
+            const carts = Cart.load() ?? []
+            this.visibleItemSideDishModal = true
+            this.currentCartElement.item = carts[index] ?? {} as CartProps
+            this.currentCartElement.index = index
+        },
+        reloadCart(){
+            const carts = Cart.load() ?? []
+            this.carts = carts
+            this.$emit('load-cart')
+        },
+        deleteSideDishElement(index: number, sideDish: any){
+            Cart.deleteSideDish(index, sideDish.id)
+            this.reloadCart()
+            this.currentCartElement.item = this.carts[index] ?? {} as CartProps
+            this.currentCartElement.index = index
+            this.cartItemSidedishes[index] = this.carts[index]?.side_dishes ?? []
+        }
     },
     async mounted() {
         const carts = Cart.load()

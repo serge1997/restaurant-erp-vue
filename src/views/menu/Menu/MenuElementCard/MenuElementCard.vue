@@ -31,7 +31,8 @@
           <span v-if="hasPromoTag" class="item-card-price-old">
             {{ item.price.label }}
           </span>
-          <span class="item-card-price">{{ item.price.label }}</span>
+          <span v-if="hasPromoTag && item.promotional_price" class="item-card-price">{{ item.promotional_price.label }}</span>
+          <span v-else class="item-card-price">{{ item.price.label }}</span>
         </div>
         <Button
           :label="hasElement ? 'Mais 1' : 'Adicionar'"

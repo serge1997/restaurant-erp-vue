@@ -195,22 +195,35 @@
                     </div>
                     <div class="border-top">
                         <Accordion :multiple="true">
-                            <AccordionTab header="Accompanhamentos">
-                                <div class="serach p-2 py-3">
+                            <AccordionTab>
+                                <template #header>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span class="c-t2 p-accordion-header-link" style="font-size: 1em;">accompanhamentos</span>
+                                        <Badge 
+                                            v-if="cartItemSidedishes[index]?.length" 
+                                            :value="cartItemSidedishes[index]?.length"
+                                            title="Clicar para vizualizar os accompanhamentos adicionados"
+                                            @click.stop="showItemSideDish(index)"
+                                        />
+                                    </div>
+                                </template>
+                                <div class="serach p-2 py-2">
                                     <IconField iconPosition="left">
                                         <InputIcon class="pi pi-search"> </InputIcon>
                                         <InputText
                                             @input="serachSideDish($event, index)"
                                             placeholder="Pesquisar accompanhamentos..."
+                                            v-model="searchSideDishQuery[index]"
                                         />
                                     </IconField>
                                 </div>
-                                <ul class="list-group">
-                                    <li v-for="sideDishe in sideDishes" class="list-group-item bg-transparent border-0 border-bottom rounded-0 cursor-p">
+                                <ul v-if="getIndexedSideDishes[index]" class="list-group">
+                                    <li v-for="sideDishe in getIndexedSideDishes[index]" class="list-group-item bg-transparent border-0 border-bottom rounded-0 cursor-p">
                                         <div class="d-flex align-items-center justify-content-between">
                                             <div class="d-flex flex-column gap-1 l-height-sm">
                                                 <span class="title2 cfw-sm s-md">{{ sideDishe.name }}</span>
-                                                <span class="title3 cfw-xs ff-fantasy s-md">{{ sideDishe.price.label }}</span>
+                                                <span class="title3 cfw-xs ff-fantasy s-md" v-if="getItemSideDish(cart.item.id, sideDishe.id)?.quantity">{{ getItemSideDish(cart.item.id, sideDishe.id)?.quantity }}x {{ sideDishe.price.label }}</span>
+                                                <span class="title3 cfw-xs ff-fantasy s-md" v-else>{{ sideDishe.price.label }}</span>
                                             </div>
                                             <div class="d-flex gap-2">
                                                 <Button
@@ -229,6 +242,12 @@
                                         </div>
                                     </li>
                                 </ul>
+                                <span class="d-flex flex-column gap-1 align-items-center" v-if="!getIndexedSideDishes[index]?.length">
+                                    <i class="pi pi-search c-t3" style="font-size: 1rem;" />
+                                    <span class="s-md c-t2" style="font-weight: 400;">
+                                        Nenhum accompanhamento(s) encontrado(s) para <i style="font-weight: 500;">"{{ searchSideDishQuery[index] }}"</i>
+                                    </span>
+                                </span>
                             </AccordionTab>
                         </Accordion>
                     </div>
@@ -594,6 +613,84 @@
         @acceptCallback="sendOrder"
         group="confirm_order"
     />
+    <Dialog
+        modal
+        v-model:visible="visibleItemSideDishModal"
+        :style="{width: '28rem'}"
+        :closable="false"
+    >
+        <template #header>
+            <div class="w-100 d-flex justify-content-between align-items-center border-bottom-1 p-2">
+                <span class="d-flex align-items-center gap-2">
+                    <span>
+                        <Button
+                            icon="pi pi pi-cart-arrow-down"
+                            class="btn-danger-alert p-1 border-danger-primary rounded-2"
+                        />
+                    </span>
+                    <span style="line-height: 16px;" class="d-flex cfw-sm flex-column">
+                        <span>Accompanhamentos</span>
+                        <small class="title3">{{ currentCartElement?.item?.item?.name ?? ''}}</small>
+                    </span>
+                </span>
+                <div class="px-2">
+                    <Button 
+                        @click="visibleItemSideDishModal = false" 
+                        class="btn-circle-close" 
+                        icon="pi pi-times s-sm"
+                    />
+                </div>
+            </div>
+        </template>
+
+        <div class="col-md-12 mt-1">
+            <ul v-if="currentCartElement.item?.side_dishes?.length" class="list-group">
+                <li 
+                    v-for="sideDishe in currentCartElement.item.side_dishes" 
+                    class="list-group-item bg-transparent border-0 border-bottom rounded-0 cursor-p py-2"
+                >
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex flex-column gap-1 l-height-sm">
+                            <span class="title2 cfw-sm s-md">{{ sideDishe.name }}</span>
+                            <span class="title3 cfw-xs ff-fantasy s-md">{{ sideDishe.quantity}}x {{ sideDishe.price.label }}</span>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <Button
+                                icon="pi pi-minus s-xxs"
+                                class="btn-white-primary px-2"
+                                @click="reduceSideDishQuantity(currentCartElement.index, currentCartElement.item.item, sideDishe)"
+                            />
+                            <span class="ff-fantasy">{{ sideDishe.quantity }}</span>
+                            <Button
+                                icon="pi pi-plus s-xxs"
+                                class="btn-white-primary px-2"
+                                @click="addOrIncrementDish(currentCartElement.index, currentCartElement.item.item,sideDishe)"
+                            />
+                            <Button
+                                icon="pi pi-times s-md text-danger"
+                                class="btn-white-primary border-0 p-0 px-1"
+                                @click="deleteSideDishElement(currentCartElement.index, sideDishe)"
+                            />
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <EmptyTemplate 
+                :useBanIcon="true"
+                message="Nenhum accompanhamento adicionado"
+                v-else
+            />
+        </div>
+
+        <template #footer>
+            <div class="col-md-12 py-2">
+                <div class="d-flex justify-content-between b-bg-surface2 px-2 py-2 rounded-2 border title3-md">
+                    <span>Total: </span>
+                    <span class="title1 px-1">R$ {{ getSideDishTotalOfItem(currentCartElement.item).toFixed(2) }}</span>
+                </div>
+            </div>
+        </template>
+    </Dialog>
 </template>
 
 <script src="./script.ts"></script>

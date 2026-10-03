@@ -24,6 +24,8 @@ import Tooltip from 'primevue/tooltip';
 import InlineSearch from "@/components/template/InlineSearchTemplate/InlineSearchTemplate.vue"
 import ResultTemplate from './components/template/Result/ResultTemplate.vue';
 import ConfirmTemplate from './components/template/ConfirmTemplate/ConfirmTemplate.vue';
+import Dialog from 'primevue/dialog';
+import EmptyTemplate from './components/template/EmptyTemplate/EmptyTemplate.vue';
 
 export default function register(app: any) {
     app.component('Button', PButton)
@@ -52,4 +54,6 @@ export default function register(app: any) {
     app.component('InlineSearch', InlineSearch)
     app.component('ResultTemplate', ResultTemplate)
     app.component('ConfirmTemplate', ConfirmTemplate)
+    app.component('EmptyTemplate', EmptyTemplate)
+    app.component('Dialog', Dialog)
 }
