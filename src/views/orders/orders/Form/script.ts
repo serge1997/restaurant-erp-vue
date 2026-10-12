@@ -11,13 +11,19 @@ import { handleError } from "@/shared/utility/utils";
 import ConfirmTemplate from "@/components/template/ConfirmTemplate/ConfirmTemplate.vue";
 import { useConfirm } from "primevue/useconfirm";
 import Dialog from "primevue/dialog";
+import Accordion from "primevue/accordion";
+import AccordionTab from "primevue/accordiontab";
+import ShowOrderTemplate from  "@/components/template/order/show/ShowOrderTemplate.vue"
 
 export default defineComponent({
     name: 'Form',
 
     components: {
         ConfirmTemplate,
-        Dialog
+        ShowOrderTemplate,
+        Dialog,
+        Accordion,
+        AccordionTab
     },
 
     setup(props, ctx) {

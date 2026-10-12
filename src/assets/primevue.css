@@ -142,7 +142,7 @@
 }
 
 .cart-item-card .p-accordion .p-accordion-header .p-accordion-header-link{
-  padding: 6px 3px 6px 3px;
+  padding: 3px 3px 3px 3px;
   background: var(--surface2) !important;
   text-transform: uppercase;
   font-weight: 500;

@@ -182,6 +182,7 @@ export class Cart {
                     unit_price: c.item.price.value,
                     side_dishes: c.side_dishes?.map(s => {
                         return {
+                            id: s.id,
                             menu_item_id: s.menu_item_id,
                             quantity: s.quantity,
                             unit_price: s.price
@@ -198,6 +199,7 @@ export class Cart {
                 quantity: c.quantity,
                 side_dishes: c.side_dishes?.map(s => {
                     return {
+                        id: s.id,
                         menu_item_id: s.menu_item_id,
                         quantity: s.quantity
                     }

@@ -31,7 +31,7 @@
                 <div class="stat-val" id="st-rev">R$<span style="font-size:16px">{{ metaData.business_day_revenue }}</span></div>
                 <div class="stat-sub">hoje</div>
             </div>
-        </div>
+            </div>
         </div>
         <div class="toolbar">
             <div class="sw">

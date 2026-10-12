@@ -24,8 +24,6 @@ import restaurantService from "@/services/restaurantService.ts";
 import userService from "@/services/userService.ts";
 import reservationService from "@/services/reservationService";
 import { dateEngFormat } from "@/shared/utility";
-import Accordion from "primevue/accordion";
-import AccordionTab from "primevue/accordiontab";
 import InputText from "primevue/inputtext";
 import IconField from "primevue/iconfield";
 import InputIcon from "primevue/inputicon";
@@ -45,8 +43,6 @@ export default defineComponent({
         StepperPanel,
         InputOtp,
         Menu,
-        Accordion,
-        AccordionTab,
         InputText,
         IconField,
         InputIcon
@@ -103,7 +99,7 @@ export default defineComponent({
                     response.data.items.map((item: any) => {
                         const cartItem: CartProps = {
                             order_item_id: item.id,
-                            item: {...item.menu_item, price: item.unit_price},
+                            item: {...item.menu_item, price: item.unit_price, side_dishes: item.side_dishes},
                             quantity: item.quantity,
                             subtotal: item.unit_price * item.quantity
                         }

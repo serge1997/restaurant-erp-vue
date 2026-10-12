@@ -4,33 +4,33 @@
             <small class="c-gray-primary s-sm title3">informçoes</small>
         </Divider>
         <div class="col-md-12">
-                <ul class="w-100 list-group">
-                    <li class="list-group-item py-1 border-0 p-0 d-flex justify-content-between">
-                        <span class="title3">Cliente</span>
-                        <span class="title-md">{{ order.customer_name }}</span>
-                    </li>
-                    <li class="list-group-item py-1 border-0 p-0 d-flex justify-content-between">
-                        <span class="title3">Garçom</span>
-                        <span class="title-md">{{ order.waiter.name }}</span>
-                    </li>
-                    <li class="list-group-item py-1 border-0 p-0 d-flex justify-content-between">
-                        <span class="title3">Mesa</span>
-                        <span class="title-md sm-xs">{{ order.table.number }}</span>
-                    </li>
-                    <li class="list-group-item border-0 py-1 p-0 d-flex justify-content-between">
-                            <span class="title3">Aberta há</span>
-                            <span class="title-md sm-xs">{{ order.since }}</span>
-                    </li>
-                    <li class="list-group-item border-0 py-1 p-0 d-flex justify-content-between">
-                        <span class="title3">Status</span>
-                        <span :class="order.status.severity" class="title-md cfw-sm px-2 text-capitalize">{{ order.status.label }}</span>
-                    </li>
-                    <li class="list-group-item border-0 py-1 p-0 d-flex justify-content-between">
-                        <span class="title3">Pagamento</span>
-                        <span v-if="!order.payment_status.is_paid" class="text-capitalize s-sm b-bg-surface3 px-1 cfw-sm rounded-2 border">{{ order.payment_status.label }}</span>
-                        <span v-else :class="order.payment_method.severity">{{ order.payment_method.label }}</span>
-                    </li>
-                </ul>
+            <ul class="w-100 list-group">
+                <li class="list-group-item py-1 border-0 p-0 d-flex justify-content-between">
+                    <span class="title3">Cliente</span>
+                    <span class="title-md">{{ order.customer_name }}</span>
+                </li>
+                <li class="list-group-item py-1 border-0 p-0 d-flex justify-content-between">
+                    <span class="title3">Garçom</span>
+                    <span class="title-md">{{ order.waiter.name }}</span>
+                </li>
+                <li class="list-group-item py-1 border-0 p-0 d-flex justify-content-between">
+                    <span class="title3">Mesa</span>
+                    <span class="title-md sm-xs">{{ order.table.number }}</span>
+                </li>
+                <li class="list-group-item border-0 py-1 p-0 d-flex justify-content-between">
+                    <span class="title3">Aberta há</span>
+                    <span class="title-md sm-xs">{{ order.since }}</span>
+                </li>
+                <li class="list-group-item border-0 py-1 p-0 d-flex justify-content-between">
+                    <span class="title3">Status</span>
+                    <span :class="order.status.severity" class="title-md cfw-sm px-2 text-capitalize">{{ order.status.label }}</span>
+                </li>
+                <li class="list-group-item border-0 py-1 p-0 d-flex justify-content-between">
+                    <span class="title3">Pagamento</span>
+                    <span v-if="!order.payment_status.is_paid" class="text-capitalize s-sm b-bg-surface3 px-1 cfw-sm rounded-2 border">{{ order.payment_status.label }}</span>
+                    <span v-else :class="order.payment_method.severity">{{ order.payment_method.label }}</span>
+                </li>
+            </ul>
         </div>
 
         <Divider align="left">
@@ -38,10 +38,11 @@
         </Divider>
         <div class="col-md-12">
             <ul class="list-group gap-3">
-                    <li 
-                        v-for="item in order.items"
-                        class="list-group-item d-flex justify-content-between border-top b-bg-surface2 rounded-3"
-                    >
+                <li 
+                    v-for="item in order.items"
+                    class="list-group-item d-flex flex-column border-top b-bg-surface2 rounded-3 cart-item-card"
+                >
+                    <div class="d-flex justify-content-between">
                         <div class="d-flex gap-2 align-items-center">
                             <img class="order-item-image" :src="item.menu_item.image" alt="menu item image" srcset="">
                             <div class="d-flex flex-column">
@@ -51,12 +52,10 @@
                         </div>
                         <div class="d-flex align-items-center gap-2">
                             <span class="title-md">R$ {{ (item.quantity * item.unit_price).toFixed(2) }}</span>
-                            <div class="d-flex justify-content-center">
+                            <div v-if="canCancel" class="d-flex justify-content-center">
                                 <Button 
-                                    v-if="!readOnly && !order.status.is_cancelled && !order.status.is_closed"
                                     class="p-0"
                                     @click="setCancelItem(item)"
-                                   
                                 >
                                     <template #svg>
                                         <div 
@@ -68,10 +67,52 @@
                                 </Button>
                             </div>
                         </div>
-                    </li>
+                    </div>
+                    <Accordion v-if="item.side_dishes?.length" :multiple="true">
+                        <AccordionTab>
+                            <template #header>
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="c-t2 p-accordion-header-link" style="font-size: 1em;">accompanhamentos</span>
+                                </div>
+                            </template>
+                            <div>
+                                <ul class="list-group gap-3">
+                                    <li 
+                                        v-for="sideDish in item.side_dishes"
+                                        class="list-group-item d-flex justify-content-between bg-transparent border-0 p-0 mb-1"
+                                    >
+                                        <div class="d-flex gap-2 align-items-center">
+                                            <img class="order-item-image" :src="sideDish.menu_item.image" alt="menu item image" srcset="">
+                                            <div class="d-flex flex-column">
+                                                <span class="ellipssed-text w-100 title-md">{{ sideDish.menu_item.name }}</span>
+                                                <span class="title3">{{ sideDish.quantity }}x R$ {{ sideDish.unit_price}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <span class="title-md">R$ {{ (sideDish.quantity * sideDish.unit_price).toFixed(2) }}</span>
+                                            <div v-if="canCancel" class="d-flex justify-content-center">
+                                                <Button 
+                                                    class="p-0"
+                                                    @click="setCancelItem(sideDish)"
+                                                >
+                                                    <template #svg>
+                                                        <div 
+                                                            class="rac del"
+                                                        >
+                                                            <svg style="pointer-events: none" viewBox="0 0 12 12" fill="none"><path d="M2 3h8M5 3V2h2v1M4 3v7h4V3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                                        </div>
+                                                    </template>
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </AccordionTab>
+                    </Accordion>
+                </li>
             </ul>
         </div>
-
         <Divider v-if="order.cancelItems?.length" align="left">
                <span class="d-flex align-items-center gap-2">
                     <small class="c-gray-primary s-sm title3">Itens cancelados</small>
@@ -126,11 +167,6 @@
             </div>
     </div>
    
-
-    <ConfirmTemplate 
-        @acceptCallback="updateOrderPaymentMethod"
-        group="confirm_payment"
-    />
     <Dialog modal v-model:visible="visibleCancelItemModal" :style="{width: '28rem'}" :closable="false">
         <template #header>
             <div class="w-100 d-flex justify-content-between align-items-center border-bottom-1 p-2">

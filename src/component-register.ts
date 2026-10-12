@@ -26,8 +26,12 @@ import ResultTemplate from './components/template/Result/ResultTemplate.vue';
 import ConfirmTemplate from './components/template/ConfirmTemplate/ConfirmTemplate.vue';
 import Dialog from 'primevue/dialog';
 import EmptyTemplate from './components/template/EmptyTemplate/EmptyTemplate.vue';
+import Accordion from "primevue/accordion";
+import AccordionTab from "primevue/accordiontab";
 
 export default function register(app: any) {
+    app.component('Accordion', Accordion)
+    app.component('AccordionTab', AccordionTab)
     app.component('Button', PButton)
     app.component('Sidebar', Sidebar)
     app.component('Input', Input)

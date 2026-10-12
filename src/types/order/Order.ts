@@ -6,7 +6,13 @@ export interface OrderItemResponse{
     menu_item: MenuItemProps
     unit_price: number
     quantity: number
-    subtotal: number
+    subtotal: number,
+    side_dishes?: Array<{
+        id: number,
+        menu_item: MenuItemProps,
+        unit_price: number,
+        quantity: number,
+    }>
 }
 export enum OrderStatus {
     OPEN = 1,

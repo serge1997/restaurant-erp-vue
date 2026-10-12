@@ -10,14 +10,12 @@ import { useNotify } from "@/shared/utility/notify";
 import { handleError } from "@/shared/utility/utils";
 import ConfirmTemplate from "../../ConfirmTemplate/ConfirmTemplate.vue";
 import { useConfirm } from "primevue/useconfirm";
-import Dialog from "primevue/dialog";
 
 export default defineComponent({
     name: 'ShowOrderTemplate',
 
     components: {
-        ConfirmTemplate,
-        Dialog
+        ConfirmTemplate
     },
     props: {
         order: {
@@ -25,6 +23,10 @@ export default defineComponent({
             required: true
         },
         readOnly: {
+            type: Boolean,
+            default: false
+        },
+        canCancel: {
             type: Boolean,
             default: false
         }
@@ -181,33 +183,6 @@ export default defineComponent({
         clearOrder(){
             this.selectedPaymentMethod = 0
             this.onClearForm()
-        },
-        getSelectedPaymentMethodClass(payment_method: number){
-            return this.selectedPaymentMethod == payment_method ? 'pm-btn-selected' : ''
-        },
-        selectPaymentMethod(payment_method: number){
-            this.selectedPaymentMethod = payment_method
-        },
-        confirmOrderPayment(){
-            if (!this.selectedPaymentMethod){
-                return this.notify.warn("Nenhuma metodo de pagamento selecionado")
-            }
-            this.confirm.require({
-                message: 'Confirmar o pagmento do pedido.',
-                group: 'confirm_payment'
-            })
-        },
-       async updateOrderPaymentMethod() {
-            try{
-                const response = await orderService.updateOrderPayment(this.order.id, this.selectedPaymentMethod)
-                this.notify.success(response.message)
-                this.formStore.closeForm()
-                this.$emit('submitted')
-            }catch(err){
-                handleError(err, this.notify)
-            }finally{
-                this.confirm.close()
-            }
         },
         openItemOverlayPanel(event: any){
             if (Array.isArray(this.$refs.OverlayPanelorderItem)){
