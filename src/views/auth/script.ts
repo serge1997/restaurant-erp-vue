@@ -37,7 +37,7 @@ export default defineComponent({
                 const response = await authService.login(this.form)
                 this.authStore.storage = response.data
                 this.authStore.store()
-                this.$router.push({ name: "home" })
+                window.location.href = "/"
             }catch(e: any){
                 this.loginErrorResponse = e.response?.data?.message || e.message
             }finally{

@@ -31,6 +31,11 @@ export const useAuthStore = defineStore('auth', {
             const auth = this.getAuth()
             auth.restaurant = restaurant
             localStorage.setItem('auth', JSON.stringify(auth))
+        },
+        logout() {
+            localStorage.removeItem('auth')
+            localStorage.removeItem('menu')
+            localStorage.removeItem('token')
         }
     }
 })

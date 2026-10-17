@@ -1,3 +1,4 @@
+import { useAuthStore } from "@/stores/authStore";
 import axios from "axios";
 
 axios.interceptors.request.use((config) => {
@@ -9,5 +10,15 @@ axios.interceptors.request.use((config) => {
 }, (error) => {
     return Promise.reject(error);
 });
+
+axios.interceptors.response.use(response => response,
+    error => {
+        if (error.response?.status == 401) {
+            const autSore = useAuthStore()
+            autSore.logout()
+            window.location.href = "/login"
+        }
+    }
+)
 
 export default axios;

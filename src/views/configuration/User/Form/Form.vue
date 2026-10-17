@@ -74,12 +74,12 @@
                             label="Data de nascimento"
                         />
                     </div>
-                    <div class="row mt-2">
+                    <div class="row">
                         <MultipleOptions
                             v-model="form.gender"
                             :hasSearch="false" 
                             type="radio"
-                            height="auto"
+                            scrollpanelHeight="80px"
                             optionBoxClasses="gap-2"
                             :options="[{id: 'M', name: 'Masculino'}, {id: 'F', name: 'Feminino'}, {id: 'O', name: 'Outro'}]"
                         />
@@ -92,8 +92,8 @@
                     <div class="col-12 mt-1">
                         <div class="w-100 rounded-3 m-auto b-bg-surface3 d-flex justify-content-between align-items-center py-2 px-2">
                             <div class="text2 d-flex gap-2 align-items-center">
-                                        <i :class="isActiveIconClass" class="pi pi-circle-fill s-xs"></i>
-                                        {{ isActiveLabel }}
+                                <i :class="isActiveIconClass" class="pi pi-circle-fill s-xs"></i>
+                                {{ isActiveLabel }}
                             </div>
                             <Switch 
                                 class="d-flex justify-content-end align-items-center"
@@ -212,7 +212,7 @@
                                         v-model="form.permissions"
                                         :options="group.permissions"
                                         :hasSearch="false" 
-                                        height="auto"
+                                        scrollpanelHeight="auto"
                                         optionLabel="description"
                                         optionValue="name"
                                     />

@@ -7,7 +7,7 @@
             </IconField>
         </div>
         <div>
-            <ScrollPanel :style="{height: '22rem'}">
+            <ScrollPanel :style="{height: scrollpanelHeight}">
                 <div v-if="isCheckbox" :class="optionBoxClasses" class="d-flex">
                         <div class="d-flex align-items-center mb-3" v-for="option in opts"
                             :key="option[optionValue]"
@@ -80,7 +80,7 @@ export default defineComponent({
             type: Boolean,
             default: true
         },
-        height: {
+        scrollpanelHeight: {
             type: String,
             default: "350px"
         },

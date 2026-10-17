@@ -348,6 +348,7 @@ export default defineComponent({
                 const response = await orderService.create(this.order)
                 this.notify.success(response.message)
                 this.confirm.close()
+                this.visibleCartSidebar = false
                 this.clearCart()
             }else{
                 const updatePayload = this.order

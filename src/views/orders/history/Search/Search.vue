@@ -65,7 +65,7 @@
                 :options="options.orderStatus"
                 v-model="query.status"
                 :hasSearch="true" 
-                height="auto"
+                scrollpanelHeight="auto"
                 optionLabel="label"
                 optionValue="value"
                 optionBoxClasses="gap-2 flex-column"
