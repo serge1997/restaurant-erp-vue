@@ -5,11 +5,15 @@ import type { HttpResponse } from "@/shared/http/response";
 import { useFormStore } from "./formStore";
 import { useNotify } from "@/shared/utility/notify";
 
-export function usePageMixin(service: Service){
+export interface Params {
+    orderBy?: string
+    direction?: string
+}
+export function usePageMixin(service: Service, params?: Params){
     const data = ref<Array<any>>()
     const cachedData = ref<Array<any>>()
     const metaData = ref({})
-    const paginate: Paginate = {limit: 20, offset: 0, search: '', query: {is_active: true}}
+    const paginate: Paginate = {limit: 20, offset: 0, search: '', query: {is_active: true}, orderBy: params?.orderBy, direction: params?.direction}
     const notify = useNotify()
     const searchParams = ref<any>(null)
 

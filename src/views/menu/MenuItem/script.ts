@@ -25,7 +25,7 @@ export default defineComponent({
             paginate, 
             search,
             onSearch
-        } = usePageMixin(menuItemService)
+        } = usePageMixin(menuItemService, {orderBy: "name"})
     
         return {
             data,

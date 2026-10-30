@@ -5,6 +5,7 @@ import Form from "./Form/Form.vue";
 import { useModuleStore } from "@/stores/moduleStore";
 import columns from "./columns";
 import { useRoleStore } from "@/stores/useRoleStore";
+import { Address } from "@/shared/type/address.ts";
 
 export default defineComponent({
     name: "UserView",
@@ -47,6 +48,9 @@ export default defineComponent({
     },
     methods: {
         setDataEdit(dataEdit: any){
+            if(!dataEdit.address){
+                dataEdit.address = Address.emptyProps()
+            }
             this.formRef.populateForm(dataEdit)
         }
     },

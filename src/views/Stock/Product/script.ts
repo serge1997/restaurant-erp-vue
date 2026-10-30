@@ -19,7 +19,7 @@ export default defineComponent({
             paginate,
             data,
             onSearch,
-        } = usePageMixin(productService)
+        } = usePageMixin(productService, {orderBy: "name"})
 
         return {
             search,

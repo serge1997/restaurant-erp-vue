@@ -60,6 +60,9 @@ export function useFormMixin(service: Service, form: any, emit: any, options: an
         form.address.state = data.uf
         options.cities = cities
         form.address.city_id = findCity ? findCity.id : null
+        if(Reflect.has(form.address, 'city')) {
+            form.address.city = data.localidade
+        }
     }
 
     const onSubmit = async () => {

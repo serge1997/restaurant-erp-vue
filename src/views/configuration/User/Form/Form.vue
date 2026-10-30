@@ -119,7 +119,7 @@
                     <div class="row p-0 mb-2">
                         <Input
                             v-model="form.address.cep"
-                            @blur="v.form.address.cep.$touch()"
+                            @blur="searchAddressByCep(form.address.cep)"
                             :error="v.form.address.cep.$error ? v.form.address.cep.$errors[0]?.$message : ''"
                         >
                             <template #label>
@@ -206,7 +206,14 @@
                                 titleClass="title1-sm"
                             />
                             <div v-for="group in module.routeGroupes">
-                                <span class="px-1 text-uppercase title3">{{ group.name }}</span>
+                                <span class="px-1 text-uppercase title3">
+                                    <Checkbox
+                                        v-model="permissionModules"
+                                        :value="group.id"
+                                        @change="selectAllPermissionOfRole"
+                                    />
+                                    {{ group.name }}
+                                </span>
                                 <div class="px-3">
                                     <MultipleOptions
                                         v-model="form.permissions"
