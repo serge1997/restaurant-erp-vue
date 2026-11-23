@@ -6,6 +6,8 @@ import menuItemService from "@/services/menuItemService";
 import { usePageMixin } from "@/stores/usePageMixin";
 import { Cart } from "@/types/cart/Cart";
 import type { MenuCategoryProps } from "@/types/menuCategory/MenuCategory";
+import { useMenuCategoryStore } from "@/stores/useMenuCategoryStore.ts";
+import menuCategoryService from "@/services/menuCategoryService.ts";
 
 
 export default defineComponent({
@@ -17,6 +19,7 @@ export default defineComponent({
     },
 
     setup(){
+        const menuCategoryStore = useMenuCategoryStore()
         const {
             data,
             paginate,
@@ -26,7 +29,8 @@ export default defineComponent({
         return {
             data,
             paginate,
-            search
+            search,
+            menuCategoryStore
         }
     },
 
@@ -72,6 +76,10 @@ export default defineComponent({
             }
             const { data } = await menuItemService.getAll(paginate)
             this.sideDishes = data
+        },
+        async getTopCategories() {
+            const { data } = await menuCategoryService.getTopCategories()
+            this.topCategories = data
         }
     },
   async mounted() {
@@ -79,8 +87,9 @@ export default defineComponent({
     const carts = Cart.load()
     this.cartQuantities = carts?.length || 0
     await this.getSideDishes()
-
-    this.topCategories = [{id: 23, name: "Bebida", description: "", image: ""}, {id: 23, name: "Entrada", description: "", image: ""}]
+    await this.menuCategoryStore.load()
+    this.categories = this.menuCategoryStore.categories
+    await this.getTopCategories()
   },
 
 })
