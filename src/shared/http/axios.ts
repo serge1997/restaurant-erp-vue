@@ -18,6 +18,7 @@ axios.interceptors.response.use(response => response,
             autSore.logout()
             window.location.href = "/login"
         }
+        return Promise.reject(error);
     }
 )
 

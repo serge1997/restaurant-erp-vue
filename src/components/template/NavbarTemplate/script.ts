@@ -377,6 +377,7 @@ export default defineComponent({
                 this.notify.success(response.message)
                 this.confirm.close()
                 this.clearCart()
+                this.visibleCartSidebar = false
             }
            }catch(error){
             handleError(error, this.notify)

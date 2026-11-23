@@ -145,7 +145,7 @@
                                 <div class="oi-meta">{{ order.waiter.inicial }} · há {{ order.since }}</div>
                             </div>
                             <span class="oi-badge" :class="order.status.severity">{{ order.status.label }}</span>
-                            <span class="oi-val">R$ {{ orderTotal(order.items) }}</span>
+                            <span class="oi-val">R$ {{ orderTotal(order.items).toFixed(2) }}</span>
                         </div>
                     </div>
                 </div>
