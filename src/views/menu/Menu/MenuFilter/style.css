@@ -1,0 +1,206 @@
+.menu-filter {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: var(--c-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: 12px 16px;
+    margin: 0 0 12px;
+}
+
+.menu-filter-search-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.menu-filter-search {
+    flex: 1;
+}
+
+.menu-filter-search .p-inputtext {
+    width: 100%;
+}
+
+.menu-filter-clear-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.menu-filter-clear-btn .sdot.occupied {
+    background-color: var(--c-green-primary);
+}
+
+.menu-filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.menu-filter-group-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--text3);
+}
+
+.menu-filter-chips {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: thin;
+}
+
+.menu-filter-chips::-webkit-scrollbar {
+    height: 4px;
+}
+
+.menu-filter-chips::-webkit-scrollbar-thumb {
+    background: var(--border2);
+    border-radius: 4px;
+}
+
+.menu-filter-chip {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text2);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 12px;
+    cursor: pointer;
+    transition: background .12s, border-color .12s, color .12s;
+}
+
+.menu-filter-chip:hover {
+    background: var(--c-dark-green-light);
+    border-color: var(--c-green-border);
+    color: var(--c-dark-green-primary);
+}
+
+.menu-filter-chip-active {
+    background: var(--c-green-primary);
+    border-color: var(--c-green-primary);
+    color: var(--c-white-mute);
+}
+
+.menu-filter-chip-active:hover {
+    background: var(--c-dark-green-primary);
+    border-color: var(--c-dark-green-primary);
+    color: var(--c-white-mute);
+}
+
+.menu-filter-tag-chip.menu-filter-tag-chef.menu-filter-chip-active {
+    background: var(--c-green-primary);
+    border-color: var(--c-green-primary);
+}
+
+.menu-filter-tag-chip.menu-filter-tag-new.menu-filter-chip-active {
+    background: var(--c-green-secondary);
+    border-color: var(--c-green-secondary);
+}
+
+.menu-filter-tag-chip.menu-filter-tag-promo.menu-filter-chip-active {
+    background: var(--amber);
+    border-color: var(--amber);
+}
+
+.menu-filter-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.menu-filter-group-category {
+    flex: 1;
+    min-width: 0;
+}
+
+.menu-filter-category-select {
+    width: 240px;
+    max-width: 100%;
+}
+
+.menu-filter-category-select .p-dropdown {
+    width: 100%;
+}
+
+.menu-filter-most-ordered-chip {
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.menu-filter-most-ordered-chip.menu-filter-chip-active {
+    background: var(--amber);
+    border-color: var(--amber);
+    color: #fff;
+}
+
+.menu-filter-top-category-chip.menu-filter-chip-active {
+    background: var(--amber);
+    border-color: var(--amber);
+    color: #fff;
+}
+
+/* tablet */
+@media (max-width: 768px) {
+    .menu-filter {
+        padding: 10px 12px;
+        gap: 8px;
+    }
+
+    .menu-filter-category-select {
+        width: 100%;
+    }
+}
+
+/* mobile */
+@media (max-width: 576px) {
+    .menu-filter-search-row {
+        flex-wrap: wrap;
+    }
+
+    .menu-filter-search {
+        flex-basis: 100%;
+    }
+
+    .menu-filter-clear-btn {
+        flex: 1;
+        justify-content: center;
+    }
+
+    .menu-filter-row {
+        flex-wrap: wrap;
+        align-items: stretch;
+    }
+
+    .menu-filter-group-category {
+        flex-basis: 100%;
+    }
+
+    .menu-filter-most-ordered-chip {
+        flex: 1;
+        justify-content: center;
+    }
+
+    .menu-filter-chip {
+        font-size: 11px;
+        padding: 5px 10px;
+    }
+
+    .menu-filter-group-label {
+        font-size: 9px;
+    }
+}

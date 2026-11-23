@@ -6,14 +6,19 @@
         title="Menu"
         @cart-cleared="clearCard"
     >
+        <MenuFilter
+            :categories="categories"
+            :top-categories="topCategories"
+            @filter-change="onFilterChange"
+        />
         <div class="menu-grid">
-            <MenuElementCard 
+            <MenuElementCard
                 ref="cardRefs"
                 v-for="item in data"
                 :item="item"
                 @element-added="newElementAdded"
             />
-        </div> 
+        </div>
     </PageTemplate>
 </template>
 
