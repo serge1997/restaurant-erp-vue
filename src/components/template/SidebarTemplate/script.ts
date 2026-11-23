@@ -120,6 +120,11 @@ export default defineComponent({
         activeViewClass(view: string) {
             return view == this.$route.path ? 'active-view' : ''
         },
+        logout() {
+            this.authStore.logout()
+            this.visibleMenuSidebar = false
+            this.$router.push({ name: 'login' })
+        },
       searchMenuItem(event: any) {
         this.loadedMenuElements = this.authStore.getMenu()
         this.menusFindedElements = []

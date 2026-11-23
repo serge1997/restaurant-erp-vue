@@ -1,21 +1,37 @@
 <template>
-    <div class="w-100 d-flex justify-content-between p-2 bg-white position-fixed navbar" style="top: 0; left: 0; z-index: 999;">
-        <div class="d-flex align-items-center gap-1">
-            <Button @click="openSideBar" class="btn-green-primary py-2" icon="pi pi-bars s-sm" />
-            <div>
-                <img v-if="restaurant.logo" class="cursor-p" @click="openSideBar" style="height: 28px;" :src="restaurant.logo" alt="" srcset="">
-                <span @click="openSwicthRestaurantMenu" class="title2 fw-bold cursor-p px-2"> {{ restaurant.id.toString().padStart(3, '0') }} - {{ restaurant.name }}</span>
+    <div class="app-navbar">
+        <div class="app-navbar-left">
+            <button type="button" class="navbar-menu-btn" @click="openSideBar" title="Abrir menu">
+                <i class="pi pi-bars s-sm"></i>
+            </button>
+            <div class="navbar-restaurant">
+                <img
+                    v-if="restaurant.logo"
+                    class="navbar-restaurant-logo cursor-p"
+                    @click="openSideBar"
+                    :src="restaurant.logo"
+                    alt=""
+                >
+                <span v-else class="navbar-restaurant-av cursor-p" @click="openSideBar">
+                    {{ restaurant.name?.charAt(0) }}
+                </span>
+                <div class="navbar-restaurant-info cursor-p" @click="openSwicthRestaurantMenu">
+                    <span class="navbar-restaurant-name ellipssed-text">{{ restaurant.name }}</span>
+                    <span class="navbar-restaurant-code">
+                        Unidade #{{ restaurant.id.toString().padStart(3, '0') }}
+                        <i class="pi pi-chevron-down navbar-restaurant-chevron"></i>
+                    </span>
+                </div>
             </div>
         </div>
-        <div class="d-flex align-items-center gap-2">
-            <div>
-                <span class="title3 ff-fantasy">{{ time }}</span>
-            </div>
-            <div>
-                <span class="user-av b-bg-surface3">
-                    {{ auth.inicial }}
-                </span>
-            </div>
+        <div class="app-navbar-right">
+            <span class="navbar-clock">
+                <i class="pi pi-clock s-xs"></i>
+                {{ time }}
+            </span>
+            <span class="user-av b-bg-surface3 navbar-user-av" :title="auth.name">
+                {{ auth.inicial }}
+            </span>
             <Button
                 icon="pi pi pi-cart-arrow-down"
                 class="btn-cart-btn p-1 border-green-primary rounded-2"
@@ -32,45 +48,33 @@
         :auth="auth"
     >
     </SidebarTemplate>
-    <Menu ref="swicthRestaurant" class="border-0 shadow" id="swicthRestaurant" :style="{width: '15rem', backgroundColor: '#1A2C33'}" :popup="true">
+    <Menu ref="swicthRestaurant" class="border-0 shadow restaurant-switch-menu" id="swicthRestaurant" :style="{width: '17rem'}" :popup="true">
         <template #end>
-            <div class="d-none">
-                {{ chain?.name }}
+            <div class="restaurant-switch-header">
+                <span class="restaurant-switch-title">Trocar restaurante</span>
+                <span v-if="chain?.name" class="restaurant-switch-chain">{{ chain.name }}</span>
             </div>
-            <div>
-                <ul class="list-group">
-                    <li
-                        class="list-group-item cursor-p border-0 ellipssed-text"
-                        v-for="restaurant in swicthedRestaurant"
-                        :class="isCurrentRestaurant(restaurant) ? 'current' : ''"
-                    >
-                        <div
-                            class="d-flex align-items-center"
-                            @click="switchRestaurant(restaurant.id)"
-                        >
-                            <div class="d-flex align-items-center justify-content-center rounded-3" style="width: 24px; height: 24px;">
-                                <svg style="background-color: #0E7c7b;" class="rounded-3" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="24" cy="14" r="3" stroke="#F6F7F8" stroke-width="2"/>
-                                    <path d="M24 17C14 17 8 24 8 32h32c0-8-6-15-16-15z" stroke="#F6F7F8" stroke-width="2" stroke-linejoin="round"/>
-                                    <path d="M6 32h36" stroke="#F6F7F8" stroke-width="2" stroke-linecap="round"/>
-                                    <path d="M10 36h28" stroke="#F6F7F8" stroke-width="2" stroke-linecap="round"/>
-                                </svg>
-                            </div>
-                            <div class="d-flex flex-column px-2">
-                                <span class="switched-rest-name d-flex justify-content-between">
-                                    {{ restaurant.name }}
-                                    <i v-if="isCurrentRestaurant(restaurant)" class="pi pi-check s-md c-green-secondary fw-bold"></i>
-                                </span>
-                                <small v-if="restaurant.address" class="switched-rest-address">unidade {{ `${restaurant.address?.city}/${restaurant.address?.neighborhood}` }}</small>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="d-flex justify-content-center border-top-1 py-1 mt-2">
-                <router-link class="s-md title3 d-flex align-items-center gap-2 text-decoration-none" to="'restaurants'">
-                    <i class="s-md pi pi-cog"></i>
-                    <span>Gerencia restaurantes</span>
+            <ul class="restaurant-switch-list">
+                <li
+                    v-for="restaurant in swicthedRestaurant"
+                    class="restaurant-switch-item"
+                    :class="{ 'restaurant-switch-item-active': isCurrentRestaurant(restaurant) }"
+                    @click="switchRestaurant(restaurant.id)"
+                >
+                    <span class="restaurant-switch-item-icon">
+                        <i class="pi pi-building"></i>
+                    </span>
+                    <span class="restaurant-switch-item-info">
+                        <span class="restaurant-switch-item-name ellipssed-text">{{ restaurant.name }}</span>
+                        <small v-if="restaurant.address" class="restaurant-switch-item-address ellipssed-text">{{ restaurant.address?.city }}/{{ restaurant.address?.neighborhood }}</small>
+                    </span>
+                    <i v-if="isCurrentRestaurant(restaurant)" class="pi pi-check restaurant-switch-item-check"></i>
+                </li>
+            </ul>
+            <div class="restaurant-switch-footer">
+                <router-link class="restaurant-switch-manage-link" to="'restaurants'">
+                    <i class="pi pi-cog s-sm"></i>
+                    <span>Gerenciar restaurantes</span>
                 </router-link>
             </div>
         </template>
