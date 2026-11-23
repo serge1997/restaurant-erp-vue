@@ -7,7 +7,7 @@ export default {
     modulePath: 'menuCategories',
     serviceTitle: 'Categoria do menu',
 
-    getTopCategories(): Promise<HttpResponse<MenuCategoryProps>> {
-        return this.client.get<MenuCategoryProps>(this.modulePath + "/listTopCategories")
+    getTopCategories(): Promise<HttpResponse<MenuCategoryProps[]>> {
+        return this.client.get<MenuCategoryProps[]>(this.modulePath + "/listTopCategories")
     }
 }
