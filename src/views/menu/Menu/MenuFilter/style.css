@@ -117,6 +117,18 @@
     border-color: var(--amber);
 }
 
+.menu-filter-groups {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 16px 28px;
+}
+
+.menu-filter-groups > .menu-filter-row,
+.menu-filter-groups > .menu-filter-group {
+    flex: 0 0 auto;
+}
+
 .menu-filter-row {
     display: flex;
     align-items: flex-end;
@@ -161,8 +173,8 @@
         gap: 8px;
     }
 
-    .menu-filter-category-select {
-        width: 100%;
+    .menu-filter-groups {
+        gap: 12px 20px;
     }
 }
 
@@ -181,6 +193,17 @@
         justify-content: center;
     }
 
+    .menu-filter-groups {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .menu-filter-groups > .menu-filter-row,
+    .menu-filter-groups > .menu-filter-group {
+        flex-basis: auto;
+        width: 100%;
+    }
+
     .menu-filter-row {
         flex-wrap: wrap;
         align-items: stretch;
@@ -188,6 +211,10 @@
 
     .menu-filter-group-category {
         flex-basis: 100%;
+    }
+
+    .menu-filter-category-select {
+        width: 100%;
     }
 
     .menu-filter-most-ordered-chip {
