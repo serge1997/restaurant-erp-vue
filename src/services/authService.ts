@@ -8,5 +8,9 @@ export default {
 
     async login(form: any): Promise<HttpResponse<AuthResponse>> {
         return await this.create<AuthResponse>(form, `${this.modulePath}/login`)
+    },
+
+    async logout() {
+        return await this.client.post(`${this.modulePath}/logout`, {})
     }
 }

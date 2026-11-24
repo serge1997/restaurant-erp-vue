@@ -4,6 +4,7 @@ import IconField from "primevue/iconfield";
 import InputIcon from "primevue/inputicon";
 import InputText from "primevue/inputtext";
 import type { RouteGroupProps } from "@/types/auth/Auth";
+import authService from "@/services/authService";
 
 export default defineComponent({
     components: {
@@ -120,7 +121,8 @@ export default defineComponent({
         activeViewClass(view: string) {
             return view == this.$route.path ? 'active-view' : ''
         },
-        logout() {
+        async logout() {
+            await authService.logout()
             this.authStore.logout()
             this.visibleMenuSidebar = false
             this.$router.push({ name: 'login' })
