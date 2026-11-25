@@ -81,96 +81,69 @@
     </Menu>
     <Sidebar v-model:visible="visibleCartSidebar" position="right" class="cart-sidebar" :style="{width: '27em'}">
         <template #header>
-            <div class="w-100 d-flex justify-content-between align-items-center border-bottom-1 py-1">
-                <span class="d-flex align-items-center gap-2">
-                    <span>
-                        <Button
-                            icon="pi pi pi-cart-arrow-down"
-                            class="btn-cart-btn p-1 border-green-primary rounded-2"
-                        />
-                    </span>
-                    <span style="line-height: 16px;" class="title1 d-flex flex-column">
-                        {{ getCartTiltle }}
-                        <small class="title3">{{ getActiveOrderCustomerName }} - {{ activeOrder.since }}</small>
-                    </span>
+            <div class="cart-header">
+                <span class="cart-header-icon">
+                    <i class="pi pi-shopping-cart"></i>
                 </span>
-                <span>
-                    <Badge
-                        :value="carts.length"
-                    />
-                </span>
+                <div class="cart-header-info">
+                    <span class="cart-header-title ellipssed-text">{{ getCartTiltle }}</span>
+                    <small class="cart-header-sub ellipssed-text">{{ getActiveOrderCustomerName }} - {{ activeOrder.since }}</small>
+                </div>
+                <Badge :value="carts.length" class="cart-header-badge" />
             </div>
         </template>
         <div v-if="!order.id">
-            <div class="d-flex align-items-center gap-2 mb-1">
-                <div class="icon mt-3">
-                    <Button
-                        icon="pi pi-clipboard"
-                        class="b-bg-surface3 p-1 border-t3 rounded-2"
-                    />
+            <div class="cart-order-form">
+                <div class="cart-form-row">
+                    <span class="cart-form-icon"><i class="pi pi-clipboard"></i></span>
+                    <div class="d-flex flex-column w-100">
+                        <Select
+                            class="w-100"
+                            :options="tables"
+                            optionLabel="label"
+                            v-model="order.table_id"
+                            label="Mesa"
+                        />
+                    </div>
                 </div>
-                <div class="d-flex flex-column w-50">
-                    <Select
-                        class="w-100"
-                        :options="tables"
-                        optionLabel="label"
-                        v-model="order.table_id"
-                        label="Mesa"
-                    />
+                <div class="cart-form-row">
+                    <span class="cart-form-icon"><i class="pi pi-user"></i></span>
+                    <div class="d-flex flex-column w-100">
+                        <Input
+                            :isDisable="true"
+                            v-model="getWaiterName"
+                            label="Garçom"
+                        />
+                    </div>
                 </div>
-            </div>
-            <div class="d-flex align-items-center gap-2 py-1">
-                <div class="icon mt-3">
-                    <Button
-                        icon="pi pi-user"
-                        class="b-bg-surface3 p-1 border-t3 rounded-2"
-                    />
+                <div class="cart-form-row">
+                    <span class="cart-form-icon"><i class="pi pi-user"></i></span>
+                    <div class="d-flex flex-column w-100">
+                        <Input
+                            v-model="order.customer_name"
+                            label="Nome do Cliente"
+                        />
+                    </div>
                 </div>
-                <div class="d-flex flex-column">
-                    <Input
-                        :isDisable="true"
-                        v-model="getWaiterName"
-                        label="Garçom"
-                    />
-                </div>
-            </div>
-            <div class="d-flex align-items-center gap-2 py-1">
-                <div class="icon mt-3">
-                    <Button
-                        icon="pi pi-user"
-                        class="b-bg-surface3 p-1 border-t3 rounded-2"
-                    />
-                </div>
-                <div class="d-flex flex-column">
-                    <Input
-                        v-model="order.customer_name"
-                        label="Nome do Cliente"
-                    />
-                </div>
-            </div>
-            <div class="d-flex align-items-center gap-2 border-bottom-1 py-1">
-                <div class="icon mt-3">
-                    <Button
-                        icon="pi pi-users"
-                        class="b-bg-surface3 p-1 border-t3 rounded-2"
-                    />
-                </div>
-                <div class="d-flex flex-column">
-                    <Input
-                        v-model="order.customers_quantity"
-                        label="Quantidade de pesssoas"
-                    />
+                <div class="cart-form-row">
+                    <span class="cart-form-icon"><i class="pi pi-users"></i></span>
+                    <div class="d-flex flex-column w-100">
+                        <Input
+                            v-model="order.customers_quantity"
+                            label="Quantidade de pesssoas"
+                        />
+                    </div>
                 </div>
             </div>
 
-            <div class="row d-flex flex-column mt-2">
+            <div class="cart-items-list">
                 <div
                     v-for="(cart, index) of carts"
                     class="cart-item-card gap-2 mb-2"
                 >
                     <div class="d-flex justify-content-between cart-item-car align-items-center px-2">
                         <div class="d-flex gap-2">
-                            <div class="image d-flex align-items-center">
+                            <div class="cart-item-img d-flex align-items-center">
                                 <img :src="cart.item.image" alt="" srcset="">
                             </div>
                             <div class="d-flex flex-column">
@@ -178,7 +151,7 @@
                                 <span class="title3 ff-fantasy">R$ {{ cart.subtotal.toFixed(2) }}</span>
                             </div>
                         </div>
-                        <div class="d-flex gap-2">
+                        <div class="cart-qty-stepper">
                             <Button
                                 icon="pi pi-minus s-sm"
                                 class="btn-white-primary"
@@ -197,14 +170,14 @@
                             />
                         </div>
                     </div>
-                    <div class="border-top">
+                    <div v-if="cart.item.use_side_dish" class="border-top">
                         <Accordion :multiple="true">
                             <AccordionTab>
                                 <template #header>
                                     <div class="d-flex align-items-center gap-2">
                                         <span class="c-t2 p-accordion-header-link" style="font-size: 1em;">accompanhamentos</span>
-                                        <Badge 
-                                            v-if="cartItemSidedishes[index]?.length" 
+                                        <Badge
+                                            v-if="cartItemSidedishes[index]?.length"
                                             :value="cartItemSidedishes[index]?.length"
                                             title="Clicar para vizualizar os accompanhamentos adicionados"
                                             @click.stop="showItemSideDish(index)"
@@ -609,34 +582,26 @@
                 </Stepper>
             </TabPanel>
         </TabView>
-        <div v-if="!carts.length" class="h-100 d-flex justify-content-center align-items-center">
-            <div class="d-flex flex-column">
-                <span class="d-flex justify-content-center">
-                    <Button
-                    icon="pi pi-cart-minus"
-                    class="border rounded-2 py-3 px-4 b-bg-surface2 text2"
-                    />
-                </span>
-                <small class="title3">Selecione os itens do cardápio</small>
-            </div>
+        <div v-if="!carts.length" class="cart-empty-state">
+            <span class="cart-empty-icon">
+                <i class="pi pi-cart-minus"></i>
+            </span>
+            <small class="cart-empty-text">Selecione os itens do cardápio</small>
         </div>
-        <div v-if="!order.id" class="border-top row px-0 py-2">
-            <div class="col-md-12">
-                <Textarea
-                    label="Observaçao do pedido"
-                    placeholder="Digite a abservaçao"
-                    v-model="order.observation"
-                />
+        <div v-if="!order.id" class="cart-footer">
+            <Textarea
+                label="Observaçao do pedido"
+                placeholder="Digite a abservaçao"
+                v-model="order.observation"
+            />
+            <div class="cart-total-row">
+                <span>Total</span>
+                <span class="cart-total-value">R$ {{ getCartTotal }}</span>
             </div>
-            <div class="col-md-12 py-2">
-                <div class="b-bg-surface2 px-2 py-2 rounded-2 border title3-md">
-                    Total: <span class="title1 px-1">R$ {{ getCartTotal }}</span>
-                </div>
-            </div>
-            <div class="col-md-12">
+            <div class="cart-footer-actions">
                 <Button
                     label="Enviar pedido"
-                    class="btn-green-primary w-100 d-flex justify-content-center mb-2"
+                    class="btn-green-primary w-100 d-flex justify-content-center"
                     @click="openConfirmOrder"
                 />
                 <Button

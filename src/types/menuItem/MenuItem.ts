@@ -9,6 +9,7 @@ export interface MenuItemProps {
     description?: string
     featured_types?: number[]
     technicalSheet?: Array<any>
+    use_side_dish?: boolean
 }
 export enum FeaturedMenuItemEnum{
     CHEF_DISH = 1,

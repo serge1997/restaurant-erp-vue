@@ -199,8 +199,10 @@ export default defineComponent({
         return sum.toFixed(2)
        },
        getIndexedSideDishes(){
-            this.carts.forEach((_, index) => {
-                this.indexedSideDishes[index] = this.sideDishes
+            this.carts.forEach((cart, index) => {
+                if(cart.item.use_side_dish){
+                    this.indexedSideDishes[index] = this.sideDishes
+                }
             })
             return this.indexedSideDishes
         }
@@ -425,7 +427,9 @@ export default defineComponent({
             if (carts){
                 this.carts = carts
                 carts.map((cart, index) => {
-                    this.cartItemSidedishes[index] = cart.side_dishes ?? []
+                    if(cart.item.use_side_dish){
+                        this.cartItemSidedishes[index] = cart.side_dishes ?? []
+                    }
                 })
             }
             this.visibleCartSidebar = true
@@ -456,7 +460,9 @@ export default defineComponent({
             Cart.createOrIncrementSideDish(index, sideDish as SideDish)
             this.sideDishesQ[`${index}_${sideDish.id}`] = this.getItemSideDish(item.id, sideDish.id)?.quantity ?? 0
             const carts = Cart.load() ?? []
-            this.cartItemSidedishes[index] = carts[index]?.side_dishes ?? []
+            if(carts[index]?.item.use_side_dish){
+                this.cartItemSidedishes[index] = carts[index]?.side_dishes ?? []
+            }
             this.currentCartElement.item = carts[index] ?? {} as CartProps
             this.currentCartElement.index = index
             this.carts = carts
@@ -467,7 +473,9 @@ export default defineComponent({
             Cart.reduceSideDishQuantity(index, sideDish as SideDish)
             this.sideDishesQ[`${index}_${sideDish.id}`] = this.getItemSideDish(item.id, sideDish.id)?.quantity ?? 0
             const carts = Cart.load() ?? []
-            this.cartItemSidedishes[index] = carts[index]?.side_dishes ?? []
+            if(carts[index]?.item.use_side_dish){
+                this.cartItemSidedishes[index] = carts[index]?.side_dishes ?? []
+            }
             this.currentCartElement.item = carts[index] ?? {} as CartProps
             this.currentCartElement.index = index
             this.carts = carts
