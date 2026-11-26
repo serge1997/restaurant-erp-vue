@@ -8,7 +8,7 @@
         :isDisableSaveBtn="isDisableSaveBtn"
     >
         <template #form-menu>
-            <ul class="list-group">
+            <ul class="list-group mi-menu-list">
                 <li
                     class="list-group-item border-0 cursor-p" v-if="form.enable_technical_sheet"
                     @click="openTechnicalSheetModal"
@@ -25,207 +25,205 @@
                 <li class="list-group-item border-0 cursor-p" v-if="hasTechnicalsheet">Imprimir ficha Tecnica</li>
             </ul>
         </template>
-        <TabView>
+        <TabView class="mi-tabs">
             <TabPanel header="Informaçoes">
-                <SectionTitle
-                    title="Dados Gerais"
-                    icon="pi-receipt s-sm"
-                />
-                <div class="col-12">
-                    <Input
-                        v-model="form.name"
-                        placeholder="Digite o nome"
-                        @blur="v.form.name.$touch()"
-                        :error="v.form.name.$error ? v.form.name.$errors[0]?.$message : ''"
-                    >
-                        <template #label>
-                            Nome <span class="text-danger">*</span>
-                        </template>
-                    </Input>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-md-12">
-                        <Select
-                            v-model="form.category_id"
-                            :options="options?.categories"
-                            :hasFilter="true"
-                            placeholder="Selecione a categoria"
-                            @hide="v.form.category_id.$touch()"
-                            :error="v.form.category_id.$error ? v.form.category_id.$errors[0]?.$message : ''"
-                        >
-                            <template #label>
-                                Categoria <span class="text-danger">*</span>
-                            </template>
-                        </Select>
-                    </div>
-                </div>
-                <div class="col-md-12 mt-3">
-                    <Textarea
-                        placeholder="Digite a descriçao"
-                        v-model="form.description"
-                        @blur="v.form.description.$touch()"
-                        :error="v.form.description.$error ? v.form.description.$errors[0]?.$message : ''"
-                    >
-                        <template #label>
-                            Descriçao <span class="text-danger">*</span>
-                        </template>
-                    </Textarea>
-                </div>
-                <div class="col-md-12 d-flex flex-column mt-3 mb-3">
-                    <Switch
-                        label="Ficha técnica"
-                        v-model="form.enable_technical_sheet"
-                    />
-                </div>
-                <SectionTitle
-                    title="Serviço & status"
-                    icon="pi-image s-sm"
-                />
-                <div class="row">
-                    <div class="col-4 d-flex flex-column">
-                        <label>Preço <span class="text-danger">*</span></label>
-                        <InputNumber
-                            placeholder="Digite o preço"
-                            v-model="form.price"
-                            locale="pt-BR"
-                            mode="currency"
-                            currency="BRL"
-                            @blur="v.form.price.$touch()"
+                <div class="mi-form">
+                    <section class="mi-section">
+                        <SectionTitle
+                            title="Dados Gerais"
+                            icon="pi-receipt s-sm"
                         />
-                        <small class="text-danger px-1 s-sm" v-if="v.form.price.$error ">{{ v.form.price.$errors[0]?.$message }}</small>
-                    </div>
-                    <div class="col-4 d-flex flex-column">
-                        <label>Preparo (hh:mm)</label>
-                        <InputNumber
-                            placeholder="Digite o tempo cozimento"
-                            locale="pt-BR"
-                            v-model="form.cooking_time"
-                            class="d-none"
+                        <div class="mi-field">
+                            <Input
+                                v-model="form.name"
+                                placeholder="Digite o nome"
+                                @blur="v.form.name.$touch()"
+                                :error="v.form.name.$error ? v.form.name.$errors[0]?.$message : ''"
+                            >
+                                <template #label>
+                                    Nome <span class="text-danger">*</span>
+                                </template>
+                            </Input>
+                        </div>
+                        <div class="mi-field mt-2">
+                            <Select
+                                v-model="form.category_id"
+                                :options="options?.categories"
+                                :hasFilter="true"
+                                placeholder="Selecione a categoria"
+                                @hide="v.form.category_id.$touch()"
+                                :error="v.form.category_id.$error ? v.form.category_id.$errors[0]?.$message : ''"
+                            >
+                                <template #label>
+                                    Categoria <span class="text-danger">*</span>
+                                </template>
+                            </Select>
+                        </div>
+                        <div class="mi-field mt-2">
+                            <Textarea
+                                placeholder="Digite a descriçao"
+                                v-model="form.description"
+                                @blur="v.form.description.$touch()"
+                                :error="v.form.description.$error ? v.form.description.$errors[0]?.$message : ''"
+                            >
+                                <template #label>
+                                    Descriçao <span class="text-danger">*</span>
+                                </template>
+                            </Textarea>
+                        </div>
+                        <div class="mi-switch-row mt-2">
+                            <Switch
+                                label="Ficha técnica"
+                                v-model="form.enable_technical_sheet"
+                            />
+                        </div>
+                    </section>
+
+                    <section class="mi-section">
+                        <SectionTitle
+                            title="Serviço & status"
+                            icon="pi-tags s-sm"
                         />
-                        <DatePicker
-                            :timeOnly="true"
-                            v-model="form.cooking_time"
-                            :showIcon="false"
-                        />
-                    </div>
-                    <div class="col-4 d-flex flex-column">
-                        <label>Serve </label>
-                        <InputNumber
-                            placeholder="Digite a quantidade de pessoa"
-                            locale="pt-BR"
-                            v-model="form.for_quantity_of_person"
-                        />
-                    </div>
-                    <div class="col-12 mt-3">
-                        <div class="w-100 rounded-3 m-auto b-bg-surface3 d-flex justify-content-between align-items-center mt-2 py-2 px-2">
-                            <div class="text2 d-flex gap-2 align-items-center">
+                        <div class="mi-grid mi-grid-3">
+                            <div class="d-flex flex-column">
+                                <label class="mi-label">Preço <span class="text-danger">*</span></label>
+                                <InputNumber
+                                    placeholder="Digite o preço"
+                                    v-model="form.price"
+                                    locale="pt-BR"
+                                    mode="currency"
+                                    currency="BRL"
+                                    @blur="v.form.price.$touch()"
+                                />
+                                <small class="text-danger px-1 s-sm" v-if="v.form.price.$error ">{{ v.form.price.$errors[0]?.$message }}</small>
+                            </div>
+                            <div class="d-flex flex-column">
+                                <label class="mi-label">Preparo (hh:mm)</label>
+                                <InputNumber
+                                    placeholder="Digite o tempo cozimento"
+                                    locale="pt-BR"
+                                    v-model="form.cooking_time"
+                                    class="d-none"
+                                />
+                                <DatePicker
+                                    :timeOnly="true"
+                                    v-model="form.cooking_time"
+                                    :showIcon="false"
+                                />
+                            </div>
+                            <div class="d-flex flex-column">
+                                <label class="mi-label">Serve</label>
+                                <InputNumber
+                                    placeholder="Digite a quantidade de pessoa"
+                                    locale="pt-BR"
+                                    v-model="form.for_quantity_of_person"
+                                />
+                            </div>
+                        </div>
+                        <div class="mi-status-row mt-2">
+                            <div class="mi-status-info">
                                 <i :class="isActiveIconClass" class="pi pi-circle-fill s-xs"></i>
                                 {{ isActiveLabel }}
                             </div>
                             <Switch
-                                class="d-flex justify-content-end align-items-center"
                                 label=""
                                 v-model="form.is_active"
                             />
                         </div>
-                    </div>
-                </div>
-                <SectionTitle
-                    class="mt-3"
-                    title="Destaque"
-                    icon="pi-sparkles s-sm"
-                />
-                <div class="col-md-12">
-                    <Transition mode="out-in" appear>
-                        <div v-if="hasPromotionalSelected" class="col-4 d-flex flex-column">
-                            <label>Preço promocional </label>
-                            <InputNumber
-                                placeholder="R$ 00.00"
-                                locale="pt-BR"
-                                mode="currency"
-                                currency="BRL"
-                                v-model="form.promotional_price"
-                            />
-                        </div>
-                    </Transition>
-                    <CardMultipleOptions
-                        :options="options?.featureMenuitems"
-                        height="auto"
-                        scrollHeight="auto"
-                        v-model="form.featured_types"
-                    />
-                </div>
-                <SectionTitle
-                    title="Foto"
-                    icon="pi-image s-sm"
-                />
-                <div class="col-md-12 mb-5">
-                    <InputFileUpload
-                        v-model="form.image"
-                        @fileSelected="loadImage"
-                    />
+                    </section>
+
+                    <section class="mi-section">
+                        <SectionTitle
+                            title="Destaque"
+                            icon="pi-sparkles s-sm"
+                        />
+                        <Transition mode="out-in" appear>
+                            <div v-if="hasPromotionalSelected" class="mi-field mi-field-narrow mb-2">
+                                <label class="mi-label">Preço promocional</label>
+                                <InputNumber
+                                    placeholder="R$ 00.00"
+                                    locale="pt-BR"
+                                    mode="currency"
+                                    currency="BRL"
+                                    v-model="form.promotional_price"
+                                />
+                            </div>
+                        </Transition>
+                        <CardMultipleOptions
+                            :options="options?.featureMenuitems"
+                            height="auto"
+                            scrollHeight="auto"
+                            v-model="form.featured_types"
+                        />
+                    </section>
+
+                    <section class="mi-section">
+                        <SectionTitle
+                            title="Foto"
+                            icon="pi-camera s-sm"
+                        />
+                        <InputFileUpload
+                            v-model="form.image"
+                            @fileSelected="loadImage"
+                        />
+                    </section>
                 </div>
             </TabPanel>
             <TabPanel v-if="form.id && form.enable_technical_sheet" header="Ficha técnica">
-                <div class="row">
-                    <div class="col-5 d-flex flex-column">
-                        <SectionTitle
-                            title="Ingrediente"
-                        />
-
-                        <div v-for="(item, index) of sheetDetails.items" class="row mb-2">
-                            <AutoComplete
-                                v-model="sheetData[index].product"
-                                option-label="name"
-                                :suggestions="products"
-                                @complete="productsAutocomplete"
-                            />
+                <div class="mi-form">
+                    <section class="mi-section">
+                        <SectionTitle title="Ingredientes" icon="pi-list s-sm" />
+                        <div class="mi-ingredients">
+                            <div class="mi-ingredients-head">
+                                <span>Ingrediente</span>
+                                <span>Qtd/und</span>
+                                <span>Custo R$</span>
+                                <span></span>
+                            </div>
+                            <div v-for="(item, index) of sheetDetails.items" class="mi-ingredient-row">
+                                <div class="mi-ing-product">
+                                    <AutoComplete
+                                        v-model="sheetData[index].product"
+                                        option-label="name"
+                                        :suggestions="products"
+                                        @complete="productsAutocomplete"
+                                    />
+                                </div>
+                                <div class="mi-ing-qty">
+                                    <Input
+                                        v-model="sheetData[index].quantity"
+                                        @input="onInputSheetProductQuantity(index)"
+                                    />
+                                </div>
+                                <div class="mi-ing-cost">
+                                    <Input
+                                        v-model="item.cost"
+                                        :isDisable="true"
+                                    />
+                                </div>
+                                <Button
+                                    icon="pi pi-times"
+                                    class="btn-white-primary mi-ing-remove"
+                                    @click="removeProductFromSheet(index)"
+                                />
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-3 d-flex flex-column">
-                        <SectionTitle
-                            title="qtd/und"
-                        />
-                        <div v-for="(item, index) of sheetDetails.items" class="row mb-2">
-                            <Input
-                                v-model="sheetData[index].quantity"
-                                @input="onInputSheetProductQuantity(index)"
-                            />
-                        </div>
-                    </div>
-                    <div class="col-4 d-flex flex-column">
-                        <SectionTitle
-                            title="Custo R$"
-                        />
-                        <div v-for="(item, index) of sheetDetails.items"  class="w-100 d-flex gap-2 mb-2">
-                            <Input
-                                v-model="item.cost"
-                                :isDisable="true"
-                            />
+                        <div class="d-flex justify-content-center mt-2 btn-button">
                             <Button
-                                icon="pi pi-times"
-                                class="btn-white-primary"
-                                @click="removeProductFromSheet(index)"
+                                label="Adicionar ingredientes"
+                                class="w-100 d-flex justify-content-center btn-dotted-white"
+                                icon="pi pi-plus"
+                                @click="addItemToSheet"
                             />
                         </div>
-                    </div>
-                    <div class="col-12 d-flex justify-content-center mt-2 btn-button">
-                        <Button
-                            label="Adicionar ingredientes"
-                            class="w-100 d-flex justify-content-center btn-dotted-white"
-                            icon="pi pi-plus"
-                            @click="addItemToSheet"
-                        />
-                    </div>
-                    <div class="w-95 rounded-3 m-auto b-bg-surface3 d-flex justify-content-between mt-2 py-1">
-                        <div class="title3 d-flex align-items-center">
-                            Custo total dos ingredientes
+                        <div class="mi-total-bar mt-2">
+                            <span class="mi-total-label">Custo total dos ingredientes</span>
+                            <div class="d-flex gap-2 align-items-center">
+                                <span class="mi-total-value">{{ sheetDetails.totalCost }} R$</span>
+                                <Tag class="px-3 tag-greenlight" :value="`${sheetDetails.marge}%`" />
+                            </div>
                         </div>
-                        <div class="d-flex gap-2 align-items-center">
-                            <span class="title1">{{ sheetDetails.totalCost }} R$</span>
-                            <Tag class="px-3 tag-greenlight" :value="`${sheetDetails.marge}%`" />
-                        </div>
-                    </div>
+                    </section>
                 </div>
             </TabPanel>
         </TabView>

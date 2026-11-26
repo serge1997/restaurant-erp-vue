@@ -2,7 +2,6 @@ import { defineComponent, reactive, type PropType } from "vue";
 import { PurchaseRequisitionEnum, type FormOptions, type PurchaseRequisition } from '@/types/purchaseRequisition/PurchaseRequisition.ts'
 import { useFormMixin } from "@/stores/useFormMixin";
 import purchaseRequisitionService from "@/services/purchaseRequisitionService";
-import Divider from "primevue/divider";
 import { DepartmentEnum, getAll as getPartments } from "@/shared/utility/types/departmentEnum";
 import { dateEngFormat } from "@/shared/utility";
 import { required } from "@/validators";
@@ -22,7 +21,6 @@ export default defineComponent({
     name: "Form",
 
     components: {
-        Divider,
         Tag,
         TieredMenu
     },

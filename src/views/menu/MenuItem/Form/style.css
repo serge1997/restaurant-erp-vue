@@ -2,6 +2,163 @@
     padding: 0px !important;
 }
 
+/* tabs */
+.mi-tabs :deep(.p-tabview-nav) {
+    gap: 4px;
+}
+
+/* sections */
+.mi-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding-bottom: 50px;
+}
+.mi-section {
+    display: flex;
+    flex-direction: column;
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--c-surface);
+}
+.mi-field {
+    min-width: 0;
+}
+.mi-field-narrow {
+    max-width: 220px;
+}
+.mi-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text2);
+    margin-bottom: 4px;
+}
+.mi-grid {
+    display: grid;
+    gap: 10px;
+}
+.mi-grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.mi-switch-row {
+    display: flex;
+}
+
+/* status row */
+.mi-status-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 10px 12px;
+}
+.mi-status-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text2);
+}
+.mi-status-row :deep(.w-50) {
+    width: auto !important;
+    flex-shrink: 0;
+    margin: 0 !important;
+}
+
+/* ingredients builder */
+.mi-ingredients {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.mi-ingredients-head {
+    display: grid;
+    grid-template-columns: 1fr 110px 110px 36px;
+    gap: 8px;
+    padding: 0 2px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text3);
+}
+.mi-ingredient-row {
+    display: grid;
+    grid-template-columns: 1fr 110px 110px 36px;
+    gap: 8px;
+    align-items: center;
+    padding: 6px;
+    border-radius: 9px;
+    background: var(--surface2);
+}
+.mi-ing-product :deep(.p-autocomplete),
+.mi-ing-product :deep(.p-autocomplete-input) {
+    width: 100%;
+}
+.mi-ing-remove.p-button {
+    width: 32px;
+    height: 32px;
+    padding: 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.mi-total-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 10px 14px;
+}
+.mi-total-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text1);
+}
+.mi-total-value {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text1);
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+/* form-menu overlay list */
+.mi-menu-list .list-group-item {
+    font-size: 13px;
+    border-radius: 8px;
+    padding: 9px 10px;
+    transition: background .12s;
+}
+.mi-menu-list .list-group-item:hover {
+    background: var(--surface2);
+}
+
+@media (max-width: 768px) {
+    .mi-grid-3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+@media (max-width: 576px) {
+    .mi-grid-3 {
+        grid-template-columns: 1fr;
+    }
+    .mi-ingredients-head {
+        display: none;
+    }
+    .mi-ingredient-row {
+        grid-template-columns: 1fr;
+    }
+    .mi-ing-remove.p-button {
+        width: 100%;
+    }
+}
+
 .show-sheet-modal.p-dialog .p-dialog-header .header-container {
     height: 250px;
     display: flex;
