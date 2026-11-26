@@ -227,9 +227,15 @@
                 </div>
             </TabPanel>
         </TabView>
-        <Dialog v-model:visible="visibleTechnicalSheetModal" position="top" modal :style="{ width: '40rem' }">
+        <Dialog v-model:visible="visibleTechnicalSheetModal" position="top" modal class="ts-edit-modal" :style="{ width: '40rem' }">
             <template #header>
-                <h6>Ficha técnica {{ title }} {{ form.id }}</h6>
+                <div class="ts-modal-header">
+                    <span class="ts-modal-icon"><i class="pi pi-receipt"></i></span>
+                    <div class="d-flex flex-column">
+                        <h6 class="ts-modal-title">Ficha técnica</h6>
+                        <span class="ts-modal-sub ellipssed-text">{{ title }}</span>
+                    </div>
+                </div>
             </template>
             <TechnicalSheetForm
                 :options="sheetOptions"

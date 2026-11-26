@@ -1,3 +1,73 @@
 .p-inputnumber input {
     width: 80%;
 }
+
+.ts-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.ts-section {
+    display: flex;
+    flex-direction: column;
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--c-surface);
+}
+.ts-field {
+    min-width: 0;
+}
+.ts-add-row {
+    display: flex;
+    align-items: stretch;
+    gap: 10px;
+}
+.ts-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+.ts-field-grow {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+.ts-field-qty {
+    flex: 0 0 160px;
+}
+.ts-add-btn-wrap {
+    flex-shrink: 0;
+}
+.ts-row-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.ts-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+.ts-save-btn {
+    min-width: 140px;
+    display: flex;
+    justify-content: center;
+}
+
+@media (max-width: 576px) {
+    .ts-add-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .ts-field-qty {
+        flex: 1 1 auto;
+    }
+    .ts-add-btn-wrap {
+        margin-top: 4px;
+    }
+    .ts-footer {
+        justify-content: stretch;
+    }
+    .ts-save-btn {
+        width: 100%;
+    }
+}

@@ -1,5 +1,38 @@
-.p-dialog .p-dialog-header {
+.show-sheet-modal.p-dialog .p-dialog-header {
     padding: 0px !important;
+}
+
+/* ficha técnica edit modal */
+.ts-edit-modal.p-dialog .p-dialog-header {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+}
+.ts-modal-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.ts-modal-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--c-dark-green-light);
+    color: var(--c-green-primary);
+}
+.ts-modal-title {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text1);
+}
+.ts-modal-sub {
+    font-size: 12px;
+    color: var(--text3);
+    max-width: 320px;
 }
 
 /* tabs */
