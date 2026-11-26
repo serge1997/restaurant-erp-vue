@@ -1,6 +1,6 @@
 import Column from "primevue/column";
 import DataTable from "primevue/datatable";
-import { defineComponent } from "vue";
+import { defineComponent, type PropType } from "vue";
 import { useFormStore } from "@/stores/formStore";
 import IconField from 'primevue/iconfield';
 import InputIcon from 'primevue/inputicon';
@@ -8,6 +8,7 @@ import InputText from "primevue/inputtext";
 import type { Paginate } from "@/shared/http/paginate";
 import type { Service } from "@/services";
 import type { DataTableColumn } from "@/shared/utility/types/dataTableColumns";
+import { Export, type ExportProps } from "@/shared/utility/types/export";
 
 
 export default defineComponent({
@@ -29,7 +30,8 @@ export default defineComponent({
     },
     props: {
         data: {
-            type: Object
+            type: Object as PropType<any[]>,
+            default: []
         },
         columns:{
             type: Array<DataTableColumn>
@@ -88,6 +90,14 @@ export default defineComponent({
         searchInputPlaceholder: {
             type: String,
             default: 'search...'
+        },
+        exportMap: {
+            type: [] as PropType<ExportProps[]>,
+            default: []
+        },
+        exportFileName: {
+            type: String,
+            default: "exported-data"
         }
     },
     watch: {
@@ -179,6 +189,10 @@ export default defineComponent({
             if (response.data?.length) {
                 this.entityData = response.data
             }
+        },
+        exportData() {
+            const exp = Export.create(this.exportMap, this.exportFileName, this.data)
+            exp.toCsv()
         }
     },
     mounted(){

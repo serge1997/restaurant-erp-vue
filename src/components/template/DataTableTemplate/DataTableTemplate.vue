@@ -18,6 +18,9 @@
                 <div>
                     <small style="font-weight: 500;">{{ tableRowCountTitle }}: {{ entityData?.length }}</small>
                 </div>
+                <div v-if="exportMap.length" @click="exportData" class="btn-ic" title="Exportar">
+                    <svg viewBox="0 0 14 14" fill="none"><path d="M2 10v2h10v-2M7 2v7M4 6l3 3 3-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
                 <div class="d-flex d-none">
                     <IconField iconPosition="left">
                         <InputIcon class="pi pi-search"> </InputIcon>

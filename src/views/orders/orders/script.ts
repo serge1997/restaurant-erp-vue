@@ -4,6 +4,7 @@ import { defineComponent } from "vue";
 import columns from "./columns";
 import Form from './Form/Form.vue'
 import { orderStatusOptions } from "@/types/order/Order";
+import exportMap from "../history/export-map.ts";
 
 
 export default defineComponent({
@@ -14,6 +15,7 @@ export default defineComponent({
     },
 
     setup(props, ctx) {
+        const expMaps = exportMap
         const {
             search,
             paginate,
@@ -24,7 +26,8 @@ export default defineComponent({
             search,
             paginate,
             data,
-            metaData
+            metaData,
+            expMaps
         }
     },
 

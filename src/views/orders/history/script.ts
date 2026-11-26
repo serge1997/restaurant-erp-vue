@@ -8,6 +8,7 @@ import { useTableStore } from "@/stores/useTableStore.ts";
 import Form from "./Form/Form.vue";
 import { useUserStore } from "@/stores/userStore.ts";
 import { dateEngFormat } from "@/shared/utility/index.ts";
+import exportMap from "./export-map.ts";
 
 export default defineComponent({
     name: "orderHistoryView",
@@ -20,6 +21,7 @@ export default defineComponent({
     setup(props, ctx) {
         const tableStore = useTableStore()
         const userStore = useUserStore()
+        const expMap = exportMap
         const {
             paginate,
             data,
@@ -30,7 +32,8 @@ export default defineComponent({
             data,
             metaData,
             tableStore,
-            userStore
+            userStore,
+            expMap
         }
     },
 

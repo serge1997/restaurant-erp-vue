@@ -54,9 +54,6 @@
                 </div>
             </div>
             <div class="tright2">
-                <div class="btn-ic" title="Exportar">
-                    <svg viewBox="0 0 14 14" fill="none"><path d="M2 10v2h10v-2M7 2v7M4 6l3 3 3-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </div>
                 <div class="btn-ic" title="Atualizar" @click="search">
                     <svg viewBox="0 0 14 14" fill="none"><path d="M2 7a5 5 0 019.5-2M12 7a5 5 0 01-9.5 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M11.5 2v3h-3M2.5 12V9h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </div>

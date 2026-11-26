@@ -12,6 +12,7 @@
             :data="data"
             :service="service"
             :paginate="paginate"
+            :exportMap="expMap"
             @processDataEdit="populateOrder"
             waiterColWidth="15%"
             tableColWidth="8%"

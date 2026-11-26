@@ -1035,3 +1035,7 @@ label.search {
   color:var(--t3);
   line-height:1.6;
 }
+
+.btn-ic{width:30px;height:30px;border-radius:6px;border:1px solid var(--b1);background:var(--surface);color:var(--t2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .12s;}
+.btn-ic:hover{background:var(--s2);border-color:var(--b2);}
+.btn-ic svg{width:14px;height:14px;}
