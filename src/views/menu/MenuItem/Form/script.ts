@@ -77,7 +77,7 @@ export default defineComponent({
             return this.formStore.getDataEdit()
         },
         hasTechnicalsheet() {
-            return this.getItemEdit?.technicalSheet
+            return this.getItemEdit?.technicalSheet?.length >= 1
         },
         isActiveIconClass(){
             if (this.form.is_active) {
