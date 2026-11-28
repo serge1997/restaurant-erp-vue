@@ -1,5 +1,6 @@
 import { defineComponent, reactive, type PropType } from "vue";
 import menuItemService from "@/services/menuItemService";
+import technicalSheetService from "@/services/technicalSheetService";
 import { useFormMixin } from "@/stores/useFormMixin";
 import InputNumber from "primevue/inputnumber";
 import InputFileUpload from "@/components/Inputs/InputFileUpload.vue";
@@ -235,6 +236,13 @@ export default defineComponent({
         openShowTechnicalsheetModal(){
             this.visibleShowTechnicalsheetModal = true
             this.processSheet()
+        },
+        async printTechnicalSheet(){
+            try {
+                await technicalSheetService.pdf(this.form.id, `ficha-tecnica-${this.form.code}`)
+            }catch(err: any){
+                this.notify.error(err.response?.data?.message || "erro interno")
+            }
         },
         processSheet() {
             this.sheetDetails.items = []

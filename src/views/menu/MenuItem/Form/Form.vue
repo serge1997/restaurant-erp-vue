@@ -22,7 +22,13 @@
                 >
                         Visualizar ficha tecnica
                 </li>
-                <li class="list-group-item border-0 cursor-p" v-if="hasTechnicalsheet">Imprimir ficha Tecnica</li>
+                <li
+                    class="list-group-item border-0 cursor-p"
+                    @click="printTechnicalSheet"
+                    v-if="hasTechnicalsheet"
+                >
+                        Imprimir ficha Tecnica
+                </li>
             </ul>
         </template>
         <TabView class="mi-tabs">

@@ -8,5 +8,8 @@ export default {
 
     async getBymenuItem(menuItemId: number): Promise<HttpResponse<any[]>> {
         return client.get(`${this.modulePath}/list-by-menu-item/${menuItemId}`)
-    }   
+    },
+    async pdf(menuItemId: number, name: string) {
+        await client.pdf(`${this.modulePath}/${menuItemId}/pdf`, name)
+    }
 }
