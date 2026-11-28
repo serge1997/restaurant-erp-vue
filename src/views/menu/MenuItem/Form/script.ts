@@ -239,6 +239,9 @@ export default defineComponent({
         },
         async printTechnicalSheet(){
             try {
+                if (!this.form.id) {
+                    throw new Error("Por favor seleciona um item do menu")
+                }
                 await technicalSheetService.pdf(this.form.id, `ficha-tecnica-${this.form.code}`)
             }catch(err: any){
                 this.notify.error(err.response?.data?.message || "erro interno")
